@@ -37,13 +37,18 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="relative min-h-screen w-full flex flex-col">
-              <div className="grid flex-grow md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-                <Sidebar />
-                <div className="flex flex-col md:grid md:grid-cols-[1fr_auto]">
-                  <MobileHeader />
-                  <div className="flex flex-col flex-grow">{children}
-                  <Footer /></div>
+            <div className="relative min-h-screen flex flex-col">
+              <MobileHeader />
+              <div className="flex flex-grow">
+                {/* <div className="hidden md:block"> */}
+                <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+                  <Sidebar />
+                </div>
+                <div className="flex flex-col flex-grow">
+                  <main className="flex-grow max-w-7xl 2xl:max-w-[100rem] mx-auto w-full px-4 md:px-6 lg:px-8 xl:px-0 2xl:px-8 py-6">
+                    {children}
+                  </main>
+                  <Footer />
                 </div>
               </div>
             </div>

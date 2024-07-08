@@ -45,7 +45,7 @@ export default function SignalsPage({}: Props) {
   ];
 
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:px-0">
       <div className="flex items-center">
         <h1 className="text-lg font-bold md:text-3xl">Signal Searches</h1>
         <Button asChild size="default" className="ml-6 pr-5 gap-1" variant="tertiary">
@@ -56,7 +56,7 @@ export default function SignalsPage({}: Props) {
         </Button>
       </div>
       <div className="flex flex-col lg:flex-row gap-4">
-        <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-3 mr-0 lg:mr-60">
+        <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-2 mr-0 lg:mr-60">
           <BannerCard 
             title="Exclusive"
             lifetimePulls={325}

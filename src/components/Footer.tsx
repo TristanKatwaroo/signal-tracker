@@ -37,21 +37,6 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        {/* <div>
-          <h5 className="font-bold mb-2 text-primary-foreground">Contact</h5>
-          <ul>
-            <li>
-              <Link href="mailto:support@signaltracker.gg" className="hover:underline">
-                Support
-              </Link>
-            </li>
-            <li>
-              <Link href="mailto:info@signaltracker.gg" className="hover:underline">
-                General inquiry
-              </Link>
-            </li>
-          </ul>
-        </div> */}
         <div>
           <h5 className="font-bold mb-2 text-primary-foreground">Resources</h5>
           <ul>
@@ -65,22 +50,11 @@ const Footer = () => {
                 Support
               </Link>
             </li>
-            {/* <li>
-              <Link href="https://github.com/your-github-repo" target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center">
-                Documentation <SquareArrowOutUpRight className="ml-2 w-4 h-4" />
-              </Link>
-            </li>
-            <li>
-              <Link href="https://github.com/your-github-repo" target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center">
-                API <SquareArrowOutUpRight className="ml-2 w-4 h-4" />
-              </Link>
-            </li> */}
           </ul>
         </div>
       </div>
       <div className="container mx-auto grid grid-cols-1 text-sm mt-6 mb-1">
-        &copy; {new Date().getFullYear()} SIGNALTRACKER.GG. SIGNALTRACKER.GG is not affiliated with HoYoverse or Zenless Zone Zero
-        which are registered trademarks of miHoYo Co., Ltd. 
+        &copy; {new Date().getFullYear()} SIGNALTRACKER.GG. SIGNALTRACKER.GG is not affiliated with HoYoverse or Zenless Zone Zero which are registered trademarks of miHoYo Co., Ltd. 
       </div>
     </footer>
   );

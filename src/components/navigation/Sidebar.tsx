@@ -50,14 +50,14 @@ export default function Sidebar({}: Props) {
             ))}
           </nav>
         </div>
-        <Image 
+        {/* <Image 
             src="/images/characters/anby.png"
             alt="Anby"
             width={500}
             height={600}
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="hidden lg:block w-full h-auto max-h-72 object-cover -ml-0"
-        />
+        /> */}
         <div className="mt-auto p-4">
           {user ? <AccountMenu /> : <AuthCard />}
         </div>
