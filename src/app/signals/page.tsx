@@ -8,10 +8,11 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { ArrowUpRightIcon, ArrowUpToLine, ChevronDown, Menu, Upload } from 'lucide-react'
+import { ArrowUpRightIcon, ArrowUpToLine, ChevronDown, Menu, Share2, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import BannerCard from '@/components/signals/BannerCard'
+import { WideChart } from '@/components/charts/WideChart'
 
 type Props = {}
 
@@ -51,12 +52,20 @@ export default function SignalsPage({}: Props) {
         <Button asChild size="default" className="ml-6 pr-5 gap-1" variant="tertiary">
           <Link href="#" prefetch={false}>
             <ArrowUpToLine className="h-4 w-4 mr-1" />
-            Import Data
+            Import
+          </Link>
+        </Button>
+        <Button asChild size="default" className="ml-6 pr-5 gap-1" variant="tertiary">
+          <Link href="#" prefetch={false}>
+            <Share2 className="h-4 w-4 mr-1" />
+            Share
           </Link>
         </Button>
       </div>
       <div className="flex flex-col lg:flex-row gap-4">
-        <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-2 mr-0 lg:mr-60">
+        {/* <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 mr-0 lg:mr-60"> */}
+        <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 mr-0">
+          <WideChart />
           <BannerCard 
             title="Exclusive"
             lifetimePulls={325}
@@ -80,8 +89,7 @@ export default function SignalsPage({}: Props) {
           />
         </div>
         
-        <aside className="hidden lg:block fixed lg:w-[250px] p-3 top-1 right-1">
-          {/* Placeholder for Ads */}
+        {/* <aside className="hidden lg:block fixed lg:w-[250px] p-3 top-1 right-1">
           <div className="h-full flex flex-col gap-4">
             <div className="h-64 bg-gray-900 flex items-center justify-center">
               Ad 1
@@ -93,7 +101,7 @@ export default function SignalsPage({}: Props) {
               Ad 3
             </div>
           </div>
-        </aside>
+        </aside> */}
       </div>
     </main>
   )

@@ -60,26 +60,26 @@ const BannerCard: React.FC<BannerCardProps> = ({ title, lifetimePulls, pityFive,
           <div className="text-3xl font-bold text-quaternary">{pityFour}</div>
         </div>
         <div className='pb-5'><Progress value={(pityFour / 10) * 100} color='quaternary' aria-label="4★ Pity Progress" /></div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Label</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Percent</TableHead>
-                <TableHead>Pity AVG</TableHead>
+        {/* <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Label</TableHead>
+              <TableHead>Total</TableHead>
+              <TableHead>Percent</TableHead>
+              <TableHead>Pity AVG</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {stats.map((stat, index) => (
+              <TableRow key={index}>
+                <TableCell className={stat.color}>{stat.label}</TableCell>
+                <TableCell className={stat.color}>{stat.total}</TableCell>
+                <TableCell className={stat.color}>{stat.percent.toFixed(2)}%</TableCell>
+                <TableCell className={stat.color}>{stat.pityAvg.toFixed(2)}</TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {stats.map((stat, index) => (
-                <TableRow key={index}>
-                  <TableCell className={stat.color}>{stat.label}</TableCell>
-                  <TableCell className={stat.color}>{stat.total}</TableCell>
-                  <TableCell className={stat.color}>{stat.percent.toFixed(2)}%</TableCell>
-                  <TableCell className={stat.color}>{stat.pityAvg.toFixed(2)}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+            ))}
+          </TableBody>
+        </Table> */}
       </CardContent>
     </Card>
   );
