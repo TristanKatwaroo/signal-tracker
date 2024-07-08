@@ -5,7 +5,7 @@ import * as ProgressPrimitive from "@radix-ui/react-progress"
 import { cn } from "@/lib/utils"
 
 type ProgressProps = React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {
-  color?: 'primary' | 'tertiary' | 'quaternary'
+  color?: 'primary' | 'tertiary' | 'quaternary' | 'quinary'
 }
 
 const Progress = React.forwardRef<
@@ -16,7 +16,13 @@ const Progress = React.forwardRef<
     ref={ref}
     className={cn(
       "relative h-2 w-full overflow-hidden rounded-full",
-      color === 'primary' ? "bg-primary/20" : color === 'tertiary' ? "bg-tertiary/20" : "bg-quaternary/20",
+      color === 'primary'
+        ? "bg-primary/20"
+        : color === 'tertiary'
+        ? "bg-tertiary/20"
+        : color === 'quaternary'
+        ? "bg-quaternary/20"
+        : "bg-quinary/20",
       className
     )}
     {...props}
@@ -24,7 +30,13 @@ const Progress = React.forwardRef<
     <ProgressPrimitive.Indicator
       className={cn(
         "h-full w-full flex-1 transition-all",
-        color === 'primary' ? "bg-primary" : color === 'tertiary' ? "bg-tertiary" : "bg-quaternary"
+        color === 'primary'
+          ? "bg-primary"
+          : color === 'tertiary'
+          ? "bg-tertiary"
+          : color === 'quaternary'
+          ? "bg-quaternary"
+          : "bg-quinary"
       )}
       style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
     />

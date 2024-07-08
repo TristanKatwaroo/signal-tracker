@@ -31,7 +31,7 @@ const BannerCard: React.FC<BannerCardProps> = ({ title, lifetimePulls, pityFive,
         <CardTitle className='text-2xl'>{title}</CardTitle>
         <Button asChild size="sm" className="ml-auto gap-1" variant="tertiary">
           <Link href="#" prefetch={false}>
-            View All
+            Details
             <ArrowUpRightIcon className="h-4 w-4" />
           </Link>
         </Button>
@@ -46,20 +46,20 @@ const BannerCard: React.FC<BannerCardProps> = ({ title, lifetimePulls, pityFive,
         </div>
         <div className="flex justify-between items-center pb-3 pt-2">
           <div>
-            <div className="font-medium text-primary-foreground">5★ Pity</div>
+            <div className="font-medium text-primary-foreground">S Rank Pity</div>
             <div className="text-sm text-muted-foreground">Guaranteed at 90</div>
           </div>
           <div className="text-3xl font-bold text-primary">{pityFive}</div>
         </div>
-        <div className='pb-2'><Progress value={(pityFive / 90) * 100} color='primary' aria-label="5★ Pity Progress" /></div>
+        <div className='pb-2'><Progress value={(pityFive / 90) * 100} color='primary' aria-label="S Rank Pity Progress" /></div>
         <div className="flex justify-between items-center pb-3 pt-2">
           <div>
-            <div className="font-medium text-primary-foreground">4★ Pity</div>
+            <div className="font-medium text-primary-foreground">A Rank Pity</div>
             <div className="text-sm text-muted-foreground">Guaranteed at 10</div>
           </div>
-          <div className="text-3xl font-bold text-quaternary">{pityFour}</div>
+          <div className="text-3xl font-bold text-quinary">{pityFour}</div>
         </div>
-        <div className='pb-5'><Progress value={(pityFour / 10) * 100} color='quaternary' aria-label="4★ Pity Progress" /></div>
+        <div className='pb-5'><Progress value={(pityFour / 10) * 100} color='quinary' aria-label="A Rank Pity Progress" /></div>
         {/* <Table>
           <TableHeader>
             <TableRow>

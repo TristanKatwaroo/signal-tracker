@@ -41,6 +41,10 @@ const config = {
           DEFAULT: "hsl(var(--quaternary))",
           foreground: "hsl(var(--quaternary-foreground))",
         },
+        quinary: {
+          DEFAULT: "hsl(var(--quinary))",
+          foreground: "hsl(var(--quinary-foreground))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
