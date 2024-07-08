@@ -47,7 +47,7 @@ export default function SignalsPage({}: Props) {
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:px-0">
       <div className="flex items-center">
-        <h1 className="text-lg font-bold md:text-3xl">Signal Searches</h1>
+        <h1 className="text-lg font-bold md:text-3xl">Signals</h1>
         <Button asChild size="default" className="ml-6 pr-5 gap-1" variant="tertiary">
           <Link href="#" prefetch={false}>
             <ArrowUpToLine className="h-4 w-4 mr-1" />
