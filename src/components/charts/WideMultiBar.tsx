@@ -27,11 +27,11 @@ const chartConfig = {
     color: "hsl(var(--chart-1))",
   },
   fiveStar: {
-    label: "5★ Pulls",
+    label: "S-Rank",
     color: "hsl(var(--chart-2))",
   },
   fourStar: {
-    label: "4★ Pulls",
+    label: "A-Rank",
     color: "hsl(var(--chart-3))",
   },
 } satisfies ChartConfig

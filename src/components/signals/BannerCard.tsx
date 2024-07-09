@@ -46,7 +46,7 @@ const BannerCard: React.FC<BannerCardProps> = ({ title, lifetimePulls, pityFive,
         </div>
         <div className="flex justify-between items-center pb-3 pt-2">
           <div>
-            <div className="font-medium text-primary-foreground">S Rank Pity</div>
+            <div className="font-medium text-primary-foreground">S-Rank Pity</div>
             <div className="text-sm text-muted-foreground">Guaranteed at 90</div>
           </div>
           <div className="text-3xl font-bold text-primary">{pityFive}</div>
@@ -54,7 +54,7 @@ const BannerCard: React.FC<BannerCardProps> = ({ title, lifetimePulls, pityFive,
         <div className='pb-2'><Progress value={(pityFive / 90) * 100} color='primary' aria-label="S Rank Pity Progress" /></div>
         <div className="flex justify-between items-center pb-3 pt-2">
           <div>
-            <div className="font-medium text-primary-foreground">A Rank Pity</div>
+            <div className="font-medium text-primary-foreground">A-Rank Pity</div>
             <div className="text-sm text-muted-foreground">Guaranteed at 10</div>
           </div>
           <div className="text-3xl font-bold text-quinary">{pityFour}</div>
