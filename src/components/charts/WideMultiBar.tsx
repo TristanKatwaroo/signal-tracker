@@ -57,6 +57,32 @@ export function WideMultiBar({ chartData }: { chartData: any[] }) {
     [chartData]
   )
 
+  const getRadius = (entry: any, dataKey: string) => {
+    const enabledBars = Object.keys(visibleCharts).filter(
+      (key) => visibleCharts[key as keyof typeof visibleCharts]
+    )
+    const barsPresent = enabledBars.filter((key) => entry[key] > 0)
+
+    if (enabledBars.length === 1) {
+      return [3, 3, 3, 3]
+    }
+
+    if (barsPresent.length === 1) {
+      return [3, 3, 3, 3]
+    }
+
+    const isHighest = barsPresent[0] === dataKey
+    const isLowest = barsPresent[barsPresent.length - 1] === dataKey
+
+    if (isHighest) {
+      return [0, 0, 3, 3]
+    }
+    if (isLowest) {
+      return [3, 3, 0, 0]
+    }
+    return [0, 0, 0, 0]
+  }
+
   return (
     <Card className="lg:col-span-2">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
@@ -124,11 +150,7 @@ export function WideMultiBar({ chartData }: { chartData: any[] }) {
                 {chartData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    radius={
-                      entry.fourStar === 0 && entry.threeStar === 0
-                        ? [3, 3, 3, 3] as any
-                        : [0, 0, 3, 3] as any
-                    }
+                    radius={getRadius(entry, "fiveStar") as any}
                   />
                 ))}
               </Bar>
@@ -138,15 +160,7 @@ export function WideMultiBar({ chartData }: { chartData: any[] }) {
                 {chartData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    radius={
-                      entry.fiveStar === 0 && entry.threeStar === 0
-                        ? [3, 3, 3, 3] as any
-                        : entry.fiveStar === 0 && entry.threeStar !== 0
-                        ? [0, 0, 3, 3] as any
-                        : entry.fiveStar !== 0 && entry.threeStar === 0
-                        ? [3, 3, 0, 0] as any
-                        : [0, 0, 0, 0] as any
-                    }
+                    radius={getRadius(entry, "fourStar") as any}
                   />
                 ))}
               </Bar>
@@ -156,11 +170,7 @@ export function WideMultiBar({ chartData }: { chartData: any[] }) {
                 {chartData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    radius={
-                        entry.fiveStar === 0 && entry.threeStar === 0
-                          ? [3, 3, 3, 3] as any
-                          : [3, 3, 0, 0] as any
-                    }
+                    radius={getRadius(entry, "threeStar") as any}
                   />
                 ))}
               </Bar>

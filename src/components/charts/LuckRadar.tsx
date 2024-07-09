@@ -59,7 +59,7 @@ export function LuckRadar() {
             </RadarChart>
           </ChartContainer>
         </CardContent>
-        <CardFooter className="flex flex-col gap-2 text-sm xl:flex-[60%] items-start justify-center pt-4 pb-0 xl:py-0 mb-12 xl:mb-0 xl:pl-4">
+        <CardFooter className="flex flex-col gap-2 text-sm xl:flex-[60%] items-start justify-center pt-4 pb-0 xl:py-0 xl:mb-12 xl:pl-4">
           <div className="flex items-center gap-2 leading-none py-2">
             <Gem className="h-5 w-5 text-tertiary" />
             <span className="">
