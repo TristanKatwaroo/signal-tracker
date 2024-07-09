@@ -1,7 +1,7 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts"
+import { Fish, Gem, TrendingUp } from "lucide-react"
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from "recharts"
 
 import {
   Card,
@@ -17,16 +17,17 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+
 const chartData = [
-  { month: "50:50 Wins", desktop: 100-10 },
-  { month: "S-Rank", desktop: 100-50 },
-  { month: "A-Rank", desktop: 100-80 },
+  { category: "50:50 Wins", value: 80 },
+  { category: "S-Rank", value: 60 },
+  { category: "A-Rank", value: 30 },
 ]
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
+  value: {
+    label: "Luck",
+    color: "hsl(var(--chart-4))",
   },
 } satisfies ChartConfig
 
@@ -36,34 +37,38 @@ export function LuckRadar() {
       <CardHeader className="items-center pb-4">
         <CardTitle>Luckiness</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Comparing your luck to other users
         </CardDescription>
       </CardHeader>
-      <CardContent className="pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <RadarChart data={chartData}>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <PolarAngleAxis dataKey="month" />
-            <PolarGrid />
-            <Radar
-              dataKey="desktop"
-              fill="var(--color-desktop)"
-              fillOpacity={0.6}
-            />
-          </RadarChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="flex items-center gap-2 leading-none text-muted-foreground">
-          January - June 2024
-        </div>
-      </CardFooter>
+      <div className="flex">
+        <CardContent className="pb-0 flex-[40%]">
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[250px]"
+          >
+            <RadarChart data={chartData} outerRadius="70%">
+              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              <PolarGrid />
+              <PolarAngleAxis dataKey="category" tick={{ fill: 'white' }} />
+              <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
+              <Radar
+                dataKey="value"
+                fill="var(--color-value)"
+                fillOpacity={0.6}
+              />
+            </RadarChart>
+          </ChartContainer>
+        </CardContent>
+        <CardFooter className="flex flex-col gap-4 text-sm flex-[60%] p-4 items-center justify-center">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2 font-medium leading-none">
+            Luckier than 68.2% of SIGNALTRACKER.GG users!<Gem className="h-4 w-4" />
+          </div>
+          <div className="flex items-center gap-2 font-medium leading-none">
+            More pulls than 53.8% of SIGNALTRACKER.GG users!<Fish className="h-4 w-4" />
+          </div></div>
+        </CardFooter>
+      </div>
     </Card>
   )
 }

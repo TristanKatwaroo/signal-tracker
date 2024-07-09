@@ -36,7 +36,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function WideChart({ chartData }: { chartData: any[] }) {
+export function WideMultiBar({ chartData }: { chartData: any[] }) {
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("combined")
 

@@ -13,8 +13,8 @@ import { ArrowUpRightIcon, ArrowUpToLine, ChevronDown, Menu, Share2, Upload } fr
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import BannerCard from '@/components/signals/BannerCard'
-import { WideChart } from '@/components/charts/WideChart'
 import { LuckRadar } from '@/components/charts/LuckRadar'
+import { WideMultiBar } from '@/components/charts/WideMultiBar'
 
 type Props = {}
 
@@ -73,7 +73,7 @@ export default function SignalsPage({}: Props) {
       </div>
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 mr-0">
-          <WideChart chartData={chartData} />
+          <WideMultiBar chartData={chartData} />
           <BannerCard 
             title="Exclusive"
             lifetimePulls={325}
