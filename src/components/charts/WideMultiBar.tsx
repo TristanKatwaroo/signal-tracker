@@ -38,7 +38,7 @@ export function WideMultiBar({ chartData }: { chartData: any[] }) {
   const [visibleCharts, setVisibleCharts] = React.useState({
     fiveStar: true,
     fourStar: true,
-    threeStar: true,
+    threeStar: false,
   })
 
   const toggleChartVisibility = (chart: keyof typeof chartConfig) => {
@@ -50,6 +50,7 @@ export function WideMultiBar({ chartData }: { chartData: any[] }) {
 
   const total = React.useMemo(
     () => ({
+      total: chartData.reduce((acc, curr) => acc + curr.fiveStar + curr.fourStar + curr.threeStar, 0),
       fiveStar: chartData.reduce((acc, curr) => acc + curr.fiveStar, 0),
       fourStar: chartData.reduce((acc, curr) => acc + curr.fourStar, 0),
       threeStar: chartData.reduce((acc, curr) => acc + curr.threeStar, 0),
@@ -93,6 +94,12 @@ export function WideMultiBar({ chartData }: { chartData: any[] }) {
           </CardDescription>
         </div>
         <div className="flex">
+          <div className="relative z-30 flex flex-col justify-center gap-1 px-6 py-4 text-left sm:px-8 sm:py-6">
+            <span className="text-xs text-muted-foreground">Total</span>
+            <span className="text-lg font-bold leading-none sm:text-3xl">
+              {total.total.toLocaleString()}
+            </span>
+          </div>
           {["fiveStar", "fourStar", "threeStar"].map((key) => {
             const chart = key as keyof typeof chartConfig
             return (
