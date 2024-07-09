@@ -1,6 +1,6 @@
 "use client"
 
-import { Fish, Gem, TrendingUp } from "lucide-react"
+import { Fish, Gem } from "lucide-react"
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from "recharts"
 
 import {
@@ -27,13 +27,13 @@ const chartData = [
 const chartConfig = {
   value: {
     label: "Luck",
-    color: "hsl(var(--chart-4))",
+    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig
 
 export function LuckRadar() {
   return (
-    <Card>
+    <Card className="p-2">
       <CardHeader className="items-center pb-4">
         <CardTitle>Luckiness</CardTitle>
         <CardDescription>
@@ -41,10 +41,10 @@ export function LuckRadar() {
         </CardDescription>
       </CardHeader>
       <div className="flex">
-        <CardContent className="pb-0 flex-[40%]">
+        <CardContent className="pb-0 flex-[40%] flex items-center justify-center">
           <ChartContainer
             config={chartConfig}
-            className="mx-auto aspect-square max-h-[250px]"
+            className="aspect-square max-h-[250px] w-full"
           >
             <RadarChart data={chartData} outerRadius="70%">
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
@@ -59,14 +59,19 @@ export function LuckRadar() {
             </RadarChart>
           </ChartContainer>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4 text-sm flex-[60%] p-4 items-center justify-center">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 font-medium leading-none">
-            Luckier than 68.2% of SIGNALTRACKER.GG users!<Gem className="h-4 w-4" />
+        <CardFooter className="flex flex-col gap-2 text-sm flex-[60%] items-start justify-center py-4 mb-12">
+          <div className="flex items-center gap-2 leading-none py-2">
+            <Gem className="h-5 w-5" />
+            <span className="">
+              Luckier than 68.2% of SIGNALTRACKER.GG users!
+            </span>
           </div>
-          <div className="flex items-center gap-2 font-medium leading-none">
-            More pulls than 53.8% of SIGNALTRACKER.GG users!<Fish className="h-4 w-4" />
-          </div></div>
+          <div className="flex items-center gap-2 leading-none py-2">
+            <Fish className="h-5 w-5" />
+            <span className="">
+              More pulls than 53.8% of SIGNALTRACKER.GG users!
+            </span>
+          </div>
         </CardFooter>
       </div>
     </Card>
