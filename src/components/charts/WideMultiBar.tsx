@@ -17,34 +17,42 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
 } from "@/components/ui/chart"
 
 const chartConfig = {
-  combined: {
-    label: "Combined",
-    color: "hsl(var(--chart-1))",
-  },
   fiveStar: {
     label: "S-Rank",
     color: "hsl(var(--chart-2))",
   },
   fourStar: {
     label: "A-Rank",
-    color: "hsl(var(--chart-3))",
+    color: "hsl(var(--chart-7))",
+  },
+  threeStar: {
+    label: "B-Rank",
+    color: "hsl(var(--chart-6))",
   },
 } satisfies ChartConfig
 
 export function WideMultiBar({ chartData }: { chartData: any[] }) {
-  const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("combined")
+  const [visibleCharts, setVisibleCharts] = React.useState({
+    fiveStar: true,
+    fourStar: true,
+    threeStar: true,
+  })
+
+  const toggleChartVisibility = (chart: keyof typeof chartConfig) => {
+    setVisibleCharts((prev) => ({
+      ...prev,
+      [chart]: !prev[chart],
+    }))
+  }
 
   const total = React.useMemo(
     () => ({
-      combined: chartData.reduce((acc, curr) => acc + curr.fiveStar + curr.fourStar, 0),
       fiveStar: chartData.reduce((acc, curr) => acc + curr.fiveStar, 0),
       fourStar: chartData.reduce((acc, curr) => acc + curr.fourStar, 0),
+      threeStar: chartData.reduce((acc, curr) => acc + curr.threeStar, 0),
     }),
     [chartData]
   )
@@ -59,14 +67,16 @@ export function WideMultiBar({ chartData }: { chartData: any[] }) {
           </CardDescription>
         </div>
         <div className="flex">
-          {["combined", "fiveStar", "fourStar"].map((key) => {
+          {["fiveStar", "fourStar", "threeStar"].map((key) => {
             const chart = key as keyof typeof chartConfig
             return (
               <button
                 key={chart}
-                data-active={activeChart === chart}
-                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
-                onClick={() => setActiveChart(chart)}
+                data-active={visibleCharts[chart]}
+                className={`relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6 ${
+                  visibleCharts[chart] ? "bg-muted/50" : ""
+                }`}
+                onClick={() => toggleChartVisibility(chart)}
               >
                 <span className="text-xs text-muted-foreground">
                   {chartConfig[chart].label}
@@ -109,35 +119,51 @@ export function WideMultiBar({ chartData }: { chartData: any[] }) {
                 />
               }
             />
-            {activeChart === "combined" ? (
-              <>
-                <Bar dataKey="fiveStar" stackId="a" fill="var(--color-fiveStar)">
-                  {chartData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      radius={
-                        entry.fourStar === 0
-                          ? [3, 3, 3, 3] as any
-                          : [0, 0, 3, 3] as any
-                      }
-                    />
-                  ))}
-                </Bar>
-                <Bar dataKey="fourStar" stackId="a" fill="var(--color-fourStar)">
-                  {chartData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      radius={
-                        entry.fiveStar === 0
+            {visibleCharts.fiveStar && (
+              <Bar dataKey="fiveStar" stackId="a" fill="var(--color-fiveStar)">
+                {chartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    radius={
+                      entry.fourStar === 0 && entry.threeStar === 0
+                        ? [3, 3, 3, 3] as any
+                        : [0, 0, 3, 3] as any
+                    }
+                  />
+                ))}
+              </Bar>
+            )}
+            {visibleCharts.fourStar && (
+              <Bar dataKey="fourStar" stackId="a" fill="var(--color-fourStar)">
+                {chartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    radius={
+                      entry.fiveStar === 0 && entry.threeStar === 0
+                        ? [3, 3, 3, 3] as any
+                        : entry.fiveStar === 0 && entry.threeStar !== 0
+                        ? [0, 0, 3, 3] as any
+                        : entry.fiveStar !== 0 && entry.threeStar === 0
+                        ? [3, 3, 0, 0] as any
+                        : [0, 0, 0, 0] as any
+                    }
+                  />
+                ))}
+              </Bar>
+            )}
+            {visibleCharts.threeStar && (
+              <Bar dataKey="threeStar" stackId="a" fill="var(--color-threeStar)">
+                {chartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    radius={
+                        entry.fiveStar === 0 && entry.threeStar === 0
                           ? [3, 3, 3, 3] as any
                           : [3, 3, 0, 0] as any
-                      }
-                    />
-                  ))}
-                </Bar>
-              </>
-            ) : (
-              <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} radius={3} />
+                    }
+                  />
+                ))}
+              </Bar>
             )}
           </BarChart>
         </ChartContainer>

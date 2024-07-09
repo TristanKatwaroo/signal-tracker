@@ -61,15 +61,15 @@ export function LuckRadar() {
         </CardContent>
         <CardFooter className="flex flex-col gap-2 text-sm xl:flex-[60%] items-start justify-center pt-4 pb-0 xl:py-0 mb-12 xl:mb-0 xl:pl-4">
           <div className="flex items-center gap-2 leading-none py-2">
-            <Gem className="h-5 w-5" />
+            <Gem className="h-5 w-5 text-tertiary" />
             <span className="">
-              Luckier than 68.2% of SIGNALTRACKER.GG users!
+              Luckier than <span className="text-primary">68.2%</span> of SIGNALTRACKER.GG users
             </span>
           </div>
           <div className="flex items-center gap-2 leading-none pt-2">
-            <Fish className="h-5 w-5" />
+            <Fish className="h-5 w-5 text-tertiary" />
             <span className="">
-              More pulls than 53.8% of SIGNALTRACKER.GG users!
+              More pulls than <span className="text-primary">53.8%</span> of SIGNALTRACKER.GG users
             </span>
           </div>
         </CardFooter>

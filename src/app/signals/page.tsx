@@ -52,6 +52,7 @@ export default function SignalsPage({}: Props) {
     pity,
     fiveStar: Math.floor(Math.random() * 1.6),
     fourStar: Math.floor(Math.random() * 8.8),
+    threeStar: Math.floor(Math.random() * 30.8),
   }));
 
   return (

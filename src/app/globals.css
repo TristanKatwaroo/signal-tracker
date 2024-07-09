@@ -39,15 +39,18 @@
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --chart-1: 47.9 95.8% 53.1%;
-    --chart-2: 24.6 95% 53.1%;
-    --chart-3: 275 95% 53.1%;
+    --chart-2: 30 95% 53.1%;
+    --chart-3: 184 100% 64%;
     --chart-4: 70 83% 50%;
     --chart-5: 350 100% 53.1%;
+    --chart-6: 208 100% 50%;
+    --chart-7: 327 100% 66%;
+    --chart-8: 70 83% 50%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 24.6 95% 53.1%;
+    --primary: 30 95% 53.1%;
     /* --primary: 32 98% 48%; */
     /* --primary: 35 100% 46%; */
     --primary-foreground: 60 9.1% 97.8%;
@@ -57,7 +60,7 @@
     --tertiary-foreground: 26 83.3% 14.1%;
     --quaternary: 47.9 95.8% 53.1%;
     --quaternary-foreground: 26 83.3% 14.1%;
-    --quinary: 275 95% 53.1%;
+    --quinary: 327 100% 66%;
     --quinary-foreground: 26 83.3% 14.1%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
