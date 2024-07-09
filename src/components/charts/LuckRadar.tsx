@@ -33,18 +33,18 @@ const chartConfig = {
 
 export function LuckRadar() {
   return (
-    <Card className="p-2">
+    <Card className="px-2 xl:p-4 flex flex-col h-full">
       <CardHeader className="items-center pb-4">
         <CardTitle>Luckiness</CardTitle>
         <CardDescription>
           Comparing your luck to other users
         </CardDescription>
       </CardHeader>
-      <div className="flex">
-        <CardContent className="pb-0 flex-[40%] flex items-center justify-center">
+      <div className="flex-grow flex flex-col xl:flex-row">
+        <CardContent className="pb-0 xl:flex-[40%] flex items-center justify-center xl:justify-start">
           <ChartContainer
             config={chartConfig}
-            className="aspect-square max-h-[250px] w-full"
+            className="aspect-square max-h-[350px] xl:max-h-[350px] w-full h-full"
           >
             <RadarChart data={chartData} outerRadius="70%">
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
@@ -59,14 +59,14 @@ export function LuckRadar() {
             </RadarChart>
           </ChartContainer>
         </CardContent>
-        <CardFooter className="flex flex-col gap-2 text-sm flex-[60%] items-start justify-center py-4 mb-12">
+        <CardFooter className="flex flex-col gap-2 text-sm xl:flex-[60%] items-start justify-center pt-4 pb-0 xl:py-0 mb-12 xl:mb-0 xl:pl-4">
           <div className="flex items-center gap-2 leading-none py-2">
             <Gem className="h-5 w-5" />
             <span className="">
               Luckier than 68.2% of SIGNALTRACKER.GG users!
             </span>
           </div>
-          <div className="flex items-center gap-2 leading-none py-2">
+          <div className="flex items-center gap-2 leading-none pt-2">
             <Fish className="h-5 w-5" />
             <span className="">
               More pulls than 53.8% of SIGNALTRACKER.GG users!
