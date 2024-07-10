@@ -118,8 +118,8 @@ export function WideMultiBar({ chartData }: WideMultiBarProps) {
               content={
                 <ChartTooltipContent
                   className="w-[150px]"
-                  nameKey="views"
-                  labelFormatter={(value) => `Pity: ${value}`}
+                  nameKey="pity"
+                  labelFormatter={(value, payload) => `${payload[0].payload.pity}`}
                 />
               }
             />
