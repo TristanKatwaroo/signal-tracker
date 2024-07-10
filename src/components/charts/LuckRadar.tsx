@@ -27,7 +27,7 @@ const chartData = [
 const chartConfig = {
   value: {
     label: "Luck",
-    color: "hsl(var(--chart-5))",
+    color: "hsl(var(--chart-8))",
   },
 } satisfies ChartConfig
 

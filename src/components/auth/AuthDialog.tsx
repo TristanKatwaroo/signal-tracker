@@ -73,7 +73,7 @@ export default function AuthDialog({ renderButton = true }: AuthDialogProps) {
     >
       <DialogTrigger asChild>
         {renderButton ? (
-          <Button size="sm" className="w-full" variant='default' onClick={() => {
+          <Button size="sm" className="w-full text-tertiary-foreground" variant='tertiary' onClick={() => {
             console.log('AuthDialog: Opening dialog');
             setIsOpen(true);
           }}>
