@@ -74,12 +74,12 @@ export function WideMultiBar({ chartData }: WideMultiBarProps) {
   }, [visibleCharts]);
 
   return (
-    <Card className="lg:col-span-2">
-      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+    <Card className="lg:col-span-2 ">
+      <CardHeader className="flex flex-col items-stretch space-y-0 border-b overflow-hidden rounded-md p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Total Distribution</CardTitle>
           <CardDescription>
-            Showing a breakdown of your signals across the pity range
+            Showing a breakdown of your signals across the max pity range
           </CardDescription>
         </div>
         <div className="flex">
