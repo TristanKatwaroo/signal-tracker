@@ -27,7 +27,7 @@ type BannerCardProps = {
 const BannerCard: React.FC<BannerCardProps> = ({ title, lifetimePulls, pityFive, pityFour, stats }) => {
   return (
     <Card className="p-2 shadow-lg">
-      <CardHeader className="pb-2 flex flex-row items-center">
+      <CardHeader className="pb-5 pt-5 flex flex-row items-center">
         <CardTitle className='text-2xl'>{title}</CardTitle>
         <Button asChild size="sm" className="ml-auto gap-1" variant="tertiary">
           <Link href="#" prefetch={false}>
@@ -36,8 +36,8 @@ const BannerCard: React.FC<BannerCardProps> = ({ title, lifetimePulls, pityFive,
           </Link>
         </Button>
       </CardHeader>
-      <CardContent>
-        <div className="flex justify-between items-center pb-1 pt-2">
+      <CardContent className='pb-3'>
+        <div className="flex justify-between items-center ">
           <div>
             <div className="font-medium text-primary-foreground">Lifetime Signal Searches</div>
             <div className="text-sm text-muted-foreground">{lifetimePulls * 160}</div>

@@ -74,8 +74,8 @@ export function WideMultiBar({ chartData }: WideMultiBarProps) {
   }, [visibleCharts]);
 
   return (
-    <Card className="lg:col-span-2 ">
-      <CardHeader className="flex flex-col items-stretch space-y-0 border-b overflow-hidden rounded-md p-0 sm:flex-row">
+    <Card className="lg:col-span-2 overflow-hidden rounded-md">
+      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Total Distribution</CardTitle>
           <CardDescription>
@@ -172,7 +172,7 @@ function ChartToggle({ chart, isVisible, label, value, onToggle }: ChartTogglePr
       data-active={isVisible}
       className={`relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6 ${
         isVisible ? "bg-muted/50" : ""
-      }`}
+      } transition-all hover:bg-muted/30`}
       onClick={onToggle}
     >
       <span className="text-xs text-muted-foreground">{label}</span>
