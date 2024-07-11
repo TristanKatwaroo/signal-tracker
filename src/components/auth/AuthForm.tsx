@@ -142,7 +142,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         </div>
         {authError && <p className="text-red-500 text-sm">{authError}</p>}
         {/* {resetMessage && <p className="text-green-500 text-xs">{resetMessage}</p>} */}
-        <Button type="submit" variant="default" className="w-full">
+        <Button type="submit" variant="tertiary" className="w-full">
           {isSignUp ? 'Sign up with Email' : 'Sign in with Email'}
         </Button>
       </form>

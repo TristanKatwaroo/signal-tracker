@@ -19,6 +19,10 @@ const config = {
       },
     },
     extend: {
+      letterSpacing: {
+        wider: '.01em',
+        widest: '.1em',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

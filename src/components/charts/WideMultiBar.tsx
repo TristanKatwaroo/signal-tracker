@@ -79,7 +79,7 @@ export function WideMultiBar({ chartData }: WideMultiBarProps) {
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Total Distribution</CardTitle>
           <CardDescription>
-            Showing a breakdown of your signals across the max pity range
+            Showing a breakdown of your signals across the pity range
           </CardDescription>
         </div>
         <div className="flex">

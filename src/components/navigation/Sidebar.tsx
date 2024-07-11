@@ -17,7 +17,7 @@ export default function Sidebar({}: Props) {
   const { user } = useAuth();
 
   return (
-    <div className="hidden md:block h-screen sticky top-0 border-r bg-muted/40">
+    <div className="hidden md:block h-screen sticky top-0 dot-pattern-muted border-r bg-muted/40">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[80px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -40,7 +40,7 @@ export default function Sidebar({}: Props) {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
                   pathname === tab.href
-                    ? "bg-muted text-primary"
+                    ? "bg-muted/45 text-primary"
                     : "text-muted-foreground hover:text-primary"
                 )}
               >

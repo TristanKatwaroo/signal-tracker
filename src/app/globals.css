@@ -94,3 +94,28 @@ input:-webkit-autofill:active {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+
+.stripe-pattern {
+  background-image: linear-gradient(
+    45deg,
+    rgba(66, 66, 66, 0.06) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(66, 66, 66, 0.06) 50%,
+    rgba(66, 66, 66, 0.06) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 10px 10px; /* Adjust size as needed */
+  background-attachment: fixed; /* This makes the background pattern fixed */
+}
+
+.dot-pattern {
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 38%, transparent 38%);
+  background-size: 8px 8px;
+}
+
+.dot-pattern-muted {
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 38%, transparent 38%);
+  background-size: 8px 8px;
+}

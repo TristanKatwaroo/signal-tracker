@@ -93,7 +93,8 @@ export default function AuthDialog({ renderButton = true }: AuthDialogProps) {
       </DialogTrigger>
       <DialogContent className="mx-auto max-w-sm shadow-md">
         <div className="flex flex-col space-y-1.5 p-3">
-          <DialogTitle className="font-semibold tracking-tight text-xl">
+          {/* <DialogTitle className="font-semibold tracking-tight text-xl"> */}
+          <DialogTitle className="font-semibold text-xl">
             {isSignUp ? 'Sign Up' : 'Sign In'}
           </DialogTitle>
           <p className="text-sm text-muted-foreground">
