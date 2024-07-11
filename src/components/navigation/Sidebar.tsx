@@ -40,7 +40,7 @@ export default function Sidebar({}: Props) {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
                   pathname === tab.href
-                    ? "bg-muted/45 text-primary"
+                    ? "bg-muted/45 text-primary shadow-md"
                     : "text-muted-foreground hover:text-primary"
                 )}
               >

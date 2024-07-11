@@ -76,21 +76,28 @@ export default function SignalsPage({}: Props) {
         <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 mr-0">
           <WideMultiBar chartData={chartData} />
           <BannerCard 
-            title="Exclusive"
+            title="Exclusive Channel"
             lifetimePulls={325}
             pityFive={22}
             pityFour={2}
             stats={bannerStats}
           />
           <BannerCard 
-            title="W-Engine"
+            title="W-Engine Channel"
             lifetimePulls={123}
             pityFive={45}
             pityFour={9}
             stats={weaponStats}
           />
           <BannerCard 
-            title="Stable"
+            title="Stable Channel"
+            lifetimePulls={88}
+            pityFive={36}
+            pityFour={8}
+            stats={standardStats}
+          />
+          <BannerCard 
+            title="Bangboo Channel"
             lifetimePulls={88}
             pityFive={36}
             pityFour={8}

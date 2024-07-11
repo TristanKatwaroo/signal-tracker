@@ -74,6 +74,7 @@ export function LuckRadar() {
           </div>
         </CardFooter>
       </div>
+      <div className="text-xs text-center text-muted-foreground/60">SIGNALTRACKER.GG</div>
     </Card>
   )
 }

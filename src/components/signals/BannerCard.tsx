@@ -60,6 +60,14 @@ const BannerCard: React.FC<BannerCardProps> = ({ title, lifetimePulls, pityFive,
           <div className="text-3xl font-bold text-quinary">{pityFour}</div>
         </div>
         <div className='pb-5'><Progress value={(pityFour / 10) * 100} color='quinary' aria-label="A Rank Pity Progress" /></div>
+        <div className="flex justify-between items-center ">
+          <div>
+            <div className="font-medium text-primary-foreground">Recent S-Rank Signal Searches</div>
+            <div className="text-sm text-muted-foreground pt-1 pb-8">None found</div>
+          </div>
+          {/* <div className="text-3xl font-bold">{lifetimePulls}</div> */}
+        </div>
+        <div className="text-xs text-center text-muted-foreground/60">SIGNALTRACKER.GG</div>
         {/* <Table>
           <TableHeader>
             <TableRow>
