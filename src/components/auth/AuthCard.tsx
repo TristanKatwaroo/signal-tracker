@@ -1,7 +1,7 @@
 // components/auth/AuthCard.tsx
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import AuthDialog from './AuthDialog';
+import AuthModal from './AuthModal';
 
 export default function AuthCard() {
   return (
@@ -11,7 +11,7 @@ export default function AuthCard() {
         <CardDescription>Create an account to access your data anytime, anywhere.</CardDescription>
       </CardHeader>
       <CardContent className="p-2 md:p-4 md:pt-0">
-        <AuthDialog renderButton={true} />
+        <AuthModal renderButton={true} />
       </CardContent>
     </Card>
   );

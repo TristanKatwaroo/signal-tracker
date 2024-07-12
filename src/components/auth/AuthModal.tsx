@@ -1,4 +1,4 @@
-// components/auth/AuthDialog.tsx
+// components/auth/AuthModal.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -7,11 +7,11 @@ import { Button } from '../ui/button';
 import AuthForm from './AuthForm';
 import { useAuth } from '@/context/AuthContext';
 
-interface AuthDialogProps {
+interface AuthModalProps {
   renderButton?: boolean;
 }
 
-export default function AuthDialog({ renderButton = true }: AuthDialogProps) {
+export default function AuthModal({ renderButton = true }: AuthModalProps) {
   const [isSignUp, setIsSignUp] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
   const [resetMessage, setResetMessage] = useState<string | null>(null);
@@ -22,13 +22,13 @@ export default function AuthDialog({ renderButton = true }: AuthDialogProps) {
   // This effect runs when user state changes
   useEffect(() => {
     if (user) {
-      console.log('AuthDialog: User state changed:', user);
-      console.log('AuthDialog: Email verified:', user.emailVerified);
+      console.log('AuthModal: User state changed:', user);
+      console.log('AuthModal: Email verified:', user.emailVerified);
       if (user.emailVerified && !isSignUp) {
-        console.log('AuthDialog: User logged in successfully, closing dialog.');
+        console.log('AuthModal: User logged in successfully, closing dialog.');
         setIsOpen(false);
       } else {
-        console.log('AuthDialog: Keeping dialog open.');
+        console.log('AuthModal: Keeping dialog open.');
       }
     }
   }, [user, isSignUp]);
@@ -40,23 +40,23 @@ export default function AuthDialog({ renderButton = true }: AuthDialogProps) {
       return newSignUpState;
     });
     clearMessages();
-    console.log('AuthDialog: Auth mode toggled, isSignUp:', !isSignUp);
+    console.log('AuthModal: Auth mode toggled, isSignUp:', !isSignUp);
   };
 
   const clearMessages = () => {
     setAuthError(null);
     setResetMessage(null);
     setVerificationSent(false);
-    console.log('AuthDialog: Messages cleared');
+    console.log('AuthModal: Messages cleared');
   };
 
   const handleSuccess = () => {
-    console.log('AuthDialog: Login successful, setting dialog to close.');
+    console.log('AuthModal: Login successful, setting dialog to close.');
     setIsOpen(false); // Close the dialog upon successful login
   };
 
   const handleVerificationSent = () => {
-    console.log('AuthDialog: Verification email sent.');
+    console.log('AuthModal: Verification email sent.');
     setVerificationSent(true);
   };
 
@@ -64,7 +64,7 @@ export default function AuthDialog({ renderButton = true }: AuthDialogProps) {
     <Dialog
       open={isOpen}
       onOpenChange={(open: boolean) => {
-        console.log('AuthDialog: Dialog open state changed:', open);
+        console.log('AuthModal: Dialog open state changed:', open);
         setIsOpen(open);
         if (!open) {
           clearMessages();
@@ -74,7 +74,7 @@ export default function AuthDialog({ renderButton = true }: AuthDialogProps) {
       <DialogTrigger asChild>
         {renderButton ? (
           <Button size="sm" className="w-full text-tertiary-foreground" variant='tertiary' onClick={() => {
-            console.log('AuthDialog: Opening dialog');
+            console.log('AuthModal: Opening dialog');
             setIsOpen(true);
           }}>
             {isSignUp ? 'Sign up' : 'Sign in'}
@@ -83,7 +83,7 @@ export default function AuthDialog({ renderButton = true }: AuthDialogProps) {
           <span
             className="cursor-pointer"
             onClick={() => {
-              console.log('AuthDialog: Opening dialog');
+              console.log('AuthModal: Opening dialog');
               setIsOpen(true);
             }}
           >

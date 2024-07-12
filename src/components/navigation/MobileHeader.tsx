@@ -20,7 +20,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/context/AuthContext";
 import AccountMenu from "../auth/AccountMenu";
 import AuthCard from "../auth/AuthCard";
-import AuthDialog from "../auth/AuthDialog"; // Import AuthDialog
+import AuthModal from "../auth/AuthModal"; // Import AuthModal
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
