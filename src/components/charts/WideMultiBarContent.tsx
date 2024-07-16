@@ -6,22 +6,15 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  ChartConfig
 } from "@/components/ui/chart";
+import { ChartDataItem, ChartKeys } from '@/types/custom';
 
-const chartConfig = {
+const chartConfig: ChartConfig = {
   fiveStar: { label: "S-Rank", color: "hsl(var(--chart-2))" },
   fourStar: { label: "A-Rank", color: "hsl(var(--chart-7))" },
   threeStar: { label: "B-Rank", color: "hsl(var(--chart-6))" },
-} as const;
-
-type ChartKeys = keyof typeof chartConfig;
-
-interface ChartDataItem {
-  pity: number;
-  fiveStar: number;
-  fourStar: number;
-  threeStar: number;
-}
+};
 
 interface WideMultiBarContentProps {
   chartData: ChartDataItem[];
@@ -39,9 +32,8 @@ export function WideMultiBarContent({ chartData }: WideMultiBarContentProps) {
   }, []);
 
   const getRadius = React.useCallback((entry: ChartDataItem, dataKey: ChartKeys): [number, number, number, number] => {
-    const enabledBars = Object.entries(visibleCharts)
-      .filter(([, isVisible]) => isVisible)
-      .map(([key]) => key as ChartKeys);
+    const enabledBars = (Object.keys(visibleCharts) as ChartKeys[])
+      .filter((key) => visibleCharts[key]);
     const barsPresent = enabledBars.filter((key) => entry[key] > 0);
 
     if (enabledBars.length === 1 || barsPresent.length === 1) return [3, 3, 3, 3];
