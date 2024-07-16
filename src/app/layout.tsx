@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import Sidebar from "@/components/navigation/Sidebar";
 import MobileHeader from "@/components/navigation/MobileHeader";
 import { cn } from "@/lib/utils";
-import { AuthProvider } from "@/context/AuthContext";
+// import { AuthProvider } from "@/context/AuthContext";
 import Footer from "@/components/Footer"; // Import Footer
 
 const fontSans = FontSans({
@@ -31,7 +31,7 @@ export default function RootLayout({
           "debug-screens": process.env.NODE_ENV === "development",
         })}
       >
-        <AuthProvider>
+        {/* <AuthProvider> */}
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -53,7 +53,7 @@ export default function RootLayout({
               </div>
             </div>
           </ThemeProvider>
-        </AuthProvider>
+        {/* </AuthProvider> */}
       </body>
     </html>
   );
