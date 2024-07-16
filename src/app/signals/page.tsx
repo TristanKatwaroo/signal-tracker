@@ -1,4 +1,3 @@
-// signals page
 import React from 'react'
 import {
   Card,
@@ -8,19 +7,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { ArrowUpRightIcon, ArrowUpToLine, ChevronDown, Menu, Share2, Upload } from 'lucide-react'
+import { ArrowUpToLine, Share2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import BannerCard from '@/components/signals/BannerCard'
-import WideMultiBar from '@/components/charts/WideMultiBar'
-import LuckRadar from '@/components/charts/LuckRadar'
+import dynamic from 'next/dynamic'
+
+const WideMultiBar = dynamic(() => import('@/components/charts/WideMultiBar'), {
+  ssr: true,
+})
+
+const LuckRadar = dynamic(() => import('@/components/charts/LuckRadar'), {
+  ssr: true,
+})
 
 export const runtime = "edge";
 
 type Props = {}
 
-export default function SignalsPage({}: Props) {
+export default async function SignalsPage({}: Props) {
 
   const bannerStats = [
     { label: 'S Rank', total: 4, percent: 1.23, pityAvg: 75.75, color: 'text-primary' },

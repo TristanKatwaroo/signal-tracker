@@ -1,4 +1,4 @@
-import { WideMultiBarContent } from "./WideMultiBarContent";
+import dynamic from 'next/dynamic';
 import {
   Card,
   CardContent,
@@ -6,6 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+const WideMultiBarContent = dynamic(() => import('./WideMultiBarContent').then((mod) => mod.WideMultiBarContent), {
+  ssr: false,
+});
 
 const chartConfig = {
   fiveStar: { label: "S-Rank", color: "hsl(var(--chart-2))" },

@@ -1,4 +1,4 @@
-import { LuckRadarContent } from "./LuckRadarContent";
+import dynamic from 'next/dynamic';
 import {
   Card,
   CardContent,
@@ -8,6 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Gem, Fish } from "lucide-react";
+
+const LuckRadarContent = dynamic(() => import('./LuckRadarContent').then((mod) => mod.LuckRadarContent), {
+  ssr: false,
+});
 
 const chartData = [
   { category: "50:50 Wins", value: 80 },
