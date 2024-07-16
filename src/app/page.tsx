@@ -1,50 +1,50 @@
-"use client";
+// "use client";
 
-import { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import {
-  Bell,
-  CalendarDays,
-  CircleUser,
-  Clock,
-  Globe,
-  Home,
-  LineChart,
-  Menu,
-  Package,
-  Package2,
-  Search,
-  Settings,
-  ShoppingCart,
-  Signal,
-  Trophy,
-  Users,
-} from "lucide-react";
+// import { Metadata } from "next";
+// import Link from "next/link";
+// import Image from "next/image";
+// import {
+//   Bell,
+//   CalendarDays,
+//   CircleUser,
+//   Clock,
+//   Globe,
+//   Home,
+//   LineChart,
+//   Menu,
+//   Package,
+//   Package2,
+//   Search,
+//   Settings,
+//   ShoppingCart,
+//   Signal,
+//   Trophy,
+//   Users,
+// } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import Sidebar from "@/components/navigation/Sidebar";
-import MobileHeader from "@/components/navigation/MobileHeader";
-import { useEffect, useState } from "react";
-import FetchGachaLogs from "@/components/FetchGachaLogs";
+// import { Badge } from "@/components/ui/badge";
+// import { Button } from "@/components/ui/button";
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuLabel,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
+// import { Input } from "@/components/ui/input";
+// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+// import Sidebar from "@/components/navigation/Sidebar";
+// import MobileHeader from "@/components/navigation/MobileHeader";
+// import { useEffect, useState } from "react";
+// import FetchGachaLogs from "@/components/FetchGachaLogs";
 
 export const runtime = "edge";
 
@@ -116,7 +116,7 @@ export default function Dashboard() {
       </Card> */}
       <div className="flex flex-1 flex-col items-center justify-center text-center rounded-lg border border-dashed shadow-sm">
         <h1 className="text-4xl font-bold mb-4">
-          This page is still under construction, check back soon!
+          This page is under construction, check back soon!
         </h1>
         <div className="text-9xl">
           🚧

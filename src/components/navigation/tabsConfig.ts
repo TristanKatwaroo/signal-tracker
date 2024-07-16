@@ -34,19 +34,19 @@ import {
     },
     {
       title: "Tier List",
-      href: "/tierlist",
+      href: "/tier-list",
       icon: ArrowDownUp,
     },
-    {
-      title: "Planner",
-      href: "/planner",
-      icon: SquarePen,
-    },
-    {
-      title: "Achievements",
-      href: "/achievements",
-      icon: Trophy,
-    },
+    // {
+    //   title: "Planner",
+    //   href: "/planner",
+    //   icon: SquarePen,
+    // },
+    // {
+    //   title: "Achievements",
+    //   href: "/achievements",
+    //   icon: Trophy,
+    // },
     // {
     //   title: "Reminders",
     //   href: "/reminders",
