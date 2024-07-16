@@ -46,6 +46,8 @@ import MobileHeader from "@/components/navigation/MobileHeader";
 import { useEffect, useState } from "react";
 import FetchGachaLogs from "@/components/FetchGachaLogs";
 
+export const runtime = "edge";
+
 // interface GachaLog {
 //   id: string;
 //   gacha_type: number;

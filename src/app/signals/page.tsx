@@ -16,6 +16,8 @@ import BannerCard from '@/components/signals/BannerCard'
 import { LuckRadar } from '@/components/charts/LuckRadar'
 import { WideMultiBar } from '@/components/charts/WideMultiBar'
 
+export const runtime = "edge";
+
 type Props = {}
 
 export default function SignalsPage({}: Props) {

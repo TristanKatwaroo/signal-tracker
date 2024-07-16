@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 // import { AuthProvider } from "@/context/AuthContext";
 import Footer from "@/components/Footer"; // Import Footer
 
+export const runtime = "edge";
+
 const fontSans = FontSans({
   weight: ['200', '300', '400', '500', '600', '700', '800'],
   subsets: ["latin"],
