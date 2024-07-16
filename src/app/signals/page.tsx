@@ -13,8 +13,8 @@ import { ArrowUpRightIcon, ArrowUpToLine, ChevronDown, Menu, Share2, Upload } fr
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import BannerCard from '@/components/signals/BannerCard'
-import { LuckRadar } from '@/components/charts/LuckRadar'
-import { WideMultiBar } from '@/components/charts/WideMultiBar'
+import WideMultiBar from '@/components/charts/WideMultiBar'
+import LuckRadar from '@/components/charts/LuckRadar'
 
 export const runtime = "edge";
 
