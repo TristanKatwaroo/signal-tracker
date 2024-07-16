@@ -5,7 +5,8 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="border-t bg-card dot-pattern text-muted-foreground py-5">
+    // <footer className="border-t bg-card dot-pattern text-muted-foreground py-5">
+    <footer className="border-t bg-card text-muted-foreground py-5">
       <div className="container mx-auto grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
           <h5 className="font-bold mb-2 text-primary-foreground">SIGNALTRACKER.GG</h5>

@@ -4,6 +4,13 @@ type Props = {}
 
 export default function GlobalStatsPage({}: Props) {
   return (
-    <div>GlobalStatsPage</div>
+    <div className="flex flex-col items-center justify-center h-screen text-center">
+      <h1 className="text-4xl font-bold mb-4">
+        This feature is still under construction, check back soon!
+      </h1>
+      <div className="text-9xl">
+        🚧
+      </div>
+    </div>
   )
 }
