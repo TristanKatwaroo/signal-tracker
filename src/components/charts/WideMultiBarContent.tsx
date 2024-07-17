@@ -31,7 +31,7 @@ export function WideMultiBarContent({ chartData }: WideMultiBarContentProps) {
   const [visibleCharts, setVisibleCharts] = React.useState<Record<ChartKeys, boolean>>({
     fiveStar: true,
     fourStar: true,
-    threeStar: false,
+    threeStar: true,
   });
 
   const toggleChartVisibility = React.useCallback((chart: ChartKeys) => {
