@@ -25,7 +25,7 @@ const ImportPage = () => {
             <h2 className="text-lg font-bold">Windows Only</h2>
             <ol className="list-decimal ml-6 space-y-2 mt-2">
               <li>Start Zenless Zone Zero on your PC and open your signal records history</li>
-              <li>Open Windows Powershell. You can do this by searching for "PowerShell" in the Windows search bar</li>
+              <li>Open Windows Powershell. You can do this by searching for &quot;PowerShell&quot; in the Windows search bar</li>
               <li>Copy and paste one of the following commands, depending on your account region, into Powershell and press Enter:</li>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
