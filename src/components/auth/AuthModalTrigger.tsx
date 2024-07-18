@@ -25,7 +25,7 @@ const AuthModalTrigger = ({ authModal }: { authModal: string }) => {
     <>
       <Button
         size="default"
-        className="ml-6 pr-5 gap-1"
+        className="flex-1 md:flex-none pr-5 gap-1"
         variant="tertiary"
         onClick={() => setIsOpen(true)}
       >
