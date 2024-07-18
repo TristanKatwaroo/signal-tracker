@@ -10,30 +10,35 @@ import { Badge } from "@/components/ui/badge";
 export const runtime = "edge";
 
 const changelogs = [
+  // {
+  //   date: "07.11",
+  //   content: "We added a language switcher to the website! However, we are still lacking translations for all the pages. If you want to help out, join our Discord server!",
+  //   labels: ["Update"]
+  // },
   {
-    date: "07.11",
-    content: "We added a language switcher to the website! However, we are still lacking translations for all the pages. If you want to help out, join our Discord server!",
-    labels: ["Update"]
-  },
-  {
-    date: "07.02",
-    content: "We have an Achievement Tracker now! It lists all achievements, including hidden ones. It also allows you to export & import your data so you can bring it anywhere.",
+    date: "01.02",
+    content: "Achievements! Lists all achievements, including hidden ones. Also allows you to export & import your data so you can bring it anywhere.",
     labels: ["New Feature"]
   },
+  // {
+  //   date: "07.01",
+  //   content: "You can now customize your Share Cards with custom images!",
+  //   labels: ["Improvement"]
+  // },
   {
-    date: "07.01",
-    content: "You can now customize your Share Cards with custom images!",
-    labels: ["Improvement"]
+    date: "01.01",
+    content: "Initial release!",
+    labels: ["Update"]
   },
 ];
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-1 flex-col gap-4 lg:gap-6 min-h-screen">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card className="bg-card/65 border-primary/50 border-dashed">
+    <div className="flex flex-1 flex-col gap-4 lg:gap-6 ">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card className="lg:col-span-1 bg-card/65 border-primary/50 border-dashed min-h-[300px]">
           <CardHeader>
-            <CardTitle className="text-4xl text-primary-foreground font-bold mb-4">Welcome to SIGNALTRACKER.GG</CardTitle>
+            <CardTitle className="text-2xl text-primary-foreground font-bold mb-4">Welcome to SIGNALTRACKER.GG</CardTitle>
             <CardDescription className="font-normal text-muted-foreground">
               The ultimate community-driven tool for Zenless Zone Zero! Here you can track your signals,
               view global signal stats, check the event/banner timeline, and more!
@@ -41,7 +46,7 @@ export default function LandingPage() {
           </CardHeader>
         </Card>
 
-        <Card>
+        <Card className="lg:col-span-2 min-h-[400px]">
           <CardHeader>
             <CardTitle>What would you like to do today, Phaethon?</CardTitle>
             <CardDescription>Select a tool below to get started.</CardDescription>
@@ -65,8 +70,10 @@ export default function LandingPage() {
             </Button>
           </CardContent>
         </Card>
-        
-        <Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card className="lg:col-span-1 min-h-[200px]">
           <CardHeader>
             <CardTitle>Changelogs</CardTitle>
             <CardDescription>View website announcements here.</CardDescription>
@@ -92,7 +99,7 @@ export default function LandingPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="lg:col-span-2 min-h-[200px]">
           <CardHeader>
             <CardTitle>Community Links</CardTitle>
             <CardDescription>Connect with us on various platforms.</CardDescription>
