@@ -26,7 +26,7 @@ type BannerCardProps = {
 
 const BannerCard: React.FC<BannerCardProps> = ({ title, lifetimePulls, pityFive, pityFour, stats }) => {
   return (
-    <Card className="p-2 shadow-lg">
+    <Card className="p-2 shadow-md">
       <CardHeader className="pb-5 pt-5 flex flex-row items-center">
         <CardTitle className='text-2xl'>{title}</CardTitle>
         <Button asChild size="sm" className="ml-auto gap-1" variant="tertiary">

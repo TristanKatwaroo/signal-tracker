@@ -1,127 +1,126 @@
-// "use client";
+// pages/app/landing/page.tsx
 
-// import { Metadata } from "next";
-// import Link from "next/link";
-// import Image from "next/image";
-// import {
-//   Bell,
-//   CalendarDays,
-//   CircleUser,
-//   Clock,
-//   Globe,
-//   Home,
-//   LineChart,
-//   Menu,
-//   Package,
-//   Package2,
-//   Search,
-//   Settings,
-//   ShoppingCart,
-//   Signal,
-//   Trophy,
-//   Users,
-// } from "lucide-react";
-
-// import { Badge } from "@/components/ui/badge";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardHeader,
-//   CardTitle,
-// } from "@/components/ui/card";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
-// import { Input } from "@/components/ui/input";
-// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-// import Sidebar from "@/components/navigation/Sidebar";
-// import MobileHeader from "@/components/navigation/MobileHeader";
-// import { useEffect, useState } from "react";
-// import FetchGachaLogs from "@/components/FetchGachaLogs";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Link from "next/link";
+import { EyeIcon, UploadCloudIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export const runtime = "edge";
 
-// interface GachaLog {
-//   id: string;
-//   gacha_type: number;
-//   item_id: number;
-//   item_name: string;
-//   item_rarity: number;
-//   user_id: number;
-//   timestamp: string;
-// }
+const changelogs = [
+  {
+    date: "07.11",
+    content: "We added a language switcher to the website! However, we are still lacking translations for all the pages. If you want to help out, join our Discord server!",
+    labels: ["Update"]
+  },
+  {
+    date: "07.02",
+    content: "We have an Achievement Tracker now! It lists all achievements, including hidden ones. It also allows you to export & import your data so you can bring it anywhere.",
+    labels: ["New Feature"]
+  },
+  {
+    date: "07.01",
+    content: "You can now customize your Share Cards with custom images!",
+    labels: ["Improvement"]
+  },
+];
 
-// export const metadata: Metadata = {
-//   title: "SIGNALTRACKER.GG - ZZZ Signal Tracker and Database",
-//   // description: "Example music app using the components.",
-// }
-
-export default function Dashboard() {
-  // const [data, setData] = useState<GachaLog[] | null>(null);
-  
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const response = await fetch('/api/fetch-gacha');
-  //     const result = await response.json();
-  //     // console.log('Fetched Gacha Logs:', result);
-  //     setData(result);
-  //   }
-
-  //   fetchData();
-  // }, []);
-  
+export default function LandingPage() {
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 min-h-screen">
-      {/* <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Inventory</h1>
-      </div> */}
-      <div className="flex items-center justify-between space-y-2">
-        <div>
-          <h1 className="text-lg font-semibold md:text-2xl">About</h1>
-          <p className="text-muted-foreground">
-            {/* Here&apos;s a list of your tasks for this month! */}
-            Welcome to SIGNALTRACKER.GG, the ultimate tool for Zenless Zone Zero! Here you can track your signals, 
-            view global signal stats, check the event/banner timeline, and more!
-          </p>
-          {/* <div>
-            <h1>Gacha Logs</h1>
-            <FetchGachaLogs />
-          </div> */}
-        </div>
+    <div className="flex flex-1 flex-col gap-4 lg:gap-6 min-h-screen">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card className="bg-card/65 border-primary/50 border-dashed">
+          <CardHeader>
+            <CardTitle className="text-4xl text-primary-foreground font-bold mb-4">Welcome to SIGNALTRACKER.GG</CardTitle>
+            <CardDescription className="font-normal text-muted-foreground">
+              The ultimate community-driven tool for Zenless Zone Zero! Here you can track your signals,
+              view global signal stats, check the event/banner timeline, and more!
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>What would you like to do today, Phaethon?</CardTitle>
+            <CardDescription>Select a tool below to get started.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col space-y-4">
+            <Button asChild variant="outline" size="lg" className="w-full">
+              <Link href="/import">
+                <UploadCloudIcon className="mr-2 h-4 w-4" /> Import History
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="w-full">
+              <Link href="/view">
+                <EyeIcon className="mr-2 h-4 w-4" /> View Pull History
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="w-full">
+              <Link href="/sync">
+                <img src="https://www.gstatic.com/images/branding/product/1x/google_g_32dp.png" alt="Google" className="mr-2 h-4 w-4" />
+                Sync Your Data
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Changelogs</CardTitle>
+            <CardDescription>View website announcements here.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-48">
+              <div className="space-y-4">
+                {changelogs.map((log, index) => (
+                  <div key={index} className="flex flex-col gap-2 p-3 rounded-lg border hover:bg-accent transition-all">
+                    <div className="flex justify-between">
+                      <span className="font-bold">{log.date}</span>
+                      <div className="flex gap-2">
+                        {log.labels.map((label, idx) => (
+                          <Badge key={idx} variant="secondary">{label}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="text-muted-foreground">{log.content}</div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Community Links</CardTitle>
+            <CardDescription>Connect with us on various platforms.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col space-y-4">
+            <Button asChild variant="outline" size="lg" className="w-full">
+              <Link href="https://discord.com/invite/your-discord-link" target="_blank" rel="noopener noreferrer">
+                <img src="/icons/discord.svg" alt="Discord" className="mr-2 h-4 w-4" /> Discord Server
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="w-full">
+              <Link href="https://github.com/your-github-repo" target="_blank" rel="noopener noreferrer">
+                <img src="/icons/github.svg" alt="GitHub" className="mr-2 h-4 w-4" /> GitHub
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="w-full">
+              <Link href="https://www.hoyoverse.com" target="_blank" rel="noopener noreferrer">
+                <img src="/icons/hoyoverse.svg" alt="HoYoverse" className="mr-2 h-4 w-4" /> HoYoverse
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="w-full">
+              <Link href="https://zenless.hoyoverse.com" target="_blank" rel="noopener noreferrer">
+                <img src="/icons/zenless.svg" alt="Zenless Zone Zero" className="mr-2 h-4 w-4" /> Zenless Zone Zero
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
-      {/* <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Welcome to SIGNALTRACKER.GG!</h1>
-      </div>
-      <p className="text-lg font-semibold md:text-2xl">Welcome to SIGNALTRACKER.GG!</p> */}
-      {/* <Card x-chunk="dashboard-02-chunk-0">
-        <CardHeader className="p-2 pt-0 md:p-4">
-          <CardTitle>Upgrade to Pro</CardTitle>
-          <CardDescription>
-            Unlock all features and get unlimited access to our support
-            team.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-          <Button size="sm" className="w-full">
-            Upgrade
-          </Button>
-        </CardContent>
-      </Card> */}
-      <div className="flex flex-1 flex-col items-center justify-center text-center rounded-lg border border-dashed shadow-sm">
-        <h1 className="text-4xl font-bold mb-4">
-          This page is under construction, check back soon!
-        </h1>
-        <div className="text-9xl">
-          🚧
-        </div>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }
