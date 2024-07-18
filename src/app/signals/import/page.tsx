@@ -123,7 +123,7 @@ export default async function ImportPage() {
               </li>
               <li className="mb-10 ml-8 flex items-start">
                 <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-yellow-400 text-tertiary-foreground rounded-full">
-                  <TriangleAlert className="h-5 w-5" />
+                  <TriangleAlert className="h-5 w-5 -mt-1" />
                 </span>
                 <div className="flex-grow">
                   <h3 className="mb-1 font-semibold text-base text-foreground">If you have any issues, visit our <span className="text-primary underline hover:text-primary-foreground cursor-pointer">Discord server</span> for help</h3>

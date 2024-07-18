@@ -11,9 +11,10 @@ interface AuthModalProps {
   onClose?: () => void;
   renderButton?: boolean;
   buttonText?: string;
+  onSuccess?: () => void; // New prop
 }
 
-export default function AuthModal({ isOpen = false, onClose, renderButton = true, buttonText = 'Sign up' }: AuthModalProps) {
+export default function AuthModal({ isOpen = false, onClose, renderButton = true, buttonText = 'Sign up', onSuccess }: AuthModalProps) {
   const [isSignUp, setIsSignUp] = useState(true);
   const [open, setOpen] = useState(isOpen);
 
@@ -28,6 +29,7 @@ export default function AuthModal({ isOpen = false, onClose, renderButton = true
   const handleSuccess = () => {
     setOpen(false); // Close the dialog upon successful login
     if (onClose) onClose();
+    if (onSuccess) onSuccess(); // Call the success callback
   };
 
   return (
