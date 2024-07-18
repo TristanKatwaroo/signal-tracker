@@ -27,7 +27,7 @@ export async function GET() {
         )
 
         try {
-            $log_files = @("$defaultPath\\Player.log", "$defaultPath\\Player-prev.log")
+            $log_files = @("$defaultPath\Player.log", "$defaultPath\Player-prev.log")
             foreach ($log_path in $log_files) {
                 if ([IO.File]::Exists($log_path)) {
                     $log_lines = Get-Content $log_path -First 4 -ErrorAction Stop
@@ -54,16 +54,16 @@ export async function GET() {
         )
 
         try {
-            $cache_folders = Get-ChildItem "$gamePath\\webCaches\\" -Directory -ErrorAction Stop
+            $cache_folders = Get-ChildItem "$gamePath\webCaches\" -Directory -ErrorAction Stop
             $max_version = 0
-            $cache_path = "$gamePath\\webCaches\\Cache\\Cache_Data\\data_2"
+            $cache_path = "$gamePath\webCaches\Cache\Cache_Data\data_2"
 
             foreach ($cache_folder in $cache_folders) {
-                if ($cache_folder.Name -match "^\\d+\\.\\d+\\.\\d+\\.\\d+$") {
+                if ($cache_folder.Name -match "^\d+\.\d+\.\d+\.\d+$") {
                     $version = [int] -join ($cache_folder.Name.Split("."))
                     if ($version -ge $max_version) {
                         $max_version = $version
-                        $cache_path = "$gamePath\\webCaches\\$cache_folder\\Cache\\Cache_Data\\data_2"
+                        $cache_path = "$gamePath\webCaches\$cache_folder\Cache\Cache_Data\data_2"
                     }
                 }
             }
@@ -90,7 +90,7 @@ export async function GET() {
             for ($i = $cache_lines.Length - 1; $i -ge 0; $i--) {
                 $line = $cache_lines[$i]
                 if ($line.StartsWith("https://") -and $line.Contains("getGachaLog")) {
-                    $url = ($line -split "\\0")[0]
+                    $url = ($line -split "\0")[0]
                     $res = Invoke-WebRequest -Uri $url -ContentType "application/json" -UseBasicParsing | ConvertFrom-Json
                     if ($res.retcode -eq 0) {
                         $uri = [Uri]$url
@@ -135,7 +135,7 @@ export async function GET() {
     }
 
     $app_data = [Environment]::GetFolderPath('ApplicationData')
-    $locallow_path = "$app_data\\..\\LocalLow\\miHoYo\\ZenlessZoneZero"
+    $locallow_path = "$app_data\..\LocalLow\miHoYo\ZenlessZoneZero"
     $game_path = if ($args.Length -eq 0) { Get-GamePath $locallow_path "[Subsystems] Discovering subsystems at path " "/UnitySubsystems" } else { $args[0] }
 
     if ([string]::IsNullOrEmpty($game_path)) {
@@ -161,7 +161,7 @@ export async function GET() {
     }
 
     $latest_url = Get-Authkey $cache_data
-    if ($null -ne $latest_url) {
+    if ($null -ne $latest_url -and $latest_url -ne "Failed to extract authkey from the cache data. Please make sure the game has been run and the signal history is accessible.") {
         Write-Host "Located Signal Search Url!" -ForegroundColor Green
         Set-Clipboard -Value $latest_url
         Write-Log "Saved to clipboard. Please paste back into signaltracker.gg"
