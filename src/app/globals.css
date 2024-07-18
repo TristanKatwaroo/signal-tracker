@@ -33,6 +33,7 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.38rem;
+    --autofill-background-color: #d1d5db; /* Default autofill background color */
   }
 
   .dark {
@@ -51,6 +52,8 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 38 95% 53.1%;
+    /* --primary: 32 98% 48%; */
+    /* --primary: 35 100% 46%; */
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 80%;
@@ -69,6 +72,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --autofill-background-color: #222222; /* Dark theme autofill background color */
   }
 
   * {
@@ -87,7 +91,7 @@
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px var(--background) inset !important;
+    -webkit-box-shadow: 0 0 0 30px var(--autofill-background-color) inset !important;
     -webkit-text-fill-color: var(--foreground) !important;
   }
 
