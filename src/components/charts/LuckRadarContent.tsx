@@ -6,7 +6,7 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "
 const chartConfig = {
   value: {
     label: "Luck",
-    color: "hsl(var(--chart-8))",
+    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
