@@ -32,7 +32,13 @@ const AuthModalTrigger = ({ authModal }: { authModal: string }) => {
         <ArrowUpToLine className="h-4 w-4 mr-1" />
         Import
       </Button>
-      <AuthModal isOpen={isOpen} onClose={() => setIsOpen(false)} renderButton={false} onSuccess={handleSuccess} />
+      <AuthModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        renderButton={false}
+        onSuccess={handleSuccess}
+        key={isOpen ? 'open' : 'closed'} // Ensure component re-renders on state change
+      />
     </>
   );
 };

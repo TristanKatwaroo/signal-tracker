@@ -33,7 +33,12 @@ export default function AuthModal({ isOpen = false, onClose, renderButton = true
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      setOpen(isOpen);
+      if (!isOpen && onClose) {
+        onClose();
+      }
+    }}>
       <DialogTrigger asChild>
         {renderButton && (
           <Button size="sm" className="w-full text-tertiary-foreground" variant='tertiary' onClick={() => setOpen(true)}>
