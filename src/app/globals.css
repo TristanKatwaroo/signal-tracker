@@ -52,8 +52,6 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 38 95% 53.1%;
-    /* --primary: 32 98% 48%; */
-    /* --primary: 35 100% 46%; */
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 80%;
@@ -81,10 +79,6 @@
 
   body {
     @apply bg-background text-foreground;
-  }
-
-  input, textarea, select {
-    font-size: 16px;
   }
 
   input:-webkit-autofill,
@@ -123,5 +117,11 @@
   .dot-pattern-muted {
     background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 38%, transparent 38%);
     background-size: 8px 8px;
+  }
+
+  @media (max-width: 640px) {
+    input, textarea, select {
+      font-size: 16px !important;
+    }
   }
 }
