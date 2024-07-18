@@ -3,23 +3,11 @@ import React from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Copy, ArrowRight, TriangleAlert } from "lucide-react";
+import { Copy, ArrowRight, Triangle, TriangleAlert } from "lucide-react";
 import { Card } from '@/components/ui/card';
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
-export const runtime = 'edge';
-
-export default async function ImportPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/signals?authModal=true'); // Redirect to the signals page with authModal query parameter
-  }
-
+const ImportPage = () => {
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
   };
@@ -28,6 +16,9 @@ export default async function ImportPage() {
     <main className="flex flex-col gap-4 p-4 lg:gap-6 lg:px-0">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-bold md:text-3xl">Import Signal Search History</h1>
+        <Button asChild variant="destructive" size="sm">
+          <Link href="/signals">Cancel</Link>
+        </Button>
       </div>
       <Tabs defaultValue="pc">
         <TabsList className="mb-6 flex space-x-2">
@@ -51,7 +42,7 @@ export default async function ImportPage() {
                   2
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">Open Windows PowerShell by searching for "PowerShell" within Windows Search.</h3>
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Open Windows PowerShell by searching for &quot;PowerShell&quot; within Windows Search.</h3>
                   <p className="mt-2 text-xs text-muted-foreground">Note: If you are having any issues, you can try running it as Administrator.</p>                  
                 </div>
               </li>
@@ -73,8 +64,8 @@ export default async function ImportPage() {
                         </pre>
                         <Button
                           variant="outline"
-                          size="sm"
-                          className="ml-2"
+                          size="lg"
+                          className="ml-2 px-5"
                           // onClick={() => handleCopy("iwr -useb signaltracker.gg/getUrlG | iex")}
                         >
                           <Copy className="h-4 w-4" />
@@ -114,7 +105,7 @@ export default async function ImportPage() {
                   5
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">Press the "Import" button below</h3>
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Press the &quot;Import&quot; button below</h3>
                   <Button className="mt-2" variant="tertiary">
                     Import
                     <ArrowRight className="h-4 w-4 ml-2" />
@@ -141,4 +132,6 @@ export default async function ImportPage() {
       </Tabs>
     </main>
   );
-}
+};
+
+export default ImportPage;

@@ -1,3 +1,4 @@
+// components/navigation/MobileHeaderContent.tsx
 "use client";
 
 import Link from "next/link";
@@ -47,51 +48,35 @@ export default function MobileHeaderContent({ userEmail }: MobileHeaderContentPr
             />
           </div>
           <nav className="grid gap-2 text-lg font-medium">
-            {tabs.map((tab) => (
-              <Link
-                key={tab.href}
-                href={tab.href}
-                className={cn(
-                  "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 transition-all",
-                  pathname === tab.href
-                    ? "bg-muted text-primary"
-                    : "text-muted-foreground hover:text-primary"
-                )}
-                onClick={handleTabClick}
-              >
-                <tab.icon className="h-5 w-5" />
-                {tab.title}
-              </Link>
-            ))}
+            {tabs.map((tab) => {
+              const isActive = tab.href === '/'
+                ? pathname === tab.href
+                : pathname.startsWith(tab.href);
+
+              return (
+                <Link
+                  key={tab.href}
+                  href={tab.href}
+                  className={cn(
+                    "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 transition-all",
+                    isActive
+                      ? "bg-muted text-primary"
+                      : "text-muted-foreground hover:text-primary"
+                  )}
+                  onClick={handleTabClick}
+                >
+                  <tab.icon className="h-5 w-5" />
+                  {tab.title}
+                </Link>
+              );
+            })}
           </nav>
-          
-          {/* <div className="flex-1 flex items-end w-full">
-            <Image 
-              src="/images/characters/anby.png"
-              alt="Anby"
-              width={300}
-              height={444}
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="w-auto h-auto max-h-48 object-cover ml-20 -mb-3"
-            />
-          </div> */}
           <div className="mt-auto p-2">
             {userEmail ? <AccountMenu email={userEmail} /> : <AuthCard />}
           </div>
         </SheetContent>
       </Sheet>
-      <div className="w-full flex-1">
-        {/* <form>
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search products..."
-              className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-            />
-          </div>
-        </form> */}
-      </div>
+      <div className="w-full flex-1"></div>
     </header>
   );
 }

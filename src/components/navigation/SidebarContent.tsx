@@ -1,3 +1,4 @@
+// components/navigation/SidebarContent.tsx
 "use client";
 
 import Link from "next/link";
@@ -32,21 +33,27 @@ export default function SidebarContent({ userEmail }: SidebarContentProps) {
         </div>
         <div className="flex-1 overflow-y-auto">
           <nav className="grid items-start px-2 text-lg font-medium lg:px-4">
-            {tabs.map((tab) => (
-              <Link
-                key={tab.href}
-                href={tab.href}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
-                  pathname === tab.href
-                    ? "bg-muted/45 text-primary"
-                    : "text-muted-foreground hover:text-primary"
-                )}
-              >
-                <tab.icon className="h-6 w-6" />
-                {tab.title}
-              </Link>
-            ))}
+            {tabs.map((tab) => {
+              const isActive = tab.href === '/'
+                ? pathname === tab.href
+                : pathname.startsWith(tab.href);
+
+              return (
+                <Link
+                  key={tab.href}
+                  href={tab.href}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
+                    isActive
+                      ? "bg-muted/45 text-primary"
+                      : "text-muted-foreground hover:text-primary"
+                  )}
+                >
+                  <tab.icon className="h-6 w-6" />
+                  {tab.title}
+                </Link>
+              );
+            })}
           </nav>
         </div>
         <div className="mt-auto p-4">
