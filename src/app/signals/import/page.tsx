@@ -3,9 +3,23 @@ import React from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Copy, ArrowRight } from "lucide-react";
+import { Copy, ArrowRight, TriangleAlert } from "lucide-react";
+import { Card } from '@/components/ui/card';
+import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
-const ImportPage = () => {
+export const runtime = 'edge';
+
+export default async function ImportPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/signals?authModal=true'); // Redirect to the signals page with authModal query parameter
+  }
+
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
   };
@@ -13,7 +27,7 @@ const ImportPage = () => {
   return (
     <main className="flex flex-col gap-4 p-4 lg:gap-6 lg:px-0">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-bold md:text-3xl">Import Tutorial</h1>
+        <h1 className="text-lg font-bold md:text-3xl">Import Signal Search History</h1>
       </div>
       <Tabs defaultValue="pc">
         <TabsList className="mb-6 flex space-x-2">
@@ -22,40 +36,73 @@ const ImportPage = () => {
           <TabsTrigger value="ios" className="flex-1">iOS</TabsTrigger>
         </TabsList>
         <TabsContent value="pc">
-          <h2 className="text-lg font-bold">Choose a Method</h2>
-          <div className="flex flex-col md:flex-row gap-4 my-4">
-            <Button variant="default">Automatic</Button>
-            <Button variant="default">Manual 1</Button>
-            <Button variant="default">Manual 2</Button>
-          </div>
-          <div className="bg-background p-5 rounded-md border border-muted">
+          <Card className="bg-transparent border-transparent p-0">
             <ol className="relative border-l border-muted-foreground ml-3 space-y-10 list-none">
               <li className="mb-10 ml-8 flex items-start">
-                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground rounded-full">
+                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-tertiary text-tertiary-foreground rounded-full">
                   1
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">First, launch Zenless Zone Zero and Open Your In-game Signal Records History</h3>
-                  <p className="mb-4 font-normal text-sm text-muted-foreground">Afterwards, open Windows PowerShell, and then paste the following script.</p>
-                  <div className="relative mt-2">
-                    <pre className="bg-muted p-4 rounded-md">
-                      <code>iwr -useb stardb.gg/signal | iex</code>
-                    </pre>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-2 top-2"
-                      // onClick={() => handleCopy("iwr -useb stardb.gg/signal | iex")}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <p className="mt-2 text-xs">Note: The script does not edit your files, it simply extracts the URL from your logs.</p>
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Launch Zenless Zone Zero on PC and open your in-game Signal Search History</h3>                  
                 </div>
               </li>
               <li className="mb-10 ml-8 flex items-start">
-                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground rounded-full">
+                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-tertiary text-tertiary-foreground rounded-full">
                   2
+                </span>
+                <div className="flex-grow">
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Open Windows PowerShell by searching for "PowerShell" within Windows Search.</h3>
+                  <p className="mt-2 text-xs text-muted-foreground">Note: If you are having any issues, you can try running it as Administrator.</p>                  
+                </div>
+              </li>
+              <li className="mb-10 ml-8 flex items-start">
+                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-tertiary text-tertiary-foreground rounded-full">
+                  3
+                </span>
+                <div className="flex-grow">
+                  <h3 className="mb-5 font-semibold text-base text-foreground">Copy one of the following commands, paste it into Powershell, then press enter.</h3>
+                  <Tabs defaultValue='global'>
+                    <TabsList className="mb-3 flex space-x-2">
+                      <TabsTrigger value="global" className="flex-1">Global Client</TabsTrigger>
+                      <TabsTrigger value="cn" className="flex-1">CN Client</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value='global'>
+                      <div className="relative mt-2 flex items-center">
+                        <pre className="border border-input py-2 px-3 rounded-md flex-grow">
+                          <code className="text-sm">iwr -useb signaltracker.gg/getUrlG | iex</code>
+                        </pre>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="ml-2"
+                          // onClick={() => handleCopy("iwr -useb signaltracker.gg/getUrlG | iex")}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TabsContent>
+                    <TabsContent value='cn'>
+                      <div className="relative mt-2 flex items-center">
+                        <pre className="border border-input py-2 px-3 rounded-md flex-grow">
+                          <code className="text-sm">iwr -useb signaltracker.gg/getUrlCN | iex</code>
+                        </pre>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="ml-2"
+                          // onClick={() => handleCopy("iwr -useb signaltracker.gg/getUrlCN | iex")}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                  <p className="mt-2 text-xs text-muted-foreground">Note: The script does not edit your files, it simply extracts the URL from your logs. You can view the script <span className="text-primary underline hover:text-primary-foreground cursor-pointer">here</span>.</p>
+                </div>
+              </li>
+              <li className="mb-10 ml-8 flex items-start">
+                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-tertiary text-tertiary-foreground rounded-full">
+                  4
                 </span>
                 <div className="flex-grow">
                   <h3 className="mb-1 font-semibold text-base text-foreground">Paste the URL Here</h3>
@@ -63,19 +110,27 @@ const ImportPage = () => {
                 </div>
               </li>
               <li className="mb-10 ml-8 flex items-start">
-                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground rounded-full">
-                  3
+                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-tertiary text-tertiary-foreground rounded-full">
+                  5
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">Press the "Import History" Button on this Website</h3>
-                  <Button className="mt-2">
-                    <ArrowRight className="h-4 w-4 mr-2" />
-                    Import History
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Press the "Import" button below</h3>
+                  <Button className="mt-2" variant="tertiary">
+                    Import
+                    <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
                 </div>
               </li>
+              <li className="mb-10 ml-8 flex items-start">
+                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-yellow-400 text-tertiary-foreground rounded-full">
+                  <TriangleAlert className="h-5 w-5" />
+                </span>
+                <div className="flex-grow">
+                  <h3 className="mb-1 font-semibold text-base text-foreground">If you have any issues, visit our <span className="text-primary underline hover:text-primary-foreground cursor-pointer">Discord server</span> for help</h3>
+                </div>
+              </li>
             </ol>
-          </div>
+          </Card>
         </TabsContent>
         <TabsContent value="android">
           <div className="text-muted-foreground">Android import instructions will go here.</div>
@@ -86,6 +141,4 @@ const ImportPage = () => {
       </Tabs>
     </main>
   );
-};
-
-export default ImportPage;
+}

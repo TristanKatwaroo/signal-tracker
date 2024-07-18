@@ -11,7 +11,7 @@ export default function AuthCard() {
         <CardDescription>Create an account to access your data anytime, anywhere.</CardDescription>
       </CardHeader>
       <CardContent className="p-2 md:p-4 md:pt-0">
-        <AuthModal renderButton={true} />
+        <AuthModal renderButton={true} buttonText="Sign up" />
       </CardContent>
     </Card>
   );

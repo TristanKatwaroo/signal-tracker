@@ -1,4 +1,5 @@
-import React from 'react'
+// pages/app/signals/page.tsx
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -6,26 +7,34 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { ArrowUpToLine, Share2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import BannerCard from '@/components/signals/BannerCard'
-import dynamic from 'next/dynamic'
+} from "@/components/ui/card";
+import { ArrowUpToLine, Share2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import BannerCard from '@/components/signals/BannerCard';
+import dynamic from 'next/dynamic';
+import { createClient } from '@/utils/supabase/server';
+import AuthModalTrigger from '@/components/auth/AuthModalTrigger';
 
 const WideMultiBar = dynamic(() => import('@/components/charts/WideMultiBar'), {
   ssr: true,
-})
+});
 
 const LuckRadar = dynamic(() => import('@/components/charts/LuckRadar'), {
   ssr: true,
-})
+});
 
-export const runtime = "edge";
+export const runtime = 'edge';
 
-type Props = {}
+type Props = {
+  searchParams: { authModal: string };
+};
 
-export default async function SignalsPage({}: Props) {
+export default async function SignalsPage({ searchParams }: Props) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const bannerStats = [
     { label: 'S Rank', total: 4, percent: 1.23, pityAvg: 75.75, color: 'text-primary' },
@@ -54,7 +63,6 @@ export default async function SignalsPage({}: Props) {
     { label: '— Weapon', total: 14, percent: 4.31, pityAvg: 6.14, color: 'text-primary-foreground' },
   ];
 
-  // Sample chartData with counts for five-star and four-star pulls at each pity number from 0 to 90
   const chartData = Array.from({ length: 91 }, (_, pity) => ({
     pity,
     fiveStar: Math.floor(Math.random() * 1.6),
@@ -66,12 +74,16 @@ export default async function SignalsPage({}: Props) {
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:px-0">
       <div className="flex items-center">
         <h1 className="text-lg font-bold md:text-3xl">Signals</h1>
-        <Button asChild size="default" className="ml-6 pr-5 gap-1" variant="tertiary">
-          <Link href="/signals/import" prefetch={false}>
-            <ArrowUpToLine className="h-4 w-4 mr-1" />
-            Import
-          </Link>
-        </Button>
+        {user ? (
+          <Button asChild size="default" className="ml-6 pr-5 gap-1" variant="tertiary">
+            <Link href="/signals/import" prefetch={false}>
+              <ArrowUpToLine className="h-4 w-4 mr-1" />
+              Import
+            </Link>
+          </Button>
+        ) : (
+          <AuthModalTrigger authModal={searchParams.authModal} />
+        )}
         <Button asChild size="default" className="ml-6 pr-5 gap-1" variant="tertiary">
           <Link href="#" prefetch={false}>
             <Share2 className="h-4 w-4 mr-1" />
@@ -114,5 +126,5 @@ export default async function SignalsPage({}: Props) {
         </div>
       </div>
     </main>
-  )
+  );
 }

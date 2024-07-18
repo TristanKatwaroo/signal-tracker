@@ -1,40 +1,42 @@
+// components/auth/AuthModal.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Button } from '../ui/button';
 import AuthForm from './AuthForm';
 
 interface AuthModalProps {
+  isOpen?: boolean;
+  onClose?: () => void;
   renderButton?: boolean;
+  buttonText?: string;
 }
 
-export default function AuthModal({ renderButton = true }: AuthModalProps) {
+export default function AuthModal({ isOpen = false, onClose, renderButton = true, buttonText = 'Sign up' }: AuthModalProps) {
   const [isSignUp, setIsSignUp] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(isOpen);
+
+  useEffect(() => {
+    setOpen(isOpen);
+  }, [isOpen]);
 
   const toggleAuthMode = () => {
     setIsSignUp((prev) => !prev);
   };
 
   const handleSuccess = () => {
-    setIsOpen(false); // Close the dialog upon successful login
+    setOpen(false); // Close the dialog upon successful login
+    if (onClose) onClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {renderButton ? (
-          <Button size="sm" className="w-full text-tertiary-foreground" variant='tertiary' onClick={() => setIsOpen(true)}>
-            {isSignUp ? 'Sign up' : 'Sign in'}
+        {renderButton && (
+          <Button size="sm" className="w-full text-tertiary-foreground" variant='tertiary' onClick={() => setOpen(true)}>
+            {buttonText}
           </Button>
-        ) : (
-          <span
-            className="cursor-pointer"
-            onClick={() => setIsOpen(true)}
-          >
-            Login
-          </span>
         )}
       </DialogTrigger>
       <DialogContent className="mx-auto max-w-sm shadow-md">

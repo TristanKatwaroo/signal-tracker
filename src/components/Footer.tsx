@@ -55,7 +55,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="container mx-auto grid grid-cols-1 text-sm mt-6 mb-1">
-        &copy; {new Date().getFullYear()} SIGNALTRACKER.GG. SIGNALTRACKER.GG is not affiliated with HoYoverse or Zenless Zone Zero which are registered trademarks of miHoYo Co., Ltd. 
+        &copy; {new Date().getFullYear()} SIGNALTRACKER.GG. SIGNALTRACKER.GG is not affiliated with HoYoverse or Zenless Zone Zero which are registered trademarks of COGNOSPHERE PTE. LTD. 
       </div>
     </footer>
   );
