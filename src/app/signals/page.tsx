@@ -124,7 +124,7 @@ export default async function SignalsPage({ searchParams }: Props) {
             pityFour={8}
             stats={standardStats}
           />
-          <LuckRadar />
+          {/* <LuckRadar /> */}
         </div>
       </div>
     </div>
