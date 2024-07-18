@@ -1,14 +1,35 @@
 // pages/app/signals/import/page.tsx
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, TriangleAlert } from "lucide-react";
+import { ArrowRight, TriangleAlert, Loader } from "lucide-react";
 import { Card } from '@/components/ui/card';
 import Link from 'next/link';
-import CopyButton from '@/components/CopyButton'; // Import the CopyButton component
+import CopyButton from '@/components/CopyButton';
+import { importGachaLog } from './actions';
 
 const ImportPage = () => {
+  const [loading, setLoading] = useState(false);
+  const [importCount, setImportCount] = useState(0);
+  const [url, setUrl] = useState('');
+
+  const handleImport = async () => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('url', url);
+    try {
+      const result = await importGachaLog(formData);
+      setImportCount(result.count);
+    } catch (error) {
+      console.error('Import failed:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
       <div className="flex items-center justify-between">
@@ -80,7 +101,13 @@ const ImportPage = () => {
                 </span>
                 <div className="flex-grow">
                   <h3 className="mb-1 font-semibold text-base text-foreground">Paste the URL Here</h3>
-                  <Input placeholder="Your Signal History URL" className="mt-2" />
+                  <Input 
+                    placeholder="Your Signal History URL" 
+                    className="mt-2" 
+                    value={url} 
+                    onChange={(e) => setUrl(e.target.value)} 
+                    disabled={loading}
+                  />
                 </div>
               </li>
               <li className="mb-10 ml-8 flex items-start">
@@ -89,9 +116,18 @@ const ImportPage = () => {
                 </span>
                 <div className="flex-grow">
                   <h3 className="mb-1 font-semibold text-base text-foreground">Press the &quot;Import&quot; button below</h3>
-                  <Button className="mt-2" variant="tertiary">
-                    Import
-                    <ArrowRight className="h-4 w-4 ml-2" />
+                  <Button 
+                    className="mt-2" 
+                    variant="tertiary" 
+                    onClick={handleImport} 
+                    disabled={loading}
+                  >
+                    {loading ? `Importing ${importCount} signals` : 'Import'}
+                    {loading ? (
+                      <Loader className="h-4 w-4 ml-2 animate-spin" />
+                    ) : (
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    )}
                   </Button>
                 </div>
               </li>
