@@ -38,7 +38,7 @@ const ImportPage = () => {
                   2
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">Open Windows PowerShell by searching for "PowerShell" within Windows Search.</h3>
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Open Windows PowerShell by searching for &quot;PowerShell&quot; within Windows Search.</h3>
                   <p className="mt-2 text-xs text-muted-foreground">Note: If you are having any issues, you can try running it as Administrator.</p>                  
                 </div>
               </li>
@@ -101,7 +101,7 @@ const ImportPage = () => {
                   5
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">Press the "Import" button below</h3>
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Press the &quot;Import&quot; button below</h3>
                   <Button className="mt-2" variant="tertiary">
                     Import
                     <ArrowRight className="h-4 w-4 ml-2" />
