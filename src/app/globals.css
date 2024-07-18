@@ -51,8 +51,6 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 38 95% 53.1%;
-    /* --primary: 32 98% 48%; */
-    /* --primary: 35 100% 46%; */
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 80%;
@@ -72,50 +70,54 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-}
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px #27272a inset !important; /* Change to your desired background color */
-}
+  input, textarea, select {
+    font-size: 16px;
+  }
 
-.remove-padding {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--background) inset !important;
+    -webkit-text-fill-color: var(--foreground) !important;
+  }
 
-.stripe-pattern {
-  background-image: linear-gradient(
-    45deg,
-    rgba(66, 66, 66, 0.06) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(66, 66, 66, 0.06) 50%,
-    rgba(66, 66, 66, 0.06) 75%,
-    transparent 75%,
-    transparent
-  );
-  background-size: 10px 10px; /* Adjust size as needed */
-  background-attachment: fixed; /* This makes the background pattern fixed */
-}
+  .remove-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 
-.dot-pattern {
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 38%, transparent 38%);
-  background-size: 8px 8px;
-}
+  .stripe-pattern {
+    background-image: linear-gradient(
+      45deg,
+      rgba(66, 66, 66, 0.06) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(66, 66, 66, 0.06) 50%,
+      rgba(66, 66, 66, 0.06) 75%,
+      transparent 75%,
+      transparent
+    );
+    background-size: 10px 10px;
+    background-attachment: fixed;
+  }
 
-.dot-pattern-muted {
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 38%, transparent 38%);
-  background-size: 8px 8px;
+  .dot-pattern {
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 38%, transparent 38%);
+    background-size: 8px 8px;
+  }
+
+  .dot-pattern-muted {
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 38%, transparent 38%);
+    background-size: 8px 8px;
+  }
 }
