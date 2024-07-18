@@ -44,13 +44,13 @@ export default function MobileHeaderContent({ userEmail }: MobileHeaderContentPr
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <span className="text-lg">SIGNALTRACKER.GG</span>
             </Link>
-            <Image 
+            {/* <Image 
               src="/images/bangboos/bangboo1half.png"
               alt="Your Image"
               width={500}
               height={500}
               className="h-[150%] w-auto ml-5 mb-7"
-            />
+            /> */}
           </div>
           <nav className="grid gap-2 text-lg font-medium">
             {tabs.map((tab) => {
@@ -76,7 +76,7 @@ export default function MobileHeaderContent({ userEmail }: MobileHeaderContentPr
               );
             })}
           </nav>
-          <div className="mt-auto p-2">
+          <div className="mt-auto ">
             {userEmail ? <AccountMenu email={userEmail} /> : <AuthCard />}
           </div>
         </SheetContent>
