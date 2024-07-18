@@ -1,4 +1,3 @@
-// pages/app/signals/import/page.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -13,7 +12,6 @@ import { importGachaLog } from './actions';
 
 const ImportPage = () => {
   const [loading, setLoading] = useState(false);
-  const [importCount, setImportCount] = useState(0);
   const [url, setUrl] = useState('');
 
   const handleImport = async () => {
@@ -21,8 +19,7 @@ const ImportPage = () => {
     const formData = new FormData();
     formData.append('url', url);
     try {
-      const result = await importGachaLog(formData);
-      setImportCount(result.count);
+      await importGachaLog(formData);
     } catch (error) {
       console.error('Import failed:', error);
     } finally {
@@ -122,7 +119,7 @@ const ImportPage = () => {
                     onClick={handleImport} 
                     disabled={loading}
                   >
-                    {loading ? `Importing ${importCount} signals` : 'Import'}
+                    {loading ? 'Importing' : 'Import'}
                     {loading ? (
                       <Loader className="h-4 w-4 ml-2 animate-spin" />
                     ) : (
