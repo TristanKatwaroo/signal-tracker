@@ -41,7 +41,7 @@ export default function AuthModal({ isOpen = false, onClose, renderButton = true
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="mx-auto max-w-sm shadow-md">
+      <DialogContent className="mx-auto rounded-xl max-w-sm shadow-md">
         <div className="flex flex-col space-y-1.5 p-3">
           <DialogTitle className="font-semibold text-xl">
             {isSignUp ? 'Sign Up' : 'Sign In'}
