@@ -71,25 +71,27 @@ export default async function SignalsPage({ searchParams }: Props) {
   }));
 
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:px-0">
+    <div className="flex flex-1 flex-col gap-4 lg:gap-6 ">
       <div className="flex items-center">
-        <h1 className="text-lg font-bold md:text-3xl">Signals</h1>
-        {user ? (
-          <Button asChild size="default" className="ml-6 pr-5 gap-1" variant="tertiary">
-            <Link href="/signals/import" prefetch={false}>
-              <ArrowUpToLine className="h-4 w-4 mr-1" />
-              Import
+        <h1 className="text-lg mr-6 font-bold md:text-3xl hidden md:block">Signals</h1>
+        <div className="flex flex-wrap w-full gap-4 md:flex-nowrap md:gap-6">
+          {user ? (
+            <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="tertiary">
+              <Link href="/signals/import" prefetch={false}>
+                <ArrowUpToLine className="h-4 w-4 mr-1" />
+                Import
+              </Link>
+            </Button>
+          ) : (
+            <AuthModalTrigger authModal={searchParams.authModal} />
+          )}
+          <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="tertiary">
+            <Link href="#" prefetch={false}>
+              <Share2 className="h-4 w-4 mr-1" />
+              Share
             </Link>
           </Button>
-        ) : (
-          <AuthModalTrigger authModal={searchParams.authModal} />
-        )}
-        <Button asChild size="default" className="ml-6 pr-5 gap-1" variant="tertiary">
-          <Link href="#" prefetch={false}>
-            <Share2 className="h-4 w-4 mr-1" />
-            Share
-          </Link>
-        </Button>
+        </div>
       </div>
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 mr-0">
@@ -125,6 +127,6 @@ export default async function SignalsPage({ searchParams }: Props) {
           <LuckRadar />
         </div>
       </div>
-    </main>
+    </div>
   );
 }

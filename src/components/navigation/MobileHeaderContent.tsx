@@ -25,6 +25,11 @@ export default function MobileHeaderContent({ userEmail }: MobileHeaderContentPr
     setIsOpen(false); // Close the Sheet when a tab is clicked
   };
 
+  // Determine the active tab based on the current pathname
+  const activeTab = tabs.find(tab => 
+    tab.href === '/' ? pathname === tab.href : pathname.startsWith(tab.href)
+  );
+
   return (
     <header className="sticky top-0 left-0 w-full flex h-14 md:hidden items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 z-20">
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -76,7 +81,9 @@ export default function MobileHeaderContent({ userEmail }: MobileHeaderContentPr
           </div>
         </SheetContent>
       </Sheet>
-      <div className="w-full flex-1"></div>
+      <div className="w-full flex-1">
+        <span className="text-lg font-semibold">{activeTab?.title}</span>
+      </div>
     </header>
   );
 }

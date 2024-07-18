@@ -47,7 +47,7 @@ export default function RootLayout({
                   <Sidebar />
                 </div>
                 <div className="flex flex-col flex-grow stripe-pattern">
-                  <main className="flex-grow max-w-7xl 2xl:max-w-[100rem] mx-auto w-full px-4 md:px-6 lg:px-8 py-6">
+                  <main className="flex-grow max-w-7xl 2xl:max-w-[100rem] mx-auto w-full px-4 md:px-6 lg:px-8 py-8">
                     {children}
                   </main>
                   <Footer />

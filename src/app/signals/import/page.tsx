@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Copy, ArrowRight, TriangleAlert } from "lucide-react";
 import { Card } from '@/components/ui/card';
+import Link from 'next/link';
 
 const ImportPage = () => {
   const handleCopy = (text: string) => {
@@ -12,9 +13,12 @@ const ImportPage = () => {
   };
 
   return (
-    <main className="flex flex-col gap-4 p-4 lg:gap-6 lg:px-0">
+    <div className="flex flex-col gap-4 lg:gap-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-bold md:text-3xl">Import Signal Search History</h1>
+        <h1 className="text-lg font-bold md:text-3xl">Import</h1>
+        <Button asChild variant="destructive" size="sm">
+          <Link href="/signals">Cancel</Link>
+        </Button>
       </div>
       <Tabs defaultValue="pc">
         <TabsList className="mb-6 flex space-x-2">
@@ -38,7 +42,7 @@ const ImportPage = () => {
                   2
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">Open Windows PowerShell by searching for &quot;PowerShell&quot; within Windows Search.</h3>
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Open Windows PowerShell by searching for "PowerShell" within Windows Search.</h3>
                   <p className="mt-2 text-xs text-muted-foreground">Note: If you are having any issues, you can try running it as Administrator.</p>                  
                 </div>
               </li>
@@ -54,14 +58,14 @@ const ImportPage = () => {
                       <TabsTrigger value="cn" className="flex-1">CN Client</TabsTrigger>
                     </TabsList>
                     <TabsContent value='global'>
-                      <div className="relative mt-2 flex items-center overflow-x-auto">
-                        <pre className="border border-input py-2 px-3 rounded-md flex-grow whitespace-pre-wrap break-words">
+                      <div className="relative mt-2 flex flex-col md:flex-row items-start overflow-x-auto">
+                        <pre className="border border-input py-2 px-3 rounded-md flex-grow w-full whitespace-pre-wrap break-words">
                           <code className="text-sm">iwr -useb signaltracker.gg/getUrlG | iex</code>
                         </pre>
                         <Button
                           variant="outline"
                           size="lg"
-                          className="ml-2 px-5"
+                          className="mt-2 w-full md:ml-2 md:mt-0 md:w-auto"
                           // onClick={() => handleCopy("iwr -useb signaltracker.gg/getUrlG | iex")}
                         >
                           <Copy className="h-4 w-4" />
@@ -69,14 +73,14 @@ const ImportPage = () => {
                       </div>
                     </TabsContent>
                     <TabsContent value='cn'>
-                      <div className="relative mt-2 flex items-center overflow-x-auto">
+                      <div className="relative mt-2 flex flex-col md:flex-row items-start overflow-x-auto">
                         <pre className="border border-input py-2 px-3 rounded-md flex-grow whitespace-pre-wrap break-words">
                           <code className="text-sm">iwr -useb signaltracker.gg/getUrlCN | iex</code>
                         </pre>
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="ml-2"
+                          className="mt-2 w-full md:ml-2 md:mt-0 md:w-auto"
                           // onClick={() => handleCopy("iwr -useb signaltracker.gg/getUrlCN | iex")}
                         >
                           <Copy className="h-4 w-4" />
@@ -101,7 +105,7 @@ const ImportPage = () => {
                   5
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">Press the &quot;Import&quot; button below</h3>
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Press the "Import" button below</h3>
                   <Button className="mt-2" variant="tertiary">
                     Import
                     <ArrowRight className="h-4 w-4 ml-2" />
@@ -110,7 +114,7 @@ const ImportPage = () => {
               </li>
               <li className="mb-10 ml-8 flex items-start">
                 <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-yellow-400 text-tertiary-foreground rounded-full">
-                  <TriangleAlert className="h-5 w-5" />
+                  <TriangleAlert className="h-5 w-5 -mt-1" />
                 </span>
                 <div className="flex-grow">
                   <h3 className="mb-1 font-semibold text-base text-foreground">If you have any issues, visit our <span className="text-primary underline hover:text-primary-foreground cursor-pointer">Discord server</span> for help</h3>
@@ -126,7 +130,7 @@ const ImportPage = () => {
           <div className="text-muted-foreground">iOS import instructions will go here.</div>
         </TabsContent>
       </Tabs>
-    </main>
+    </div>
   );
 };
 
