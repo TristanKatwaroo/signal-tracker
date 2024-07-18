@@ -25,7 +25,7 @@ const ImportPage = () => {
         </TabsList>
         <TabsContent value="pc">
           <Card className="bg-transparent border-transparent p-0">
-            <ol className="relative border-l border-muted-foreground ml-3 space-y-10 list-none">
+            <ol className="relative border-l border-muted-foreground ml-4 space-y-10 list-none">
               <li className="mb-10 ml-8 flex items-start">
                 <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-tertiary text-tertiary-foreground rounded-full">
                   1
@@ -59,7 +59,7 @@ const ImportPage = () => {
                         <pre className="border border-input py-2 px-3 rounded-md flex-grow w-full whitespace-pre-wrap break-words">
                           <code className="text-sm">iwr -useb signaltracker.gg/api/getUrlG | iex</code>
                         </pre>
-                        <CopyButton textToCopy="iwr -useb signaltracker.gg/getUrlG | iex" />
+                        <CopyButton textToCopy="iwr -useb signaltracker.gg/api/getUrlG | iex" />
                       </div>
                     </TabsContent>
                     <TabsContent value='cn'>
@@ -67,11 +67,11 @@ const ImportPage = () => {
                         <pre className="border border-input py-2 px-3 rounded-md flex-grow whitespace-pre-wrap break-words">
                           <code className="text-sm">iwr -useb signaltracker.gg/api/getUrlCN | iex</code>
                         </pre>
-                        <CopyButton textToCopy="iwr -useb signaltracker.gg/getUrlCN | iex" />
+                        <CopyButton textToCopy="iwr -useb signaltracker.gg/api/getUrlCN | iex" />
                       </div>
                     </TabsContent>
                   </Tabs>
-                  <p className="mt-2 text-xs text-muted-foreground">Note: The script does not edit your files, it simply extracts the URL from your logs. You can view the script <span className="text-primary underline hover:text-primary-foreground cursor-pointer">here</span>.</p>
+                  <p className="mt-2 text-xs text-muted-foreground">Note: The script does not edit your files, it simply extracts the URL from your logs. You can view the script <Link href="https://signaltracker.gg/api/getUrlG" target="_blank" className="text-primary underline hover:text-primary-foreground">here</Link>.</p>
                 </div>
               </li>
               <li className="mb-10 ml-8 flex items-start">
@@ -100,7 +100,7 @@ const ImportPage = () => {
                   <TriangleAlert className="h-5 w-5 -mt-1" />
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">If you have any issues, visit our <span className="text-primary underline hover:text-primary-foreground cursor-pointer">Discord Server</span> for help</h3>
+                  <h3 className="mb-1 font-semibold text-base text-foreground">If you have any issues, please visit our <Link href="https://discord.gg/Cg6tNsrhXj" target="_blank" className="text-primary underline hover:text-primary-foreground">Discord Server</Link> for help</h3>
                 </div>
               </li>
             </ol>
