@@ -1,3 +1,4 @@
+// components/Footer.tsx
 import { DiscordLogoIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
 import { SquareArrowOutUpRight } from 'lucide-react';
 import Link from 'next/link';
@@ -5,9 +6,8 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    // <footer className="border-t bg-card dot-pattern text-muted-foreground py-5">
     <footer className="border-t bg-card text-muted-foreground py-5">
-      <div className="container mx-auto grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-5 md:px-8">
         <div>
           <h5 className="font-bold mb-2 text-primary-foreground">SIGNALTRACKER.GG</h5>
           <ul>
@@ -54,8 +54,8 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <div className="container mx-auto grid grid-cols-1 text-sm mt-6 mb-1">
-        &copy; {new Date().getFullYear()} SIGNALTRACKER.GG. SIGNALTRACKER.GG is not affiliated with HoYoverse or Zenless Zone Zero which are registered trademarks of COGNOSPHERE PTE. LTD. 
+      <div className="container mx-auto text-sm mt-6 mb-1 px-5 md:px-8">
+        &copy; {new Date().getFullYear()} SIGNALTRACKER.GG. SIGNALTRACKER.GG is not affiliated with HoYoverse or Zenless Zone Zero which are registered trademarks of COGNOSPHERE PTE. LTD.
       </div>
     </footer>
   );

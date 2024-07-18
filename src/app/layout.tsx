@@ -1,3 +1,4 @@
+// layout.tsx or the main layout component
 import type { Metadata } from "next";
 import { Outfit as FontSans } from "next/font/google";
 import "./globals.css";
@@ -5,7 +6,6 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import Sidebar from "@/components/navigation/Sidebar";
 import MobileHeader from "@/components/navigation/MobileHeader";
 import { cn } from "@/lib/utils";
-// import { AuthProvider } from "@/context/AuthContext";
 import Footer from "@/components/Footer"; // Import Footer
 
 export const runtime = "edge";
@@ -33,20 +33,18 @@ export default function RootLayout({
           "debug-screens": process.env.NODE_ENV === "development",
         })}
       >
-        {/* <AuthProvider> */}
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="relative min-h-screen flex flex-col">
-              <MobileHeader />
-              <div className="flex flex-grow">
-                <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-                  <Sidebar />
-                </div>
-                <div className="flex flex-col flex-grow stripe-pattern">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex flex-col min-h-screen">
+            <MobileHeader />
+            <div className="flex flex-grow">
+              <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] flex-grow">
+                <Sidebar />
+                <div className="flex flex-col flex-grow">
                   <main className="flex-grow max-w-7xl 2xl:max-w-[100rem] mx-auto w-full px-4 md:px-6 lg:px-8 py-8">
                     {children}
                   </main>
@@ -54,8 +52,8 @@ export default function RootLayout({
                 </div>
               </div>
             </div>
-          </ThemeProvider>
-        {/* </AuthProvider> */}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
