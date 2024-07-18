@@ -57,7 +57,7 @@ const ImportPage = () => {
                     <TabsContent value='global'>
                       <div className="relative mt-2 flex flex-col md:flex-row items-start overflow-x-auto">
                         <pre className="border border-input py-2 px-3 rounded-md flex-grow w-full whitespace-pre-wrap break-words">
-                          <code className="text-sm">iwr -useb signaltracker.gg/getUrlG | iex</code>
+                          <code className="text-sm">iwr -useb signaltracker.gg/api/getUrlG | iex</code>
                         </pre>
                         <CopyButton textToCopy="iwr -useb signaltracker.gg/getUrlG | iex" />
                       </div>
@@ -65,7 +65,7 @@ const ImportPage = () => {
                     <TabsContent value='cn'>
                       <div className="relative mt-2 flex flex-col md:flex-row items-start overflow-x-auto">
                         <pre className="border border-input py-2 px-3 rounded-md flex-grow whitespace-pre-wrap break-words">
-                          <code className="text-sm">iwr -useb signaltracker.gg/getUrlCN | iex</code>
+                          <code className="text-sm">iwr -useb signaltracker.gg/api/getUrlCN | iex</code>
                         </pre>
                         <CopyButton textToCopy="iwr -useb signaltracker.gg/getUrlCN | iex" />
                       </div>
