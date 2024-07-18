@@ -3,15 +3,12 @@ import React from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Copy, ArrowRight, TriangleAlert } from "lucide-react";
+import { ArrowRight, TriangleAlert } from "lucide-react";
 import { Card } from '@/components/ui/card';
 import Link from 'next/link';
+import CopyButton from '@/components/CopyButton'; // Import the CopyButton component
 
 const ImportPage = () => {
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
-  };
-
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
       <div className="flex items-center justify-between">
@@ -62,14 +59,7 @@ const ImportPage = () => {
                         <pre className="border border-input py-2 px-3 rounded-md flex-grow w-full whitespace-pre-wrap break-words">
                           <code className="text-sm">iwr -useb signaltracker.gg/getUrlG | iex</code>
                         </pre>
-                        <Button
-                          variant="outline"
-                          size="lg"
-                          className="mt-2 w-full md:ml-2 md:mt-0 md:w-auto"
-                          // onClick={() => handleCopy("iwr -useb signaltracker.gg/getUrlG | iex")}
-                        >
-                          <Copy className="h-4 w-4" />
-                        </Button>
+                        <CopyButton textToCopy="iwr -useb signaltracker.gg/getUrlG | iex" />
                       </div>
                     </TabsContent>
                     <TabsContent value='cn'>
@@ -77,14 +67,7 @@ const ImportPage = () => {
                         <pre className="border border-input py-2 px-3 rounded-md flex-grow whitespace-pre-wrap break-words">
                           <code className="text-sm">iwr -useb signaltracker.gg/getUrlCN | iex</code>
                         </pre>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="mt-2 w-full md:ml-2 md:mt-0 md:w-auto"
-                          // onClick={() => handleCopy("iwr -useb signaltracker.gg/getUrlCN | iex")}
-                        >
-                          <Copy className="h-4 w-4" />
-                        </Button>
+                        <CopyButton textToCopy="iwr -useb signaltracker.gg/getUrlCN | iex" />
                       </div>
                     </TabsContent>
                   </Tabs>
@@ -117,7 +100,7 @@ const ImportPage = () => {
                   <TriangleAlert className="h-5 w-5 -mt-1" />
                 </span>
                 <div className="flex-grow">
-                  <h3 className="mb-1 font-semibold text-base text-foreground">If you have any issues, visit our <span className="text-primary underline hover:text-primary-foreground cursor-pointer">Discord server</span> for help</h3>
+                  <h3 className="mb-1 font-semibold text-base text-foreground">If you have any issues, visit our <span className="text-primary underline hover:text-primary-foreground cursor-pointer">Discord Server</span> for help</h3>
                 </div>
               </li>
             </ol>
