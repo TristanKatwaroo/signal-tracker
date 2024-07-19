@@ -13,7 +13,7 @@ interface GachaLogData {
   retcode: number;
 }
 
-async function fetchType(baseUrl: string, gachaType: number): Promise<any[]> {
+async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: string, dataForType?: any[] }> {
   let allData: any[] = [];
   let page = 1;
   let endId: number | string = 0;
@@ -29,7 +29,7 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<any[]> {
 
       if (data.retcode !== 0) {
         console.error(`Error fetching data for gacha type ${gachaType}: ${data.message}`);
-        throw new Error(data.message);
+        return { error: data.message };
       }
 
       if (data.data.list.length > 0) {
@@ -44,41 +44,41 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<any[]> {
       await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (error) {
       console.error(`Failed to fetch gacha log data for gacha type ${gachaType}: ${(error as Error).message}`);
-      moreData = false;
+      return { error: (error as Error).message };
     }
   }
 
   console.log(`Fetched a total of ${allData.length} gacha logs for gacha type ${gachaType}.`);
-  return allData;
+  return { dataForType: allData };
 }
 
 export async function importSignals(formData: FormData) {
   const url = formData.get('url') as string;
 
   if (!url) {
-    console.log("Error: Field can't be empty.");
+    return { error: "Field can't be empty." };
   }
 
-  try {
-    const gachaTypes = [1001, 2001, 3001, 5001];
-    let allData: any[] = [];
+  const gachaTypes = [1001, 2001, 3001, 5001];
+  let allData: any[] = [];
 
-    for (const gachaType of gachaTypes) {
-      const dataForType = await fetchType(url, gachaType);
-      allData = allData.concat(dataForType);
+  for (const gachaType of gachaTypes) {
+    const { error, dataForType } = await fetchType(url, gachaType);
 
-      // Add delay between types to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    if (error) {
+      return { error };
     }
 
-    console.log(allData); // Output to console
+    allData = allData.concat(dataForType);
 
-    // Revalidate the path to refresh the page if necessary
-    revalidatePath('/signals/import');
-
-    return { count: allData.length };
-  } catch (error) {
-    console.error(`Failed to fetch gacha log data: ${(error as Error).message}`);
-    throw error;
+    // Add delay between types to avoid rate limiting
+    await new Promise(resolve => setTimeout(resolve, 1000));
   }
+
+  console.log(allData); // Output to console
+
+  // Revalidate the path to refresh the page if necessary
+  revalidatePath('/signals/import');
+
+  return { data: allData };
 }
