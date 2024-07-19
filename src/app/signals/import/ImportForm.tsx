@@ -2,11 +2,11 @@
 
 import { Input } from "@/components/ui/input";
 import ImportButton from './ImportButton';
-import { handleSubmit } from './actions'; // Import the handleSubmit function
+import { importSignals } from './actions'; // Import the importGachaLog function
 
 export default function ImportForm() {
   return (
-    <form action={handleSubmit}>
+    <form action={importSignals}>
       <Input 
         placeholder="Your Signal History URL" 
         className="mt-2" 

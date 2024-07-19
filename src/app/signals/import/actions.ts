@@ -52,9 +52,11 @@ async function fetchGachaLogs(baseUrl: string, gachaType: number): Promise<any[]
   return allData;
 }
 
-export async function importGachaLog(url: string) {
+export async function importSignals(formData: FormData) {
+  const url = formData.get('url') as string;
+
   if (!url) {
-    throw new Error('No URL provided');
+    return;
   }
 
   try {
@@ -79,9 +81,4 @@ export async function importGachaLog(url: string) {
     console.error(`Failed to fetch gacha log data: ${(error as Error).message}`);
     throw error;
   }
-}
-
-export async function handleSubmit(formData: FormData) {
-  const url = formData.get('url') as string;
-  return await importGachaLog(url);
 }
