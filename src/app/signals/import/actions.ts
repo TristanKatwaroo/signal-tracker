@@ -13,7 +13,7 @@ interface GachaLogData {
   retcode: number;
 }
 
-async function fetchGachaLogs(baseUrl: string, gachaType: number): Promise<any[]> {
+async function fetchType(baseUrl: string, gachaType: number): Promise<any[]> {
   let allData: any[] = [];
   let page = 1;
   let endId: number | string = 0;
@@ -56,7 +56,7 @@ export async function importSignals(formData: FormData) {
   const url = formData.get('url') as string;
 
   if (!url) {
-    return;
+    console.log("Error: Field can't be empty.");
   }
 
   try {
@@ -64,11 +64,11 @@ export async function importSignals(formData: FormData) {
     let allData: any[] = [];
 
     for (const gachaType of gachaTypes) {
-      const dataForType = await fetchGachaLogs(url, gachaType);
+      const dataForType = await fetchType(url, gachaType);
       allData = allData.concat(dataForType);
 
       // Add delay between types to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
     console.log(allData); // Output to console
