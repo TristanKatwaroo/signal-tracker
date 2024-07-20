@@ -48,7 +48,7 @@ export default function ImportResult({ result }: Props) {
             <Table>
               <TableHeader className="sticky top-0 z-10">
                 <TableRow>
-                  <TableHead className="w-[200px]">Gacha Type</TableHead>
+                  <TableHead className="w-[200px]">Channel</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead className="w-[200px]">Time</TableHead>
                 </TableRow>
