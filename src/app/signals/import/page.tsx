@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from '@/components/ui/card';
 import Link from 'next/link';
 import CopyButton from '@/components/CopyButton';
-import ImportForm from './ImportForm';
+import ImportForm from '../../../components/signals/ImportForm';
 import { TriangleAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
