@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { CloudUpload, Loader } from "lucide-react";
+import { CloudUpload } from "lucide-react";
 import { saveSignals } from "@/app/signals/import/actions";
 
 type SaveButtonProps = {
@@ -44,11 +44,7 @@ export default function SaveButton({ data }: SaveButtonProps) {
         disabled={isSaving}
       >
         {isSaving ? 'Saving' : 'Save'}
-        {isSaving ? (
-          <Loader className="h-4 w-4 ml-2 animate-spin" />
-        ) : (
-          <CloudUpload className="h-4 w-4 ml-2" />
-        )}
+        <CloudUpload className="h-4 w-4 ml-2" />
       </Button>
       {saveResult && <p className="mt-2 text-sm">{saveResult}</p>}
     </>
