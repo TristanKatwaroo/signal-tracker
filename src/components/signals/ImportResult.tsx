@@ -1,11 +1,10 @@
-'use client';
+// 'use client';
 
-import React, { useEffect } from 'react';
+// import React, { useEffect } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getGachaTypeName } from "@/utils/gachaTypeUtil";
 import { getRarityColor } from "@/utils/rarityColorUtil";
-import { clearCookies } from '@/app/signals/import/actions';
 
 type Props = {
   result: {
@@ -23,25 +22,9 @@ export default function ImportResult({ result }: Props) {
     return <p className="text-red-500">Error: {result.error}</p>;
   }
 
-//   useEffect(() => {
-//     // Clear cookies when component mounts (page refresh)
-//     clearCookies();
-
-//     // Clear cookies when leaving the page
-//     const handleBeforeUnload = () => {
-//       clearCookies();
-//     };
-
-//     window.addEventListener('beforeunload', handleBeforeUnload);
-
-//     return () => {
-//       window.removeEventListener('beforeunload', handleBeforeUnload);
-//     };
-//   }, []);
-
   if (result.data && result.data.length > 0) {
     return (
-      <div className="w-full max-w-4xl mx-auto mt-4">
+      <div className="w-full mx-auto mt-4">
         <h2 className="text-xl font-bold mb-2">Import Result</h2>
         <div className="rounded-md border">
           <div className="overflow-hidden">

@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 
 const ImportResult = dynamic(() => import('./ImportResult'), {
   ssr: false,
-  loading: () => <p>Fetching</p>
+  loading: () => <></>
 });
 
 export default function ImportForm() {

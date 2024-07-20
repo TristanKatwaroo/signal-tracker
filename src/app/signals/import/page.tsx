@@ -1,6 +1,6 @@
 // src/app/signals/import/page.tsx
 
-import React from 'react';
+// import React from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from '@/components/ui/card';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import CopyButton from '@/components/CopyButton';
 import ImportForm from '../../../components/signals/ImportForm';
 import { TriangleAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SaveButton from '@/components/signals/SaveButton';
 
 const ImportPage = () => {
   return (
@@ -82,6 +83,15 @@ const ImportPage = () => {
                 <div className="flex-grow">
                   <h3 className="mb-1 font-semibold text-base text-foreground">Paste the URL Here</h3>
                   <ImportForm />
+                </div>
+              </li>
+              <li className="mb-10 ml-8 flex items-start">
+                <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-tertiary text-tertiary-foreground rounded-full">
+                  5
+                </span>
+                <div className="flex-grow">
+                  <h3 className="mb-1 font-semibold text-base text-foreground">Save your signals</h3>
+                  <SaveButton />
                 </div>
               </li>
               <li className="mb-10 ml-8 flex items-start">
