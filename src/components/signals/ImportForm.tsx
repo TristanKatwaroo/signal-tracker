@@ -13,6 +13,12 @@ const ImportResult = dynamic(() => import('./ImportResult'), {
 });
 
 export default function ImportForm() {
+  
+  async () => {
+    "use server"
+    cookies().set('displayResults', 'false');
+  }
+  
   const cookieStore = cookies();
   const displayResults = cookieStore.get('displayResults')?.value === 'true';
   const resultData = cookieStore.get('resultData')?.value;
