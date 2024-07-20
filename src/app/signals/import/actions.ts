@@ -1,7 +1,8 @@
+// src/app/signals/import/actions.ts
+
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
 
 interface GachaLogData {
   data: {
@@ -12,10 +13,11 @@ interface GachaLogData {
   retcode: number;
 }
 
-export async function clearCookies() {
-  cookies().delete('displayResults');
-  cookies().delete('resultData');
-}
+const rateLimit = {
+  requests: 0,
+  maxRequests: 100, // Max requests per minute
+  resetTime: Date.now() + 60 * 1000 // Reset every minute
+};
 
 async function fetchWithExponentialBackoff(url: string, retries: number = 5, delay: number = 1000): Promise<Response> {
   try {
@@ -43,6 +45,17 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
   while (moreData) {
     const completeUrl = `${baseUrl}&page=${page}&size=20&gacha_type=${gachaType}&end_id=${endId}&sync_upstream=1`;
 
+    // Global rate limit check
+    if (Date.now() > rateLimit.resetTime) {
+      rateLimit.requests = 0;
+      rateLimit.resetTime = Date.now() + 60 * 1000;
+    }
+
+    if (rateLimit.requests >= rateLimit.maxRequests) {
+      console.error('Rate limit exceeded. Please try again later.');
+      return { error: 'Rate limit exceeded. Please try again later.' };
+    }
+
     try {
       console.log(`Fetching data for gacha type ${gachaType}, page ${page}`);
       const response = await fetchWithExponentialBackoff(completeUrl);
@@ -63,6 +76,9 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
 
       // Add delay to avoid rate limiting
       await new Promise(resolve => setTimeout(resolve, 80));
+
+      // Increment the rate limit counter
+      rateLimit.requests++;
     } catch (error) {
       console.error(`Failed to fetch gacha log data for gacha type ${gachaType}: ${(error as Error).message}`);
       return { error: (error as Error).message };
@@ -105,8 +121,6 @@ export async function importSignals(formData: FormData) {
 }
 
 export async function saveSignals(formData: FormData) {
-  // const url = formData.get('url') as string;
-
   console.log("received");
 
   if (!formData) {
@@ -119,6 +133,4 @@ export async function saveSignals(formData: FormData) {
 
   // Revalidate the path to refresh the page if necessary
   revalidatePath('/signals/import');
-
-  // return { data: allData };
 }
