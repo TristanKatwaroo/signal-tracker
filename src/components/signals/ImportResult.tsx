@@ -1,6 +1,6 @@
-// 'use client';
+// src/app/signals/import/ImportResult.tsx
+// server component
 
-// import React, { useEffect } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getGachaTypeName } from "@/utils/gachaTypeUtil";
@@ -13,7 +13,7 @@ type Props = {
     error?: string;
     data?: any[];
   } | null;
-}
+};
 
 export default function ImportResult({ result }: Props) {
   if (!result) {
@@ -21,24 +21,23 @@ export default function ImportResult({ result }: Props) {
   }
 
   if (result.error) {
-    return <p className="text-red-500">Error: {result.error}</p>;
+    return <p className="text-red-500 text-sm">Error: {result.error}</p>;
   }
 
-  const handleSubmit = async (formData: FormData) => {
-    'use server';
+//   const handleSubmit = async (formData: FormData) => {
+//     'use server';
 
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("submit");
+//     console.log("submit");
     
-    const result = await saveSignals(formData);
-    if (result) {
-      console.log(result);
-    }
-  };
+//     const result = await saveSignals(formData);
+//     if (result) {
+//       console.log(result);
+//     }
+//   };
 
   if (result.data && result.data.length > 0) {
     return (
-      <form action={handleSubmit} className="w-full mx-auto mt-4">
+      <form action={saveSignals} className="w-full mx-auto mt-4">
         <h2 className="text-xl font-bold mb-2">Import Result</h2>
         <div className="rounded-md border">
           <div className="overflow-hidden">

@@ -3,7 +3,7 @@
 
 import { useFormStatus } from 'react-dom';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CloudUpload, Loader } from "lucide-react";
+import { CloudUpload, Loader } from "lucide-react";
 
 export default function SaveButton() {
   const { pending } = useFormStatus();

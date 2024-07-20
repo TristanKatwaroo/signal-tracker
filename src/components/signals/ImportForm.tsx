@@ -30,7 +30,7 @@ export default function ImportForm() {
   };
 
   return (
-    <form action={handleSubmit}>
+    <form action={handleSubmit} className="">
       <Input 
         placeholder="Your Signal History URL" 
         className="mt-2" 
