@@ -3,6 +3,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 
 interface GachaLogData {
   data: {
@@ -11,6 +12,11 @@ interface GachaLogData {
   };
   message: string;
   retcode: number;
+}
+
+export async function clearCookies() {
+  cookies().delete('displayResults')
+  cookies().delete('resultData')
 }
 
 async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: string, dataForType?: any[] }> {
