@@ -1,5 +1,3 @@
-// src/app/signals/import/actions.ts
-
 'use server';
 
 import { revalidatePath } from 'next/cache';
@@ -15,8 +13,25 @@ interface GachaLogData {
 }
 
 export async function clearCookies() {
-  cookies().delete('displayResults')
-  cookies().delete('resultData')
+  cookies().delete('displayResults');
+  cookies().delete('resultData');
+}
+
+async function fetchWithExponentialBackoff(url: string, retries: number = 5, delay: number = 1000): Promise<Response> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response;
+  } catch (error) {
+    if (retries === 0) {
+      throw new Error(`Max retries reached. ${error}`);
+    }
+    console.error(`Retrying fetch... ${retries} retries left. Error: ${error}`);
+    await new Promise(resolve => setTimeout(resolve, delay));
+    return fetchWithExponentialBackoff(url, retries - 1, delay * 2);
+  }
 }
 
 async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: string, dataForType?: any[] }> {
@@ -30,7 +45,7 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
 
     try {
       console.log(`Fetching data for gacha type ${gachaType}, page ${page}`);
-      const response = await fetch(completeUrl);
+      const response = await fetchWithExponentialBackoff(completeUrl);
       const data = await response.json() as GachaLogData;
 
       if (data.retcode !== 0) {
@@ -47,7 +62,7 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
       }
 
       // Add delay to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 80));
     } catch (error) {
       console.error(`Failed to fetch gacha log data for gacha type ${gachaType}: ${(error as Error).message}`);
       return { error: (error as Error).message };
@@ -78,7 +93,7 @@ export async function importSignals(formData: FormData) {
     allData = allData.concat(dataForType);
 
     // Add delay between types to avoid rate limiting
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 80));
   }
 
   console.log(allData); // Output to console
@@ -92,15 +107,15 @@ export async function importSignals(formData: FormData) {
 export async function saveSignals(formData: FormData) {
   // const url = formData.get('url') as string;
 
-  console.log("received")
+  console.log("received");
 
   if (!formData) {
     return { error: "data is empty." };
   }
 
-  const response = await fetch(`https://dummyjson.com/posts?limit=3`);
-  const data = await response.json()
-  console.log(data)
+  const response = await fetch('https://dummyjson.com/posts?limit=1');
+  const data = await response.json();
+  console.log(data);
 
   // Revalidate the path to refresh the page if necessary
   revalidatePath('/signals/import');
