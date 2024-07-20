@@ -14,11 +14,6 @@ const ImportResult = dynamic(() => import('./ImportResult'), {
 
 export default function ImportForm() {
   
-  async () => {
-    "use server"
-    cookies().set('displayResults', 'false');
-  }
-  
   const cookieStore = cookies();
   const displayResults = cookieStore.get('displayResults')?.value === 'true';
   const resultData = cookieStore.get('resultData')?.value;
@@ -29,8 +24,8 @@ export default function ImportForm() {
     const result = await importSignals(formData);
     if (result) {
       console.log(result);
-      cookies().set('displayResults', 'true');
-      cookies().set('resultData', JSON.stringify(result));
+      cookies().set('displayResults', 'true', { maxAge: 0 });
+      cookies().set('resultData', JSON.stringify(result), { maxAge: 0 });
     }
   };
 
