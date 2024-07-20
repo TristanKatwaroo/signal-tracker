@@ -1,12 +1,9 @@
 // src/app/signals/import/ImportResult.tsx
-// server component
-
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getGachaTypeName } from "@/utils/gachaTypeUtil";
 import { getRarityColor } from "@/utils/rarityColorUtil";
 import SaveButton from "./SaveButton";
-import { saveSignals } from "@/app/signals/import/actions";
 
 type Props = {
   result: {
@@ -24,20 +21,9 @@ export default function ImportResult({ result }: Props) {
     return <p className="text-red-500 text-sm">Error: {result.error}</p>;
   }
 
-//   const handleSubmit = async (formData: FormData) => {
-//     'use server';
-
-//     console.log("submit");
-    
-//     const result = await saveSignals(formData);
-//     if (result) {
-//       console.log(result);
-//     }
-//   };
-
   if (result.data && result.data.length > 0) {
     return (
-      <form action={saveSignals} className="w-full mx-auto mt-4">
+      <div className="w-full mx-auto mt-4">
         <h2 className="text-xl font-bold mb-2">Import Result</h2>
         <div className="rounded-md border">
           <div className="overflow-hidden">
@@ -68,8 +54,8 @@ export default function ImportResult({ result }: Props) {
           </ScrollArea>
         </div>
         <p className="mt-2 text-sm text-gray-500">Total items: {result.data.length}</p>
-        <SaveButton />
-      </form>
+        <SaveButton data={result.data} />
+      </div>
     );
   }
 
