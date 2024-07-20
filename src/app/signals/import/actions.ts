@@ -88,3 +88,32 @@ export async function importSignals(formData: FormData) {
 
   return { data: allData };
 }
+
+export async function saveSignals(formData: FormData) {
+  // const url = formData.get('url') as string;
+
+  if (!formData) {
+    return { error: "data is empty." };
+  }
+
+  const response = await fetch(`https://dummyjson.com/posts?limit=3`);
+  const data = await response.json()
+  console.log(data)
+
+  // const gachaTypes = [1001, 2001, 3001, 5001];
+  // let allData: any[] = [];
+
+    // const { error, dataForType } = await fetchType(url, gachaType);
+
+    // if (error) {
+    //   return { error };
+    // }
+
+    // Add delay between types to avoid rate limiting
+    // await new Promise(resolve => setTimeout(resolve, 1000));
+
+  // Revalidate the path to refresh the page if necessary
+  revalidatePath('/signals/import');
+
+  // return { data: allData };
+}

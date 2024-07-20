@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { getGachaTypeName } from "@/utils/gachaTypeUtil";
 import { getRarityColor } from "@/utils/rarityColorUtil";
 import SaveButton from "./SaveButton";
-import { importSignals } from "@/app/signals/import/actions";
+import { saveSignals } from "@/app/signals/import/actions";
 
 type Props = {
   result: {
@@ -27,15 +27,13 @@ export default function ImportResult({ result }: Props) {
   const handleSubmit = async (formData: FormData) => {
     'use server';
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log("submit");
     
-    // const result = await importSignals(formData);
-    // if (result) {
-    //   console.log(result);
-    //   cookies().set('displayResults', 'true', { maxAge: 0 });
-    //   cookies().set('resultData', JSON.stringify(result), { maxAge: 0 });
-    // }
+    const result = await saveSignals(formData);
+    if (result) {
+      console.log(result);
+    }
   };
 
   if (result.data && result.data.length > 0) {
