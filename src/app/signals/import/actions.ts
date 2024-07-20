@@ -3,6 +3,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 interface GachaLogData {
   data: {
@@ -133,4 +134,5 @@ export async function saveSignals(formData: FormData) {
 
   // Revalidate the path to refresh the page if necessary
   revalidatePath('/signals/import');
+  redirect('/signals');
 }
