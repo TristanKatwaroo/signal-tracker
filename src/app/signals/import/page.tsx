@@ -85,7 +85,7 @@ const ImportPage = () => {
                   <ImportForm />
                 </div>
               </li>
-              <li className="mb-10 ml-8 flex items-start">
+              {/* <li className="mb-10 ml-8 flex items-start">
                 <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-tertiary text-tertiary-foreground rounded-full">
                   5
                 </span>
@@ -93,7 +93,7 @@ const ImportPage = () => {
                   <h3 className="mb-1 font-semibold text-base text-foreground">Save your signals</h3>
                   <SaveButton />
                 </div>
-              </li>
+              </li> */}
               <li className="mb-10 ml-8 flex items-start">
                 <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-yellow-400 text-tertiary-foreground rounded-full">
                   <TriangleAlert className="h-5 w-5 -mt-1" />

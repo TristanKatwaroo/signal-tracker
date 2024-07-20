@@ -1,38 +1,19 @@
-// src/app/signals/import/UploadButton.tsx
-
+// src/app/signals/import/SaveButton.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, CloudUpload, Loader, Save } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { ArrowRight, CloudUpload, Loader } from "lucide-react";
 
-export default function UploadButton() {
+export default function SaveButton() {
   const { pending } = useFormStatus();
-  const [isDisabled, setIsDisabled] = useState(true);
-
-  useEffect(() => {
-    const form = document.querySelector('form');
-    const input = form?.querySelector('input[name="url"]') as HTMLInputElement;
-    
-    const handleInput = () => {
-      setIsDisabled(pending || !input.value.trim());
-    };
-
-    input?.addEventListener('input', handleInput);
-
-    // Cleanup event listener on unmount
-    return () => {
-      input?.removeEventListener('input', handleInput);
-    };
-  }, [pending]);
 
   return (
     <Button 
       className="mt-2" 
       variant="tertiary" 
       type="submit" 
-      disabled={isDisabled}
+      disabled={pending}
     >
       {pending ? 'Saving' : 'Save'}
       {pending ? (

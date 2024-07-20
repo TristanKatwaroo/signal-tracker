@@ -5,6 +5,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getGachaTypeName } from "@/utils/gachaTypeUtil";
 import { getRarityColor } from "@/utils/rarityColorUtil";
+import SaveButton from "./SaveButton";
+import { importSignals } from "@/app/signals/import/actions";
 
 type Props = {
   result: {
@@ -22,9 +24,23 @@ export default function ImportResult({ result }: Props) {
     return <p className="text-red-500">Error: {result.error}</p>;
   }
 
+  const handleSubmit = async (formData: FormData) => {
+    'use server';
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log("submit");
+    
+    // const result = await importSignals(formData);
+    // if (result) {
+    //   console.log(result);
+    //   cookies().set('displayResults', 'true', { maxAge: 0 });
+    //   cookies().set('resultData', JSON.stringify(result), { maxAge: 0 });
+    // }
+  };
+
   if (result.data && result.data.length > 0) {
     return (
-      <div className="w-full mx-auto mt-4">
+      <form action={handleSubmit} className="w-full mx-auto mt-4">
         <h2 className="text-xl font-bold mb-2">Import Result</h2>
         <div className="rounded-md border">
           <div className="overflow-hidden">
@@ -55,7 +71,8 @@ export default function ImportResult({ result }: Props) {
           </ScrollArea>
         </div>
         <p className="mt-2 text-sm text-gray-500">Total items: {result.data.length}</p>
-      </div>
+        <SaveButton />
+      </form>
     );
   }
 

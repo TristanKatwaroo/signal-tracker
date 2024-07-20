@@ -5,7 +5,7 @@ export function getGachaTypeName(gachaType: number | string): string {
     const type = typeof gachaType === 'string' ? parseInt(gachaType, 10) : gachaType;
   
     // Log for debugging
-    console.log('Gacha type received:', gachaType, 'Converted type:', type);
+    // console.log('Gacha type received:', gachaType, 'Converted type:', type);
   
     switch (type) {
       case 1:

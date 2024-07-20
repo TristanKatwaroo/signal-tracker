@@ -3,7 +3,7 @@
 
 import { useFormStatus } from 'react-dom';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Loader } from "lucide-react";
+import { ArrowRight, Import, Loader } from "lucide-react";
 
 export default function ImportButton() {
   const { pending } = useFormStatus();
@@ -19,7 +19,7 @@ export default function ImportButton() {
       {pending ? (
         <Loader className="h-4 w-4 ml-2 animate-spin" />
       ) : (
-        <ArrowRight className="h-4 w-4 ml-2" />
+        <Import className="h-4 w-4 ml-2" />
       )}
     </Button>
   );
