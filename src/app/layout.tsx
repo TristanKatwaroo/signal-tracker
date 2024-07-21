@@ -7,6 +7,7 @@ import Sidebar from "@/components/navigation/Sidebar";
 import MobileHeader from "@/components/navigation/MobileHeader";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer"; // Import Footer
+import { Toaster } from "@/components/ui/toaster";
 
 export const runtime = "edge";
 
@@ -54,6 +55,7 @@ export default function RootLayout({
             </div>
           </div>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

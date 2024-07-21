@@ -16,7 +16,7 @@ interface SignalData {
   name: string;
   item_type: string;
   rank_type: string;
-  id: string; // Add the id field here
+  id: string;
 }
 
 interface GachaLogData {
@@ -175,8 +175,13 @@ export async function saveSignals(formData: FormData) {
     .insert(insertData);
 
   if (error) {
-    console.error("Failed to save signals:", error);
-    return { error: "Failed to save signals." };
+    if (error.code === '23505') { // Check for duplicate key error
+      console.error("Duplicate entry detected:", error);
+      return { error: "Data already exists in the database." };
+    } else {
+      console.error("Failed to save signals:", error);
+      return { error: "Failed to save signals." };
+    }
   }
 
   console.log("Signals saved successfully");
