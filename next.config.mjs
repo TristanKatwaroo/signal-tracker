@@ -42,9 +42,10 @@ const nextConfig = {
 
     return config;
   },
-  experimental: {
-    optimizeCss: true, // This will enable CSS optimization
-  },
+  // Remove the experimental CSS optimization
+  // experimental: {
+  //   optimizeCss: true,
+  // },
 };
 
 const sentryWebpackPluginOptions = {
@@ -56,14 +57,12 @@ const sentryWebpackPluginOptions = {
   hideSourceMaps: true,
   disableLogger: true,
   automaticVercelMonitors: true,
-  // New options to reduce bundle size
   include: './dist',
   ignoreFile: '.sentrycliignore',
   ignore: ['node_modules', 'webpack.config.js'],
   configFile: 'sentry.properties',
   stripPrefix: ['dist/'],
   urlPrefix: '~/_next',
-  // Enable tree-shaking for Sentry
   release: process.env.SENTRY_RELEASE,
   cleanArtifacts: true,
 };
