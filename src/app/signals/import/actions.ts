@@ -4,6 +4,21 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { createClient } from '@/utils/supabase/server'; // Ensure this path is correct
+
+interface SignalData {
+  uid: string;
+  gacha_id: string;
+  gacha_type: string;
+  item_id: string;
+  count: string;
+  time: string;
+  name: string;
+  lang: string;
+  item_type: string;
+  rank_type: string;
+  id: string;
+}
 
 interface GachaLogData {
   data: {
@@ -122,17 +137,52 @@ export async function importSignals(formData: FormData) {
 }
 
 export async function saveSignals(formData: FormData) {
-  console.log("received");
+  const supabase = createClient();
 
-  if (!formData) {
-    return { error: "data is empty." };
+  const { data, error: authError } = await supabase.auth.getUser();
+  if (authError || !data.user) {
+    console.error("User authentication error:", authError?.message || "User not authenticated.");
+    return { error: "User not authenticated." };
   }
 
-  const response = await fetch('https://dummyjson.com/posts?limit=1');
-  const data = await response.json();
-  console.log(data);
+  const rawData = formData.get('data') as string;
+  if (!rawData) {
+    return { error: "Data is empty." };
+  }
 
-  // Revalidate the path to refresh the page if necessary
+  let signals: SignalData[];
+  try {
+    signals = JSON.parse(rawData);
+  } catch (error) {
+    console.error("Failed to parse signals data:", error);
+    return { error: "Invalid data format." };
+  }
+
+  const insertData = signals.map(signal => ({
+    uid: signal.uid,
+    gacha_id: signal.gacha_id,
+    gacha_type: parseInt(signal.gacha_type, 10),
+    item_id: signal.item_id,
+    count: parseInt(signal.count, 10),
+    time: signal.time,
+    name: signal.name,
+    lang: signal.lang,
+    item_type: signal.item_type,
+    rank_type: parseInt(signal.rank_type, 10),
+    user_id: data.user.id // Use the authenticated user's UID
+  }));
+
+  const { error: insertError } = await supabase
+    .from('signals')
+    .insert(insertData);
+
+  if (insertError) {
+    console.error("Failed to save signals:", insertError);
+    return { error: "Failed to save signals." };
+  }
+
+  console.log("Signals saved successfully");
+
   revalidatePath('/signals/import');
   redirect('/signals');
 }
