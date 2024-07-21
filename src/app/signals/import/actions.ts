@@ -1,5 +1,3 @@
-// src/app/signals/import/actions.ts
-
 'use server';
 
 import { revalidatePath } from 'next/cache';
@@ -31,8 +29,8 @@ interface GachaLogData {
 
 const rateLimit = {
   requests: 0,
-  maxRequests: 100, // Max requests per minute
-  resetTime: Date.now() + 60 * 1000 // Reset every minute
+  maxRequests: 100,
+  resetTime: Date.now() + 60 * 1000
 };
 
 async function fetchWithExponentialBackoff(url: string, retries: number = 5, delay: number = 1000): Promise<Response> {
@@ -70,40 +68,40 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
     if (rateLimit.requests >= rateLimit.maxRequests) {
       const error = new Error('Rate limit exceeded. Please try again later.');
       Sentry.captureException(error);
-      console.error(error.message);
+      // console.error(error.message);
       return { error: error.message };
     }
 
     try {
-      console.log(`Fetching data for gacha type ${gachaType}, page ${page}`);
+      // console.log(`Fetching data for gacha type ${gachaType}, page ${page}`);
       const response = await fetchWithExponentialBackoff(completeUrl);
       const data = await response.json() as GachaLogData;
 
       if (data.retcode !== 0) {
         const error = new Error(`Error fetching data for gacha type ${gachaType}: ${data.message}`);
         Sentry.captureException(error);
-        console.error(error.message);
+        // console.error(error.message);
         return { error: data.message };
       }
 
       if (data.data.list.length > 0) {
         allData = allData.concat(data.data.list);
         page++;
-        endId = data.data.list[data.data.list.length - 1].id; // Update endId for next page
+        endId = data.data.list[data.data.list.length - 1].id;
       } else {
-        moreData = false; // No more data available
+        moreData = false;
       }
 
       await new Promise(resolve => setTimeout(resolve, 80));
       rateLimit.requests++;
     } catch (error) {
       Sentry.captureException(error);
-      console.error(`Failed to fetch gacha log data for gacha type ${gachaType}: ${(error as Error).message}`);
+      // console.error(`Failed to fetch gacha log data for gacha type ${gachaType}: ${(error as Error).message}`);
       return { error: (error as Error).message };
     }
   }
 
-  console.log(`Fetched a total of ${allData.length} gacha logs for gacha type ${gachaType}.`);
+  // console.log(`Fetched a total of ${allData.length} gacha logs for gacha type ${gachaType}.`);
   return { dataForType: allData };
 }
 
@@ -130,7 +128,7 @@ export async function importSignals(formData: FormData) {
     await new Promise(resolve => setTimeout(resolve, 80));
   }
 
-  console.log(allData);
+  // console.log(allData);
 
   revalidatePath('/signals/import');
 
@@ -159,7 +157,7 @@ export async function saveSignals(formData: FormData) {
     signals = JSON.parse(data);
   } catch (error) {
     Sentry.captureException(error);
-    console.error("Failed to parse signals data:", error);
+    // console.error("Failed to parse signals data:", error);
     return { error: "Invalid data format." };
   }
 
@@ -184,15 +182,15 @@ export async function saveSignals(formData: FormData) {
   if (error) {
     Sentry.captureException(error);
     if (error.code === '23505') {
-      console.error("Duplicate entry detected:", error);
+      // console.error("Duplicate entry detected:", error);
       return { error: "Data already exists in the database." };
     } else {
-      console.error("Failed to save signals:", error);
+      // console.error("Failed to save signals:", error);
       return { error: "Failed to save signals." };
     }
   }
 
-  console.log("Signals saved successfully");
+  // console.log("Signals saved successfully");
 
   revalidatePath('/signals/import');
   redirect('/signals');

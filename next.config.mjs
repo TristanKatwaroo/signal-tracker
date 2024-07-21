@@ -12,8 +12,15 @@ if (process.env.NODE_ENV === 'development') {
 const nextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      config.optimization.splitChunks.cacheGroups = {
-        default: false,
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+        },
       };
     }
     return config;
