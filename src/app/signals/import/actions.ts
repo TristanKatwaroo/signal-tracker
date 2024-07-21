@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
-import * as Sentry from '@sentry/nextjs';
+// import * as Sentry from '@sentry/nextjs';
 
 interface SignalData {
   uid: string;
@@ -42,7 +42,7 @@ async function fetchWithExponentialBackoff(url: string, retries: number = 5, del
     return response;
   } catch (error) {
     if (retries === 0) {
-      Sentry.captureException(error);
+      // Sentry.captureException(error);
       throw new Error(`Max retries reached. ${error}`);
     }
     console.error(`Retrying fetch... ${retries} retries left. Error: ${error}`);
@@ -67,7 +67,7 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
 
     if (rateLimit.requests >= rateLimit.maxRequests) {
       const error = new Error('Rate limit exceeded. Please try again later.');
-      Sentry.captureException(error);
+      // Sentry.captureException(error);
       // console.error(error.message);
       return { error: error.message };
     }
@@ -79,7 +79,7 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
 
       if (data.retcode !== 0) {
         const error = new Error(`Error fetching data for gacha type ${gachaType}: ${data.message}`);
-        Sentry.captureException(error);
+        // Sentry.captureException(error);
         // console.error(error.message);
         return { error: data.message };
       }
@@ -95,7 +95,7 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
       await new Promise(resolve => setTimeout(resolve, 80));
       rateLimit.requests++;
     } catch (error) {
-      Sentry.captureException(error);
+      // Sentry.captureException(error);
       // console.error(`Failed to fetch gacha log data for gacha type ${gachaType}: ${(error as Error).message}`);
       return { error: (error as Error).message };
     }
@@ -110,7 +110,7 @@ export async function importSignals(formData: FormData) {
 
   if (!url) {
     const error = new Error("Field can't be empty.");
-    Sentry.captureException(error);
+    // Sentry.captureException(error);
     return { error: error.message };
   }
 
@@ -141,14 +141,14 @@ export async function saveSignals(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     const error = new Error("User not authenticated.");
-    Sentry.captureException(error);
+    // Sentry.captureException(error);
     return { error: error.message };
   }
 
   const data = formData.get('data') as string;
   if (!data) {
     const error = new Error("Data is empty.");
-    Sentry.captureException(error);
+    // Sentry.captureException(error);
     return { error: error.message };
   }
 
@@ -156,7 +156,7 @@ export async function saveSignals(formData: FormData) {
   try {
     signals = JSON.parse(data);
   } catch (error) {
-    Sentry.captureException(error);
+    // Sentry.captureException(error);
     // console.error("Failed to parse signals data:", error);
     return { error: "Invalid data format." };
   }
@@ -180,7 +180,7 @@ export async function saveSignals(formData: FormData) {
     .insert(insertData);
 
   if (error) {
-    Sentry.captureException(error);
+    // Sentry.captureException(error);
     if (error.code === '23505') {
       // console.error("Duplicate entry detected:", error);
       return { error: "Data already exists in the database." };

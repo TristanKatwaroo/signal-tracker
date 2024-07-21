@@ -1,97 +1,66 @@
-import { withSentryConfig } from '@sentry/nextjs';
+import {withSentryConfig} from '@sentry/nextjs';
 import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
 
+// Here we use the @cloudflare/next-on-pages next-dev module to allow us to use bindings during local development
+// (when running the application with `next dev`), for more information see:
+// https://github.com/cloudflare/next-on-pages/blob/5712c57ea7/internal-packages/next-dev/README.md
 if (process.env.NODE_ENV === 'development') {
   await setupDevPlatform();
 }
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config, { isServer, dev }) => {
-    // Optimize client-side bundles
+  webpack: (config, { isServer }) => {
     if (!isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
-        maxInitialRequests: 25,
-        minSize: 20000,
         cacheGroups: {
-          default: false,
-          vendors: false,
-          framework: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
             chunks: 'all',
-            name: 'framework',
-            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
-            priority: 40,
-            enforce: true,
-          },
-          lib: {
-            test(module) {
-              return module.size() > 160000 &&
-                /node_modules[/\\]/.test(module.identifier());
-            },
-            name(module) {
-              const hash = crypto.createHash('sha1');
-              hash.update(module.identifier());
-              return hash.digest('hex').substring(0, 8);
-            },
-            priority: 30,
-            minChunks: 1,
-            reuseExistingChunk: true,
-          },
-          commons: {
-            name: 'commons',
-            minChunks: 2,
-            priority: 20,
-          },
-          shared: {
-            name(module, chunks) {
-              return crypto
-                .createHash('sha1')
-                .update(
-                  chunks.reduce((acc, chunk) => acc + chunk.name, '')
-                )
-                .digest('hex') + (dev ? '-dev' : '-prod');
-            },
-            priority: 10,
-            minChunks: 2,
-            reuseExistingChunk: true,
           },
         },
       };
-
-      // Remove the problematic optimization.usedExports
-      // config.optimization.usedExports = true;
-
-      if (!dev) {
-        config.optimization.minimize = true;
-        // Make sure TerserPlugin is imported if you're using it
-        // const TerserPlugin = require('terser-webpack-plugin');
-        // config.optimization.minimizer.push(
-        //   new TerserPlugin({
-        //     terserOptions: {
-        //       compress: {
-        //         drop_console: true,
-        //       },
-        //       mangle: true,
-        //     },
-        //   })
-        // );
-      }
     }
-
     return config;
   },
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+  optimization: {
+    minimize: true,
   },
 };
 
-const sentryWebpackPluginOptions = {
-  silent: true,
-  // Sentry options here
-};
+export default withSentryConfig(nextConfig, {
+// For all available options, see:
+// https://github.com/getsentry/sentry-webpack-plugin#options
 
-// Only use Sentry in production
-export default process.env.NODE_ENV === 'production'
-  ? withSentryConfig(nextConfig, sentryWebpackPluginOptions)
-  : nextConfig;
+org: "tempest-interactive",
+project: "javascript-nextjs",
+
+// Only print logs for uploading source maps in CI
+silent: !process.env.CI,
+
+// For all available options, see:
+// https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+// Upload a larger set of source maps for prettier stack traces (increases build time)
+widenClientFileUpload: true,
+
+// Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+// This can increase your server load as well as your hosting bill.
+// Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
+// side errors will fail.
+tunnelRoute: "/monitoring",
+
+// Hides source maps from generated client bundles
+hideSourceMaps: true,
+
+// Automatically tree-shake Sentry logger statements to reduce bundle size
+disableLogger: true,
+
+// Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
+// See the following for more information:
+// https://docs.sentry.io/product/crons/
+// https://vercel.com/docs/cron-jobs
+automaticVercelMonitors: true,
+});
