@@ -33,7 +33,7 @@ const nextConfig = {
     }
 
     // Enable tree shaking and dead code elimination
-    config.optimization.usedExports = true;
+    // config.optimization.usedExports = true;
 
     if (!dev) {
       // Enable full optimization in production
@@ -42,10 +42,6 @@ const nextConfig = {
 
     return config;
   },
-  // Remove the experimental CSS optimization
-  // experimental: {
-  //   optimizeCss: true,
-  // },
 };
 
 const sentryWebpackPluginOptions = {
@@ -57,12 +53,14 @@ const sentryWebpackPluginOptions = {
   hideSourceMaps: true,
   disableLogger: true,
   automaticVercelMonitors: true,
+  // New options to reduce bundle size
   include: './dist',
   ignoreFile: '.sentrycliignore',
   ignore: ['node_modules', 'webpack.config.js'],
   configFile: 'sentry.properties',
   stripPrefix: ['dist/'],
   urlPrefix: '~/_next',
+  // Enable tree-shaking for Sentry
   release: process.env.SENTRY_RELEASE,
   cleanArtifacts: true,
 };
