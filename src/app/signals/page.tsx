@@ -1,28 +1,12 @@
 // src/app/signals/page.tsx
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { ArrowUpToLine, Globe, Share2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import BannerCard from '@/components/signals/BannerCard';
-import dynamic from 'next/dynamic';
 import { createClient } from '@/utils/supabase/server';
-import AuthModalTrigger from '@/components/auth/AuthModalTrigger';
-
-const WideMultiBar = dynamic(() => import('@/components/charts/WideMultiBar'), {
-  ssr: true,
-});
-
-const LuckRadar = dynamic(() => import('@/components/charts/LuckRadar'), {
-  ssr: true,
-});
+import { getGachaTypeName } from '@/utils/gachaTypeUtil';
+import { getRankTypeName } from '@/utils/rankTypeUtil';
+import BannerCard from '@/components/signals/BannerCard';
+import { ArrowUpToLine, Globe, Share2 } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export const runtime = 'edge';
 
@@ -30,74 +14,72 @@ type Props = {
   searchParams: { authModal: string };
 };
 
-async function getUserSignalsData(supabase: any, userId: string) {
-  const { data: signals, error } = await supabase
-    .from('signals')
-    .select('*')
-    .eq('user_id', userId);
-
-  if (error) {
-    console.error('Error fetching signals:', error);
-    return [];
-  }
-
-  return signals;
-}
-
 export default async function SignalsPage({ searchParams }: Props) {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
     return (
-      <div className="flex flex-1 flex-col gap-4 lg:gap-6">
-        <div className="flex items-center">
-          <h1 className="text-lg mr-6 font-bold md:text-3xl hidden md:block">Signals</h1>
-          <AuthModalTrigger authModal={searchParams.authModal} />
-        </div>
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <p>Please log in to view your signals.</p>
       </div>
     );
   }
 
-  const userSignals = await getUserSignalsData(supabase, user.id);
-  console.log(userSignals);
+  const { data: signals, error } = await supabase
+    .from('signals')
+    .select('*')
+    .eq('user_id', user.id);
 
-  // Compute the stats from userSignals data
-  const bannerStats = [
-    { label: 'S Rank', total: 4, percent: 1.23, pityAvg: 75.75, color: 'text-primary' },
-    { label: '— Won 50:50', total: 2, percent: 66.67, pityAvg: 0, color: 'text-primary-foreground' },
-    { label: 'A Rank', total: 48, percent: 14.77, pityAvg: 6.73, color: 'text-quaternary' },
-    { label: '— Character', total: 34, percent: 10.46, pityAvg: 6.97, color: 'text-primary-foreground' },
-    { label: '— Weapon', total: 14, percent: 4.31, pityAvg: 6.14, color: 'text-primary-foreground' },
-    { label: '— Won 50:50', total: 12, percent: 40, pityAvg: 0, color: 'text-primary-foreground' }
-  ];
+  if (error) {
+    console.error('Error fetching signals:', error);
+    return <div>Error loading data</div>;
+  }
 
-  const weaponStats = [
-    { label: 'S Rank', total: 4, percent: 1.23, pityAvg: 75.75, color: 'text-primary' },
-    { label: '— Won 75:25', total: 2, percent: 66.67, pityAvg: 0, color: 'text-primary-foreground' },
-    { label: 'A Rank', total: 48, percent: 14.77, pityAvg: 6.73, color: 'text-quaternary' },
-    { label: '— Character', total: 34, percent: 10.46, pityAvg: 6.97, color: 'text-primary-foreground' },
-    { label: '— Weapon', total: 14, percent: 4.31, pityAvg: 6.14, color: 'text-primary-foreground' },
-    { label: '— Won 50:50', total: 12, percent: 40, pityAvg: 0, color: 'text-primary-foreground' }
-  ];
+  // Group signals by gacha type
+  const signalsByGachaType: { [key: string]: any[] } = {};
+  signals.forEach((signal) => {
+    const gachaTypeName = getGachaTypeName(signal.gacha_type);
+    if (!signalsByGachaType[gachaTypeName]) {
+      signalsByGachaType[gachaTypeName] = [];
+    }
+    signalsByGachaType[gachaTypeName].push(signal);
+  });
 
-  const standardStats = [
-    { label: 'S Rank', total: 4, percent: 1.23, pityAvg: 75.75, color: 'text-primary' },
-    { label: '— Character', total: 34, percent: 10.46, pityAvg: 6.97, color: 'text-primary-foreground' },
-    { label: '— Weapon', total: 14, percent: 4.31, pityAvg: 6.14, color: 'text-primary-foreground' },
-    { label: 'A Rank', total: 48, percent: 14.77, pityAvg: 6.73, color: 'text-quaternary' },
-    { label: '— Character', total: 34, percent: 10.46, pityAvg: 6.97, color: 'text-primary-foreground' },
-    { label: '— Weapon', total: 14, percent: 4.31, pityAvg: 6.14, color: 'text-primary-foreground' },
-  ];
+  // Calculate lifetime pulls and pity values
+  const bannerData = Object.keys(signalsByGachaType).map((gachaTypeName) => {
+    const signals = signalsByGachaType[gachaTypeName];
+    const lifetimePulls = signals.length;
 
-  const chartData = Array.from({ length: 91 }, (_, pity) => ({
-    pity,
-    fiveStar: Math.floor(Math.random() * 1.6),
-    fourStar: Math.floor(Math.random() * 8.8),
-    threeStar: Math.floor(Math.random() * 30.8),
-  }));
+    let pityFive = 0;
+    let pityFour = 0;
+
+    // Calculate pity values in reverse order
+    for (let i = signals.length - 1; i >= 0; i--) {
+      const signal = signals[i];
+      const rankTypeName = getRankTypeName(signal.rank_type);
+
+      if (rankTypeName === 'S-Rank') {
+        pityFive = 0;
+      } else {
+        pityFive++;
+      }
+
+      if (rankTypeName === 'A-Rank') {
+        pityFour = 0;
+      } else {
+        pityFour++;
+      }
+    }
+
+    return {
+      title: gachaTypeName,
+      lifetimePulls,
+      pityFive,
+      pityFour,
+      stats: [], // Fill this with appropriate data if needed
+    };
+  });
 
   return (
     <div className="flex flex-1 flex-col gap-4 lg:gap-6">
@@ -126,35 +108,16 @@ export default async function SignalsPage({ searchParams }: Props) {
       </div>
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 mr-0">
-          <WideMultiBar chartData={chartData} />
-          <BannerCard 
-            title="Exclusive Channel"
-            lifetimePulls={325}
-            pityFive={22}
-            pityFour={2}
-            stats={bannerStats}
-          />
-          <BannerCard 
-            title="W-Engine Channel"
-            lifetimePulls={123}
-            pityFive={45}
-            pityFour={9}
-            stats={weaponStats}
-          />
-          <BannerCard 
-            title="Stable Channel"
-            lifetimePulls={88}
-            pityFive={36}
-            pityFour={8}
-            stats={standardStats}
-          />
-          <BannerCard 
-            title="Bangboo Channel"
-            lifetimePulls={88}
-            pityFive={36}
-            pityFour={8}
-            stats={standardStats}
-          />
+          {bannerData.map((banner, index) => (
+            <BannerCard
+              key={index}
+              title={banner.title}
+              lifetimePulls={banner.lifetimePulls}
+              pityFive={banner.pityFive}
+              pityFour={banner.pityFour}
+              stats={banner.stats}
+            />
+          ))}
         </div>
       </div>
     </div>

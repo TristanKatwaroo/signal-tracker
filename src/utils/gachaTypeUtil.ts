@@ -1,7 +1,8 @@
 // src/utils/gachaTypeUtil.ts
 
-export function getGachaTypeName(gachaType: number | string): string {
-  // Convert to number if it's a string
+export function getGachaTypeName(gachaType: number | string | null): string {
+  if (gachaType === null) return 'Unknown';
+  
   const type = typeof gachaType === 'string' ? parseInt(gachaType, 10) : gachaType;
   
   switch (type) {
@@ -21,4 +22,13 @@ export function getGachaTypeName(gachaType: number | string): string {
       console.log('Unknown gacha type:', type);
       return 'Unknown';
   }
+}
+
+export function calculatePity(signals: any[], rank: number): number {
+  let pullsSinceLastRank = 0;
+  for (let i = signals.length - 1; i >= 0; i--) {
+    pullsSinceLastRank++;
+    if (signals[i].rank_type === rank) break;
+  }
+  return pullsSinceLastRank;
 }
