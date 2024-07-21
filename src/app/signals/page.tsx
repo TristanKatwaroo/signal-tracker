@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { getGachaTypeName } from '@/utils/gachaTypeUtil';
 import { getRankTypeName } from '@/utils/rankTypeUtil';
 import BannerCard from '@/components/signals/BannerCard';
+import SkeletonCard from '@/components/signals/SkeletonCard';
 import { ArrowUpToLine, Globe, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -17,22 +18,18 @@ export default async function SignalsPage({ searchParams }: Props) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    return (
-      <div className="flex flex-1 flex-col items-center justify-center">
-        <p>Please log in to view your signals.</p>
-      </div>
-    );
-  }
+  let signals: any[] = [];
+  if (user) {
+    const { data, error } = await supabase
+      .from('signals')
+      .select('*')
+      .eq('user_id', user.id);
 
-  const { data: signals, error } = await supabase
-    .from('signals')
-    .select('*')
-    .eq('user_id', user.id);
-
-  if (error) {
-    console.error('Error fetching signals:', error);
-    return <div>Error loading data</div>;
+    if (error) {
+      console.error('Error fetching signals:', error);
+    } else {
+      signals = data;
+    }
   }
 
   // Group signals by gacha type
@@ -110,17 +107,22 @@ export default async function SignalsPage({ searchParams }: Props) {
       </div>
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 mr-0">
-          {bannerData.map((banner, index) => (
-            <BannerCard
-              key={index}
-              title={banner.title}
-              lifetimePulls={banner.lifetimePulls}
-              pityFive={banner.pityFive}
-              pityFour={banner.pityFour}
-              stats={banner.stats}
-              recentSRanks={banner.recentSRanks}
-            />
-          ))}
+          {['Standard', 'Exclusive', 'W-Engine', 'Bangboo'].map((type, index) => {
+            const banner = bannerData.find(b => b.title === type);
+            return banner ? (
+              <BannerCard
+                key={index}
+                title={banner.title}
+                lifetimePulls={banner.lifetimePulls}
+                pityFive={banner.pityFive}
+                pityFour={banner.pityFour}
+                stats={banner.stats}
+                recentSRanks={banner.recentSRanks}
+              />
+            ) : (
+              <SkeletonCard key={index} title={type} />
+            );
+          })}
         </div>
       </div>
     </div>
