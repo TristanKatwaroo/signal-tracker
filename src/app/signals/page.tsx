@@ -1,4 +1,3 @@
-// src/app/signals/page.tsx
 import React from 'react';
 import { createClient } from '@/utils/supabase/server';
 import { getGachaTypeName } from '@/utils/gachaTypeUtil';
@@ -39,27 +38,29 @@ export default async function SignalsPage({ searchParams }: Props) {
   // Group signals by gacha type
   const signalsByGachaType: { [key: string]: any[] } = {};
   signals.forEach((signal) => {
-    const gachaTypeName = getGachaTypeName(signal.gacha_type);
+    const gachaTypeName = getGachaTypeName(signal.gacha_type!);
     if (!signalsByGachaType[gachaTypeName]) {
       signalsByGachaType[gachaTypeName] = [];
     }
     signalsByGachaType[gachaTypeName].push(signal);
   });
 
-  // Calculate lifetime pulls and pity values
+  // Calculate lifetime pulls, pity values, and recent S-Ranks
   const bannerData = Object.keys(signalsByGachaType).map((gachaTypeName) => {
     const signals = signalsByGachaType[gachaTypeName];
     const lifetimePulls = signals.length;
 
     let pityFive = 0;
     let pityFour = 0;
+    let recentSRanks: { pity: number; name: string }[] = [];
 
-    // Calculate pity values in reverse order
+    // Calculate pity values and collect recent S-Ranks in reverse order
     for (let i = signals.length - 1; i >= 0; i--) {
       const signal = signals[i];
       const rankTypeName = getRankTypeName(signal.rank_type);
 
       if (rankTypeName === 'S-Rank') {
+        recentSRanks.push({ pity: pityFive + 1, name: signal.name });
         pityFive = 0;
       } else {
         pityFive++;
@@ -78,6 +79,7 @@ export default async function SignalsPage({ searchParams }: Props) {
       pityFive,
       pityFour,
       stats: [], // Fill this with appropriate data if needed
+      recentSRanks: recentSRanks.slice(0, 5) // Get the most recent 5 S-Ranks
     };
   });
 
@@ -116,6 +118,7 @@ export default async function SignalsPage({ searchParams }: Props) {
               pityFive={banner.pityFive}
               pityFour={banner.pityFour}
               stats={banner.stats}
+              recentSRanks={banner.recentSRanks}
             />
           ))}
         </div>
