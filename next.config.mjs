@@ -68,4 +68,6 @@ export default withSentryConfig(nextConfig, {
 
   autoInstrumentServerFunctions: false,
   autoInstrumentPages: false,
+  disableClientWebpackPlugin: true, // Disables client-side Webpack plugin
+  disableServerWebpackPlugin: true, // Disables server-side Webpack plugin
 });
