@@ -1,4 +1,4 @@
-// pages/app/signals/page.tsx
+// src/app/signals/page.tsx
 import React from 'react';
 import {
   Card,
@@ -30,12 +30,41 @@ type Props = {
   searchParams: { authModal: string };
 };
 
+async function getUserSignalsData(supabase: any, userId: string) {
+  const { data: signals, error } = await supabase
+    .from('signals')
+    .select('*')
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Error fetching signals:', error);
+    return [];
+  }
+
+  return signals;
+}
+
 export default async function SignalsPage({ searchParams }: Props) {
-  const supabase = await createClient();
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return (
+      <div className="flex flex-1 flex-col gap-4 lg:gap-6">
+        <div className="flex items-center">
+          <h1 className="text-lg mr-6 font-bold md:text-3xl hidden md:block">Signals</h1>
+          <AuthModalTrigger authModal={searchParams.authModal} />
+        </div>
+      </div>
+    );
+  }
+
+  const userSignals = await getUserSignalsData(supabase, user.id);
+  console.log(userSignals);
+
+  // Compute the stats from userSignals data
   const bannerStats = [
     { label: 'S Rank', total: 4, percent: 1.23, pityAvg: 75.75, color: 'text-primary' },
     { label: '— Won 50:50', total: 2, percent: 66.67, pityAvg: 0, color: 'text-primary-foreground' },
@@ -71,20 +100,16 @@ export default async function SignalsPage({ searchParams }: Props) {
   }));
 
   return (
-    <div className="flex flex-1 flex-col gap-4 lg:gap-6 ">
+    <div className="flex flex-1 flex-col gap-4 lg:gap-6">
       <div className="flex items-center">
         <h1 className="text-lg mr-6 font-bold md:text-3xl hidden md:block">Signals</h1>
         <div className="flex flex-wrap w-full gap-4 md:flex-nowrap md:gap-6">
-          {user ? (
-            <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="tertiary">
-              <Link href="/signals/import" prefetch={false}>
-                <ArrowUpToLine className="h-4 w-4 mr-1" />
-                Import
-              </Link>
-            </Button>
-          ) : (
-            <AuthModalTrigger authModal={searchParams.authModal} />
-          )}
+          <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="tertiary">
+            <Link href="/signals/import" prefetch={false}>
+              <ArrowUpToLine className="h-4 w-4 mr-1" />
+              Import
+            </Link>
+          </Button>
           <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="outline">
             <Link href="#" prefetch={false}>
               <Share2 className="h-4 w-4 mr-1" />
@@ -130,7 +155,6 @@ export default async function SignalsPage({ searchParams }: Props) {
             pityFour={8}
             stats={standardStats}
           />
-          {/* <LuckRadar /> */}
         </div>
       </div>
     </div>
