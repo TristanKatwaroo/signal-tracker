@@ -118,14 +118,14 @@ export async function importSignals(formData: FormData) {
   let allData: any[] = [];
 
   for (const gachaType of gachaTypes) {
-    const { error, dataForType } = await fetchType(url, gachaType);
+    // const { error, dataForType } = await fetchType(url, gachaType);
 
-    if (error) {
-      return { error };
-    }
+    // if (error) {
+    //   return { error };
+    // }
 
-    allData = allData.concat(dataForType);
-    await new Promise(resolve => setTimeout(resolve, 80));
+    // allData = allData.concat(dataForType);
+    // await new Promise(resolve => setTimeout(resolve, 80));
   }
 
   // console.log(allData);
