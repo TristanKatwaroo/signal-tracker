@@ -7,6 +7,7 @@ import SkeletonCard from '@/components/signals/SkeletonCard';
 import { ArrowUpToLine, Globe, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import AuthModalTrigger from '@/components/auth/AuthModalTrigger';
 
 export const runtime = 'edge';
 
@@ -85,12 +86,16 @@ export default async function SignalsPage({ searchParams }: Props) {
       <div className="flex items-center">
         <h1 className="text-lg mr-6 font-bold md:text-3xl hidden md:block">Signals</h1>
         <div className="flex flex-wrap w-full gap-4 md:flex-nowrap md:gap-6">
-          <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="tertiary">
-            <Link href="/signals/import" prefetch={false}>
-              <ArrowUpToLine className="h-4 w-4 mr-1" />
-              Import
-            </Link>
-          </Button>
+          {user ? (
+            <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="tertiary">
+              <Link href="/signals/import" prefetch={false}>
+                <ArrowUpToLine className="h-4 w-4 mr-1" />
+                Import
+              </Link>
+            </Button>
+          ) : (
+            <AuthModalTrigger authModal={searchParams.authModal} />
+          )}
           <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="outline">
             <Link href="#" prefetch={false}>
               <Share2 className="h-4 w-4 mr-1" />
