@@ -9,7 +9,19 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization.splitChunks.cacheGroups = {
+        default: false,
+      };
+    }
+    return config;
+  },
+  optimization: {
+    minimize: true,
+  },
+};
 
 export default withSentryConfig(nextConfig, {
 // For all available options, see:
