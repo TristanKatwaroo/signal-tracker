@@ -112,7 +112,7 @@ export default async function SignalsPage({ searchParams }: Props) {
       </div>
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 mr-0">
-          {['Standard', 'Exclusive', 'W-Engine', 'Bangboo'].map((type, index) => {
+          {['Exclusive', 'W-Engine', 'Stable', 'Bangboo'].map((type, index) => {
             const banner = bannerData.find(b => b.title === type);
             return banner ? (
               <BannerCard

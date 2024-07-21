@@ -8,7 +8,7 @@ export function getGachaTypeName(gachaType: number | string | null): string {
   switch (type) {
     case 1:
     case 1001:
-      return 'Standard';
+      return 'Stable';
     case 2:
     case 2001:
       return 'Exclusive';
