@@ -14,10 +14,9 @@ interface SignalData {
   count: string;
   time: string;
   name: string;
-  lang: string;
   item_type: string;
   rank_type: string;
-  id: string;
+  id: string; // Add the id field here
 }
 
 interface GachaLogData {
@@ -139,20 +138,19 @@ export async function importSignals(formData: FormData) {
 export async function saveSignals(formData: FormData) {
   const supabase = createClient();
 
-  const { data, error: authError } = await supabase.auth.getUser();
-  if (authError || !data.user) {
-    console.error("User authentication error:", authError?.message || "User not authenticated.");
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
     return { error: "User not authenticated." };
   }
 
-  const rawData = formData.get('data') as string;
-  if (!rawData) {
+  const data = formData.get('data') as string;
+  if (!data) {
     return { error: "Data is empty." };
   }
 
   let signals: SignalData[];
   try {
-    signals = JSON.parse(rawData);
+    signals = JSON.parse(data);
   } catch (error) {
     console.error("Failed to parse signals data:", error);
     return { error: "Invalid data format." };
@@ -166,18 +164,18 @@ export async function saveSignals(formData: FormData) {
     count: parseInt(signal.count, 10),
     time: signal.time,
     name: signal.name,
-    lang: signal.lang,
     item_type: signal.item_type,
     rank_type: parseInt(signal.rank_type, 10),
-    user_id: data.user.id // Use the authenticated user's UID
+    user_id: user.id, // Use the authenticated user's UID
+    signal_id: signal.id // Add the signal_id field
   }));
 
-  const { error: insertError } = await supabase
+  const { error } = await supabase
     .from('signals')
     .insert(insertData);
 
-  if (insertError) {
-    console.error("Failed to save signals:", insertError);
+  if (error) {
+    console.error("Failed to save signals:", error);
     return { error: "Failed to save signals." };
   }
 
