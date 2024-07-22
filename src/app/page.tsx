@@ -10,7 +10,7 @@ export default function IndexPage() {
   return (
     <>
       <Card
-        className="relative border-none space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 bg-cover bg-center bg-no-repeat"
+        className="relative border-none shadow-2xl space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(${imagesConfig.thumbnails.cunninghares1})`,
         }}
@@ -36,7 +36,7 @@ export default function IndexPage() {
         className="w-full space-y-6 py-8 md:py-12 lg:py-24"
       >
         <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
-          <h2 className="font-semibold leading-none text-2xl sm:text-2xl md:text-2xl">
+          <h2 className="font-semibold leading-none px-8 text-2xl sm:text-2xl md:text-2xl">
             What would you like to do today, Phaethon?
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-base sm:leading-7">
