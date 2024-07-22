@@ -42,7 +42,6 @@ async function fetchWithExponentialBackoff(url: string, retries: number = 5, del
     return response;
   } catch (error) {
     if (retries === 0) {
-      // Sentry.captureException(error);
       throw new Error(`Max retries reached. ${error}`);
     }
     console.error(`Retrying fetch... ${retries} retries left. Error: ${error}`);
@@ -67,20 +66,15 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
 
     if (rateLimit.requests >= rateLimit.maxRequests) {
       const error = new Error('Rate limit exceeded. Please try again later.');
-      // Sentry.captureException(error);
-      // console.error(error.message);
       return { error: error.message };
     }
 
     try {
-      // console.log(`Fetching data for gacha type ${gachaType}, page ${page}`);
       const response = await fetchWithExponentialBackoff(completeUrl);
       const data = await response.json() as GachaLogData;
 
       if (data.retcode !== 0) {
         const error = new Error(`Error fetching data for gacha type ${gachaType}: ${data.message}`);
-        // Sentry.captureException(error);
-        // console.error(error.message);
         return { error: data.message };
       }
 
@@ -95,13 +89,10 @@ async function fetchType(baseUrl: string, gachaType: number): Promise<{ error?: 
       await new Promise(resolve => setTimeout(resolve, 80));
       rateLimit.requests++;
     } catch (error) {
-      // Sentry.captureException(error);
-      // console.error(`Failed to fetch gacha log data for gacha type ${gachaType}: ${(error as Error).message}`);
       return { error: (error as Error).message };
     }
   }
 
-  // console.log(`Fetched a total of ${allData.length} gacha logs for gacha type ${gachaType}.`);
   return { dataForType: allData };
 }
 
@@ -110,7 +101,6 @@ export async function importSignals(formData: FormData) {
 
   if (!url) {
     const error = new Error("Field can't be empty.");
-    // Sentry.captureException(error);
     return { error: error.message };
   }
 
@@ -128,8 +118,6 @@ export async function importSignals(formData: FormData) {
     await new Promise(resolve => setTimeout(resolve, 80));
   }
 
-  // console.log(allData);
-
   revalidatePath('/signals/import');
 
   return { data: allData };
@@ -141,14 +129,12 @@ export async function saveSignals(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     const error = new Error("User not authenticated.");
-    // Sentry.captureException(error);
     return { error: error.message };
   }
 
   const data = formData.get('data') as string;
   if (!data) {
     const error = new Error("Data is empty.");
-    // Sentry.captureException(error);
     return { error: error.message };
   }
 
@@ -156,41 +142,60 @@ export async function saveSignals(formData: FormData) {
   try {
     signals = JSON.parse(data);
   } catch (error) {
-    // Sentry.captureException(error);
-    // console.error("Failed to parse signals data:", error);
     return { error: "Invalid data format." };
   }
 
-  const insertData = signals.map(signal => ({
-    uid: signal.uid,
-    gacha_id: signal.gacha_id,
-    gacha_type: parseInt(signal.gacha_type, 10),
-    item_id: signal.item_id,
-    count: parseInt(signal.count, 10),
-    time: signal.time,
-    name: signal.name,
-    item_type: signal.item_type,
-    rank_type: parseInt(signal.rank_type, 10),
-    user_id: user.id,
-    signal_id: signal.id
-  }));
+  // Get the current highest signal_number for each gacha_type for the user
+  const gachaTypes = new Set<number>();
+  signals.forEach(signal => {
+    gachaTypes.add(parseInt(signal.gacha_type, 10));
+  });
+
+  const maxSignalNumbers: { [key: number]: number } = {};
+  for (const gachaType of Array.from(gachaTypes)) {
+    const { data: maxSignalNumberData, error: maxSignalNumberError } = await supabase
+      .from('signals')
+      .select('signal_number')
+      .eq('user_id', user.id)
+      .eq('gacha_type', gachaType)
+      .order('signal_number', { ascending: false })
+      .limit(1)
+      .single();
+
+    maxSignalNumbers[gachaType] = maxSignalNumberError || maxSignalNumberData === null ? 0 : maxSignalNumberData.signal_number ?? 0;
+  }
+
+  // Prepare the data for insertion
+  let insertData = signals.map(signal => {
+    const gachaType = parseInt(signal.gacha_type, 10);
+    const signal_number = ++maxSignalNumbers[gachaType];
+    return {
+      uid: signal.uid,
+      gacha_id: signal.gacha_id,
+      gacha_type: gachaType,
+      item_id: signal.item_id,
+      count: parseInt(signal.count, 10),
+      time: signal.time,
+      name: signal.name,
+      item_type: signal.item_type,
+      rank_type: parseInt(signal.rank_type, 10),
+      user_id: user.id,
+      signal_id: signal.id,
+      signal_number
+    };
+  });
 
   const { error } = await supabase
     .from('signals')
     .insert(insertData);
 
   if (error) {
-    // Sentry.captureException(error);
     if (error.code === '23505') {
-      // console.error("Duplicate entry detected:", error);
       return { error: "Data already exists in the database." };
     } else {
-      // console.error("Failed to save signals:", error);
       return { error: "Failed to save signals." };
     }
   }
-
-  // console.log("Signals saved successfully");
 
   revalidatePath('/signals/import');
   redirect('/signals');

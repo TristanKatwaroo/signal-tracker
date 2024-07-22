@@ -21,6 +21,7 @@ export type Database = {
           name: string
           rank_type: number
           signal_id: string
+          signal_number: number | null
           time: string
           uid: string
           user_id: string
@@ -36,6 +37,7 @@ export type Database = {
           name: string
           rank_type: number
           signal_id: string
+          signal_number?: number | null
           time: string
           uid: string
           user_id: string
@@ -51,6 +53,7 @@ export type Database = {
           name?: string
           rank_type?: number
           signal_id?: string
+          signal_number?: number | null
           time?: string
           uid?: string
           user_id?: string
