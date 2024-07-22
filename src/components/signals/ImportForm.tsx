@@ -23,7 +23,7 @@ export default function ImportForm() {
     
     const result = await importSignals(formData);
     if (result) {
-      console.log(result);
+      // console.log(result);
       cookies().set('displayResults', 'true', { maxAge: 0 });
       cookies().set('resultData', JSON.stringify(result), { maxAge: 0 });
     }

@@ -22,6 +22,8 @@ export default function ImportResult({ result }: Props) {
   }
 
   if (result.data && result.data.length > 0) {
+    const sortedData = result.data.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+
     return (
       <div className="w-full mx-auto mt-4">
         <h2 className="text-xl font-bold mb-2">Import Result</h2>
@@ -30,6 +32,7 @@ export default function ImportResult({ result }: Props) {
             <Table>
               <TableHeader className="sticky top-0 z-10">
                 <TableRow>
+                  <TableHead className="w-[50px]">#</TableHead>
                   <TableHead className="w-[200px]">Channel</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead className="w-[200px]">Time</TableHead>
@@ -40,8 +43,9 @@ export default function ImportResult({ result }: Props) {
           <ScrollArea className="h-[400px]">
             <Table>
               <TableBody>
-                {result.data.map((item, index) => (
+                {sortedData.map((item, index) => (
                   <TableRow key={index}>
+                    <TableCell className="w-[50px]">{index + 1}</TableCell>
                     <TableCell className="w-[200px]">{getGachaTypeName(item.gacha_type)}</TableCell>
                     <TableCell className={getRarityColor(item.rank_type)}>
                       {item.name}
