@@ -1,12 +1,16 @@
+// src/app/signals/page.tsx
+
 import React from 'react';
 import { createClient } from '@/utils/supabase/server';
 import { getGachaTypeName } from '@/utils/gachaTypeUtil';
 import { getRankTypeName } from '@/utils/rankTypeUtil';
+import { getMaxPity } from '@/utils/gachaUtil';
 import BannerCard from '@/components/signals/BannerCard';
 import SkeletonCard from '@/components/signals/SkeletonCard';
 import { ArrowUpToLine, Globe, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import AuthModalTrigger from '@/components/auth/AuthModalTrigger';
 
 export const runtime = 'edge';
 
@@ -73,11 +77,15 @@ export default async function SignalsPage({ searchParams }: Props) {
       }
     }
 
+    const gachaType = signals[0]?.gacha_type ? parseInt(signals[0].gacha_type) : 0;
+    const maxPity = getMaxPity(gachaType);
+
     return {
       title: gachaTypeName,
+      gachaType,
       lifetimePulls,
-      pityFive,
-      pityFour,
+      pityFive: Math.min(pityFive, maxPity),
+      pityFour: Math.min(pityFour, 10),
       stats: [], // Fill this with appropriate data if needed
       recentSRanks: recentSRanks.slice(0, 5) // Get the most recent 5 S-Ranks
     };
@@ -90,12 +98,16 @@ export default async function SignalsPage({ searchParams }: Props) {
       <div className="flex items-center">
         <h1 className="text-lg mr-6 font-bold md:text-3xl hidden md:block">Signals</h1>
         <div className="flex flex-wrap w-full gap-4 md:flex-nowrap md:gap-6">
-          <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="tertiary">
-            <Link href="/signals/import" prefetch={false}>
-              <ArrowUpToLine className="h-4 w-4 mr-1" />
-              Import
-            </Link>
-          </Button>
+          {user ? (
+            <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="tertiary">
+              <Link href="/signals/import" prefetch={false}>
+                <ArrowUpToLine className="h-4 w-4 mr-1" />
+                Import
+              </Link>
+            </Button>
+          ) : (
+            <AuthModalTrigger authModal={searchParams.authModal} />
+          )}
           <Button asChild size="default" className="flex-1 md:flex-none pr-5 gap-1" variant="outline">
             <Link href="#" prefetch={false}>
               <Share2 className="h-4 w-4 mr-1" />
@@ -117,15 +129,27 @@ export default async function SignalsPage({ searchParams }: Props) {
             if (loading) {
               return <SkeletonCard key={index} title={type} />;
             }
-            return (
+            return banner ? (
               <BannerCard
                 key={index}
-                title={banner?.title || type}
-                lifetimePulls={banner?.lifetimePulls || 0}
-                pityFive={banner?.pityFive || 0}
-                pityFour={banner?.pityFour || 0}
-                stats={banner?.stats || []}
-                recentSRanks={banner?.recentSRanks || []}
+                title={banner.title}
+                gachaType={banner.gachaType}
+                lifetimePulls={banner.lifetimePulls}
+                pityFive={banner.pityFive}
+                pityFour={banner.pityFour}
+                stats={banner.stats}
+                recentSRanks={banner.recentSRanks}
+              />
+            ) : (
+              <BannerCard
+                key={index}
+                title={type}
+                gachaType={gachaTypes.indexOf(type) + 1} // Ensure this corresponds to your gachaType numbers
+                lifetimePulls={0}
+                pityFive={0}
+                pityFour={0}
+                stats={[]}
+                recentSRanks={[]}
               />
             );
           })}
