@@ -1,19 +1,26 @@
-import Link from "next/link"
-import { cn } from "@/lib/utils"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { ArrowDownUp, ArrowUpRightIcon, CalendarDays, Globe, Signal } from "lucide-react"
+// pages/index.tsx
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { ArrowDownUp, ArrowUpRightIcon, CalendarDays, Globe, Signal } from "lucide-react";
+import imagesConfig from "@/lib/imagesConfig"; // Import the images config
 
-export default async function IndexPage() {
+export default function IndexPage() {
   return (
     <>
-      {/* <Card className="space-y-6 bg-card/65 border-primary-foreground/50 border-dashed pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32"> */}
-      <Card className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
-        <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-          <h1 className="font-heading text-2xl sm:text-2xl md:text-3xl lg:text-6xl">
+      <Card
+        className="relative border-none space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(${imagesConfig.thumbnails.cunninghares1})`,
+        }}
+      >
+        {/* <div className="absolute inset-0 bg-black opacity-50"></div> Overlay */}
+        <div className="relative container flex max-w-[64rem] flex-col items-center gap-4 text-center">
+          <h1 className="font-heading text-2xl sm:text-2xl md:text-3xl lg:text-6xl text-white">
             Welcome to <span className="font-bold"><br />SIGNALTRACKER.GG</span>
           </h1>
-          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-lg sm:leading-8">
+          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-lg sm:leading-8 text-white">
             The ultimate community-driven tool for Zenless Zone Zero! Here you can track your signals,
             view global signal stats, check the event/banner timeline, and more!
           </p>
@@ -39,11 +46,10 @@ export default async function IndexPage() {
         <div className="mx-auto w-full grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-4">
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              {/* <svg viewBox="0 0 24 24" className="h-12 w-12 fill-current"></svg> */}
               <div className="flex flex-row">
                 <Signal className="h-12 w-12" />
                 <Button asChild size="sm" className="ml-auto gap-1" variant="tertiary">
-                  <Link href="#" prefetch={false}>
+                  <Link href="/signals" prefetch={false}>
                     Go
                     <ArrowUpRightIcon className="h-4 w-4" />
                   </Link>
@@ -59,7 +65,6 @@ export default async function IndexPage() {
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              {/* <svg viewBox="0 0 24 24" className="h-12 w-12 fill-current"></svg> */}
               <Globe className="h-12 w-12" />
               <div className="space-y-2">
                 <h3 className="font-bold">Global Stats</h3>
@@ -71,7 +76,6 @@ export default async function IndexPage() {
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              {/* <svg viewBox="0 0 24 24" className="h-12 w-12 fill-current"></svg> */}
               <CalendarDays className="h-12 w-12" />
               <div className="space-y-2">
                 <h3 className="font-bold">Timeline</h3>
@@ -83,7 +87,6 @@ export default async function IndexPage() {
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              {/* <svg viewBox="0 0 24 24" className="h-12 w-12 fill-current"></svg> */}
               <ArrowDownUp className="h-12 w-12" />
               <div className="space-y-2">
                 <h3 className="font-bold">Tier List</h3>
@@ -93,64 +96,8 @@ export default async function IndexPage() {
               </div>
             </div>
           </div>
-          {/* <div className="relative overflow-hidden rounded-lg border bg-background p-2">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                className="h-12 w-12 fill-current"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-              <div className="space-y-2">
-                <h3 className="font-bold">Authentication</h3>
-                <p className="text-sm text-muted-foreground">
-                  Authentication using NextAuth.js and middlewares.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <svg viewBox="0 0 24 24" className="h-12 w-12 fill-current"></svg>
-              <div className="space-y-2">
-                <h3 className="font-bold">Subscriptions</h3>
-                <p className="text-sm text-muted-foreground">
-                  Free and paid subscriptions using Stripe.
-                </p>
-              </div>
-            </div>
-          </div> */}
         </div>
-        {/* <div className="mx-auto text-center md:max-w-[58rem]">
-          <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Taxonomy also includes a blog and a full-featured documentation site
-            built using Contentlayer and MDX.
-          </p>
-        </div> */}
       </section>
-      {/* <section id="open-source" className="container py-8 md:py-12 lg:py-24">
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            Proudly Open Source
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Taxonomy is open source and powered by open source software. <br />{" "}
-            The code is available on{" "}
-            <Link
-              href={""}
-              target="_blank"
-              rel="noreferrer"
-              className="underline underline-offset-4"
-            >
-              GitHub
-            </Link>
-            .{" "}
-          </p>
-        </div>
-      </section> */}
     </>
-  )
+  );
 }
