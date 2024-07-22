@@ -28,7 +28,7 @@ const AccountMenu = ({ email }: AccountMenuProps) => {
         <Button className="w-full bg-muted justify-start">
           <div className="flex justify-between items-center w-full">
             <div className="flex gap-2">
-              <span>{email ?? "Account"}</span>
+              <span>{"Account"}</span>
             </div>
             <MoreHorizontal size={20} />
           </div>
@@ -36,10 +36,14 @@ const AccountMenu = ({ email }: AccountMenuProps) => {
       </PopoverTrigger>
       <PopoverContent className="mb-2 w-56 p-3 rounded-[1rem]">
         <div className="space-y-1">
+          <div className="w-full text-muted-foreground p-2 text-xs">
+            {email}
+          </div>
+          {/* <Separator /> */}
           <SidebarButton size="sm" icon={User} className="w-full">
             Support
           </SidebarButton>
-          <Separator />
+          {/* <Separator /> */}
           <SidebarButton size="sm" icon={LogOut} className="w-full" onClick={handleLogout}>
             Logout
           </SidebarButton>
