@@ -8,6 +8,7 @@ import { tabs } from "./tabsConfig";
 import { cn } from "@/lib/utils";
 import AuthCard from "../auth/AuthCard";
 import AccountMenu from "../auth/AccountMenu";
+import imagesConfig from "@/lib/imagesConfig";
 
 type SidebarContentProps = {
   userEmail: string | null;
@@ -24,7 +25,7 @@ export default function SidebarContent({ userEmail }: SidebarContentProps) {
             <span className="text-lg">SIGNALTRACKER.GG</span>
           </Link>
           <Image 
-            src="/images/bangboos/bangboo1half.png"
+            src={imagesConfig.bangboos.bangboo1half}
             alt="Your Image"
             width={500}
             height={500}
