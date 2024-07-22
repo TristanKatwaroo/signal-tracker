@@ -11,7 +11,7 @@ const imagesConfig: { [key: string]: any } = {
     // bangboo2half: `https://imagedelivery.net/${accountHash}/example-image-id/variant`,
   },
   thumbnails: {
-    cunninghares1: `https://imagedelivery.net/${accountHash}/39ec9354-f9dc-492c-a810-63913fcf3900/public`,
+    cunninghares1: `https://imagedelivery.net/${accountHash}/3ee082f2-ac19-41cf-fef2-aa1855e81500/public`,
     // cunninghares2: `https://imagedelivery.net/${accountHash}/example-image-id/variant`,
   }
 };
