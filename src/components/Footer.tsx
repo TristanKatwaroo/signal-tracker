@@ -44,7 +44,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="w-full text-center text-muted-foreground px-6 text-sm mt-6 mb-1">
+        <div className="w-full text-center text-muted-foreground/60 px-6 text-sm mt-6 mb-1">
           &copy; {new Date().getFullYear()} SIGNALTRACKER.GG. SIGNALTRACKER.GG is not affiliated with HoYoverse or Zenless Zone Zero which are registered trademarks of COGNOSPHERE PTE. LTD.
         </div>
       </div>
