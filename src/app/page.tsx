@@ -10,7 +10,7 @@ export default function IndexPage() {
   return (
     <>
       <Card
-        className="relative border-none shadow-2xl space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 bg-cover bg-center bg-no-repeat"
+        className="relative border-none shadow-dark-md space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(${imagesConfig.thumbnails.cunninghares1})`,
         }}
@@ -44,7 +44,7 @@ export default function IndexPage() {
           </p>
         </div>
         <div className="mx-auto w-full grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-4">
-          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+          <Card className="relative overflow-hidden rounded-lg border bg-card p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
               <div className="flex flex-row">
                 <Signal className="h-12 w-12" />
@@ -62,8 +62,8 @@ export default function IndexPage() {
                 </p>
               </div>
             </div>
-          </div>
-          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+          </Card>
+          <Card className="relative overflow-hidden rounded-lg border bg-card p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
               <Globe className="h-12 w-12" />
               <div className="space-y-2">
@@ -73,8 +73,8 @@ export default function IndexPage() {
                 </p>
               </div>
             </div>
-          </div>
-          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+          </Card>
+          <Card className="relative overflow-hidden rounded-lg border bg-card p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
               <CalendarDays className="h-12 w-12" />
               <div className="space-y-2">
@@ -84,8 +84,8 @@ export default function IndexPage() {
                 </p>
               </div>
             </div>
-          </div>
-          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+          </Card>
+          <Card className="relative overflow-hidden rounded-lg border bg-card p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
               <ArrowDownUp className="h-12 w-12" />
               <div className="space-y-2">
@@ -95,7 +95,7 @@ export default function IndexPage() {
                 </p>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
       </section>
     </>
