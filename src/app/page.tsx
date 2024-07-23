@@ -52,7 +52,7 @@ export default function IndexPage() {
           ].map((item, index) => (
             <Link href={item.url} key={index} className="group">
               <Card className="relative overflow-hidden rounded-lg border bg-card p-2 transition-colors hover:bg-accent">
-                <div className="flex h-[180px] flex-col justify-between rounded-md p-6 pb-32">
+                <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
                   <div className="flex flex-row items-start">
                     <item.icon className="h-12 w-12" />
                     <ArrowUpRightIcon className="h-4 w-4 ml-auto text-primary" />
