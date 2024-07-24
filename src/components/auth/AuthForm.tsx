@@ -59,13 +59,19 @@ export default function AuthForm({
         <div className="grid gap-2">
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
-            {!isSignUp && (
+            {!isSignUp ? (
               <button
                 type="button"
                 className="ml-auto inline-block text-sm underline hover:no-underline"
               >
                 Forgot your password?
               </button>
+            ) : (
+              <p
+                className="ml-auto inline-block text-sm"
+              >
+                &#8203;
+              </p>
             )}
           </div>
           <Input
