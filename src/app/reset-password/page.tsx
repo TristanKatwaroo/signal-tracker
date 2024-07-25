@@ -51,7 +51,7 @@ export default function PasswordResetPage() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-card py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {error && <p className="text-red-500 mb-4">{error}</p>}
           {success ? (
             <p className="text-green-500">Password reset successfully. You can now log in.</p>
