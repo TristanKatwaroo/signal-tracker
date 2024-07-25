@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { resetPassword } from '@/app/auth/actions';
 import { Input } from '@/components/ui/input';
@@ -11,15 +11,21 @@ export default function PasswordResetPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+  const code = searchParams.get('code');
+
+  useEffect(() => {
+    if (!code) {
+      setError('Invalid or missing reset code');
+    }
+  }, [code]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!token) {
-      setError('Invalid or missing token');
+    if (!code) {
+      setError('Invalid or missing reset code');
       return;
     }
-    const result = await resetPassword(token, newPassword);
+    const result = await resetPassword(code, newPassword);
     if (result.error) {
       setError(result.error);
     } else {

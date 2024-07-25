@@ -52,7 +52,9 @@ export async function requestPasswordReset(formData: FormData) {
     return { error: 'Email is required' };
   }
 
-  const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`,
+  });
 
   if (error) {
     return { error: error.message };
@@ -61,13 +63,10 @@ export async function requestPasswordReset(formData: FormData) {
   return { success: true, data };
 }
 
-export async function resetPassword(token: string, newPassword: string) {
+export async function resetPassword(code: string, newPassword: string) {
   const supabase = createClient();
 
-  const { error } = await supabase.auth.verifyOtp({
-    token_hash: token,
-    type: 'recovery',
-  });
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
     return { error: error.message };
