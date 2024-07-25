@@ -2,12 +2,12 @@
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { login, signup, resetPassword } from "@/app/auth/actions";
+import { login, signup, requestPasswordReset } from "@/app/auth/actions";
 import { useState } from "react";
 
 interface AuthFormProps {
-  mode: 'signUp' | 'signIn' | 'resetPassword';
-  toggleAuthMode: (mode: 'signUp' | 'signIn' | 'resetPassword') => void;
+  mode: 'signUp' | 'signIn' | 'requestPasswordReset';
+  toggleAuthMode: (mode: 'signUp' | 'signIn' | 'requestPasswordReset') => void;
   onSuccess: () => void;
 }
 
@@ -18,7 +18,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
   const handleAuth = async (formData: FormData) => {
     setIsLoading(true);
     setAuthError(null);
-    const action = mode === 'signUp' ? signup : mode === 'signIn' ? login : resetPassword;
+    const action = mode === 'signUp' ? signup : mode === 'signIn' ? login : requestPasswordReset;
     const response = await action(formData);
     setIsLoading(false);
 
@@ -52,7 +52,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
             className={authError ? 'border-red-500' : ''}
           />
         </div>
-        {mode !== 'resetPassword' && (
+        {mode !== 'requestPasswordReset' && (
           <div className="grid gap-2">
             <div className="flex items-center">
               <Label htmlFor="password">Password</Label>
@@ -60,7 +60,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
                 <button
                   type="button"
                   className="ml-auto inline-block text-sm underline hover:no-underline"
-                  onClick={() => toggleAuthMode('resetPassword')}
+                  onClick={() => toggleAuthMode('requestPasswordReset')}
                 >
                   Forgot your password?
                 </button>

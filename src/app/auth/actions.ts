@@ -1,7 +1,7 @@
-// actions.ts
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 
 export async function login(formData: FormData) {
   const supabase = createClient();
@@ -43,7 +43,7 @@ export async function signout() {
   return { success: true };
 }
 
-export async function resetPassword(formData: FormData) {
+export async function requestPasswordReset(formData: FormData) {
   const supabase = createClient();
 
   const email = formData.get('email') as string;
@@ -59,4 +59,27 @@ export async function resetPassword(formData: FormData) {
   }
 
   return { success: true, data };
+}
+
+export async function resetPassword(token: string, newPassword: string) {
+  const supabase = createClient();
+
+  const { error } = await supabase.auth.verifyOtp({
+    token_hash: token,
+    type: 'recovery',
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  const { error: updateError } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (updateError) {
+    return { error: updateError.message };
+  }
+
+  return { success: true };
 }
