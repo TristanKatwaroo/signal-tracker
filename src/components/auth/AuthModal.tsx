@@ -15,14 +15,14 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen = false, onClose, renderButton = true, buttonText = 'Sign up', onSuccess }: AuthModalProps) {
-  const [mode, setMode] = useState<'signUp' | 'signIn' | 'resetPassword'>('signUp');
+  const [mode, setMode] = useState<'signUp' | 'signIn' | 'requestPasswordReset'>('signUp');
   const [open, setOpen] = useState(isOpen);
 
   useEffect(() => {
     setOpen(isOpen);
   }, [isOpen]);
 
-  const toggleAuthMode = (newMode: 'signUp' | 'signIn' | 'resetPassword') => {
+  const toggleAuthMode = (newMode: 'signUp' | 'signIn' | 'requestPasswordReset') => {
     setMode(newMode);
   };
 
