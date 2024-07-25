@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import { resetPassword } from '@/app/auth/actions';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import ResetLayout from '@/components/layouts/ResetLayout';
 
 export default function PasswordResetPage() {
   const [newPassword, setNewPassword] = useState('');
@@ -44,7 +43,7 @@ export default function PasswordResetPage() {
   };
 
   return (
-    <ResetLayout>
+    <>
       <h1 className="text-2xl font-bold mb-4">Reset Password</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {success ? (
@@ -61,7 +60,7 @@ export default function PasswordResetPage() {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
-              className="mt-1"
+              className="mt-1 bg-card"
             />
           </div>
           <div className="mb-4">
@@ -74,7 +73,7 @@ export default function PasswordResetPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="mt-1"
+              className="mt-1 bg-card"
             />
           </div>
           <Button type="submit" variant="tertiary" className="w-full">
@@ -82,6 +81,6 @@ export default function PasswordResetPage() {
           </Button>
         </form>
       )}
-    </ResetLayout>
+    </>
   );
 }
