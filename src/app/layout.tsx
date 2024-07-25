@@ -1,4 +1,4 @@
-// layout.tsx or the main layout component
+// app/layout.tsx or the main layout component
 import type { Metadata } from "next";
 import { Outfit as FontSans } from "next/font/google";
 import "./globals.css";
@@ -8,7 +8,6 @@ import MobileHeader from "@/components/navigation/MobileHeader";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer"; // Import Footer
 import { Toaster } from "@/components/ui/toaster";
-import { usePathname } from 'next/navigation';
 
 export const runtime = "edge";
 
@@ -25,12 +24,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  showSidebar = true,
 }: {
   children: React.ReactNode;
+  showSidebar?: boolean;
 }) {
-  const pathname = usePathname();
-  const isResetPasswordPage = pathname === '/reset-password';
-
   return (
     <html lang="en">
       <body
@@ -45,9 +43,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex flex-col min-h-screen">
-            {!isResetPasswordPage && <MobileHeader />}
+            {showSidebar && <MobileHeader />}
             <div className="flex flex-grow">
-              {!isResetPasswordPage && (
+              {showSidebar ? (
                 <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] flex-grow">
                   <Sidebar />
                   <div className="flex flex-col flex-grow stripe-pattern">
@@ -57,8 +55,7 @@ export default function RootLayout({
                     <Footer />
                   </div>
                 </div>
-              )}
-              {isResetPasswordPage && (
+              ) : (
                 <main className="flex-grow max-w-7xl 2xl:max-w-[100rem] mx-auto w-full px-4 md:px-6 lg:px-8 py-8">
                   {children}
                 </main>
