@@ -7,7 +7,7 @@ interface ResetLayoutProps {
 
 const ResetLayout = ({ children }: ResetLayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex flex-col items-center justify-center">
       <main className="w-full max-w-md p-4 rounded shadow-md">{children}</main>
     </div>
   );
