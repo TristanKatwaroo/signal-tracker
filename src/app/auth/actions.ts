@@ -1,3 +1,4 @@
+// actions.ts
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
@@ -40,4 +41,22 @@ export async function signout() {
   const supabase = createClient();
   await supabase.auth.signOut();
   return { success: true };
+}
+
+export async function resetPassword(formData: FormData) {
+  const supabase = createClient();
+
+  const email = formData.get('email') as string;
+
+  if (!email) {
+    return { error: 'Email is required' };
+  }
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  return { success: true, data };
 }

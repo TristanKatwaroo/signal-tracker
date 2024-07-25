@@ -1,4 +1,4 @@
-// components/auth/AuthModal.tsx
+// AuthModal.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -11,19 +11,19 @@ interface AuthModalProps {
   onClose?: () => void;
   renderButton?: boolean;
   buttonText?: string;
-  onSuccess?: () => void; // New prop
+  onSuccess?: () => void;
 }
 
 export default function AuthModal({ isOpen = false, onClose, renderButton = true, buttonText = 'Sign up', onSuccess }: AuthModalProps) {
-  const [isSignUp, setIsSignUp] = useState(true);
+  const [mode, setMode] = useState<'signUp' | 'signIn' | 'resetPassword'>('signUp');
   const [open, setOpen] = useState(isOpen);
 
   useEffect(() => {
     setOpen(isOpen);
   }, [isOpen]);
 
-  const toggleAuthMode = () => {
-    setIsSignUp((prev) => !prev);
+  const toggleAuthMode = (newMode: 'signUp' | 'signIn' | 'resetPassword') => {
+    setMode(newMode);
   };
 
   const handleSuccess = () => {
@@ -49,16 +49,18 @@ export default function AuthModal({ isOpen = false, onClose, renderButton = true
       <DialogContent className="mx-auto rounded-xl max-w-sm shadow-md">
         <div className="flex flex-col space-y-1.5 p-3">
           <DialogTitle className="font-semibold text-xl">
-            {isSignUp ? 'Sign Up' : 'Sign In'}
+            {mode === 'signUp' ? 'Sign Up' : mode === 'signIn' ? 'Sign In' : 'Reset Password'}
           </DialogTitle>
           <p className="text-sm text-muted-foreground">
-            {isSignUp
+            {mode === 'signUp'
               ? 'Enter your information to create an account'
-              : 'Enter your credentials to sign in'}
+              : mode === 'signIn'
+              ? 'Enter your credentials to sign in'
+              : 'Enter your email to reset your password'}
           </p>
         </div>
         <AuthForm
-          isSignUp={isSignUp}
+          mode={mode}
           toggleAuthMode={toggleAuthMode}
           onSuccess={handleSuccess}
         />
