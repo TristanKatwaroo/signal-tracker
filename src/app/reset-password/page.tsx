@@ -52,7 +52,7 @@ export default function PasswordResetPage() {
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="new-password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="new-password" className="block text-sm font-medium">
               New Password
             </label>
             <Input
@@ -65,7 +65,7 @@ export default function PasswordResetPage() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="confirm-password" className="block text-sm font-medium">
               Confirm New Password
             </label>
             <Input
