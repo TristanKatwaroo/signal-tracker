@@ -8,6 +8,7 @@ import MobileHeader from "@/components/navigation/MobileHeader";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer"; // Import Footer
 import { Toaster } from "@/components/ui/toaster";
+import { usePathname } from 'next/navigation';
 
 export const runtime = "edge";
 
@@ -27,6 +28,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isResetPasswordPage = pathname === '/reset-password';
+
   return (
     <html lang="en">
       <body
@@ -41,17 +45,24 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex flex-col min-h-screen">
-            <MobileHeader />
+            {!isResetPasswordPage && <MobileHeader />}
             <div className="flex flex-grow">
-              <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] flex-grow">
-                <Sidebar />
-                <div className="flex flex-col flex-grow stripe-pattern">
-                  <main className="flex-grow max-w-7xl 2xl:max-w-[100rem] mx-auto w-full px-4 md:px-6 lg:px-8 py-8">
-                    {children}
-                  </main>
-                  <Footer />
+              {!isResetPasswordPage && (
+                <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] flex-grow">
+                  <Sidebar />
+                  <div className="flex flex-col flex-grow stripe-pattern">
+                    <main className="flex-grow max-w-7xl 2xl:max-w-[100rem] mx-auto w-full px-4 md:px-6 lg:px-8 py-8">
+                      {children}
+                    </main>
+                    <Footer />
+                  </div>
                 </div>
-              </div>
+              )}
+              {isResetPasswordPage && (
+                <main className="flex-grow max-w-7xl 2xl:max-w-[100rem] mx-auto w-full px-4 md:px-6 lg:px-8 py-8">
+                  {children}
+                </main>
+              )}
             </div>
           </div>
         </ThemeProvider>
