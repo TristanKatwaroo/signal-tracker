@@ -3,6 +3,8 @@
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
 export async function login(formData: FormData) {
   const supabase = createClient();
 
@@ -53,7 +55,7 @@ export async function requestPasswordReset(formData: FormData) {
   }
 
   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`,
+    redirectTo: `${siteUrl}/reset-password`,
   });
 
   if (error) {
