@@ -17,6 +17,7 @@ interface AuthModalProps {
 export default function AuthModal({ isOpen = false, onClose, renderButton = true, buttonText = 'Sign up', onSuccess }: AuthModalProps) {
   const [mode, setMode] = useState<'signUp' | 'signIn' | 'requestPasswordReset'>('signUp');
   const [open, setOpen] = useState(isOpen);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
     setOpen(isOpen);
@@ -24,12 +25,17 @@ export default function AuthModal({ isOpen = false, onClose, renderButton = true
 
   const toggleAuthMode = (newMode: 'signUp' | 'signIn' | 'requestPasswordReset') => {
     setMode(newMode);
+    setSuccessMessage(null); // Clear success message when mode changes
   };
 
-  const handleSuccess = () => {
-    setOpen(false); // Close the dialog upon successful login
-    if (onClose) onClose();
-    if (onSuccess) onSuccess(); // Call the success callback
+  const handleSuccess = (message: string) => {
+    if (mode === 'signIn') {
+      setOpen(false); // Close the dialog upon successful login
+      if (onClose) onClose();
+      if (onSuccess) onSuccess(); // Call the success callback
+    } else {
+      setSuccessMessage(message);
+    }
   };
 
   return (
@@ -64,6 +70,11 @@ export default function AuthModal({ isOpen = false, onClose, renderButton = true
           toggleAuthMode={toggleAuthMode}
           onSuccess={handleSuccess}
         />
+        {successMessage && (
+          <p className="text-green-500 text-xs text-center">
+            {successMessage}
+          </p>
+        )}
       </DialogContent>
     </Dialog>
   );

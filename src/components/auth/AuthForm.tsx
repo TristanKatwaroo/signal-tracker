@@ -3,17 +3,21 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { login, signup, requestPasswordReset } from "@/app/auth/actions";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface AuthFormProps {
   mode: 'signUp' | 'signIn' | 'requestPasswordReset';
   toggleAuthMode: (mode: 'signUp' | 'signIn' | 'requestPasswordReset') => void;
-  onSuccess: () => void;
+  onSuccess: (message: string) => void;
 }
 
 export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormProps) {
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setAuthError(null); // Clear error messages when mode changes
+  }, [mode]);
 
   const handleAuth = async (formData: FormData) => {
     setIsLoading(true);
@@ -25,7 +29,13 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
     if (response.error) {
       setAuthError(response.error);
     } else {
-      onSuccess();
+      if (mode === 'signIn') {
+        onSuccess('Login successful!');
+      } else if (mode === 'signUp') {
+        onSuccess('Verification email sent. Please check your inbox.');
+      } else {
+        onSuccess('Password reset email sent. Please check your inbox.');
+      }
     }
   };
 
