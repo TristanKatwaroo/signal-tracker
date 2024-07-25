@@ -37,6 +37,8 @@ export default async function SignalsPage({ searchParams }: Props) {
       signals = data;
       loading = false;
     }
+  } else {
+    loading = false; // User is not logged in, so we are not loading
   }
 
   // Group signals by gacha type
@@ -92,6 +94,12 @@ export default async function SignalsPage({ searchParams }: Props) {
   });
 
   const gachaTypes = ['Exclusive', 'W-Engine', 'Stable', 'Bangboo'];
+  const gachaTypeMap: { [key: string]: number } = {
+    'Exclusive': 2,
+    'W-Engine': 3,
+    'Stable': 1,
+    'Bangboo': 5,
+  };
 
   return (
     <div className="flex flex-1 flex-col gap-4 lg:gap-6">
@@ -126,9 +134,6 @@ export default async function SignalsPage({ searchParams }: Props) {
         <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 mr-0">
           {gachaTypes.map((type, index) => {
             const banner = bannerData.find(b => b.title === type);
-            if (loading) {
-              return <SkeletonCard key={index} title={type} />;
-            }
             return banner ? (
               <BannerCard
                 key={index}
@@ -144,7 +149,7 @@ export default async function SignalsPage({ searchParams }: Props) {
               <BannerCard
                 key={index}
                 title={type}
-                gachaType={gachaTypes.indexOf(type) + 1} // Ensure this corresponds to your gachaType numbers
+                gachaType={gachaTypeMap[type]} // Ensure this corresponds to your gachaType numbers
                 lifetimePulls={0}
                 pityFive={0}
                 pityFour={0}
