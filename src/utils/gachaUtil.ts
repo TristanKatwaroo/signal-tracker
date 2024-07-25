@@ -3,7 +3,6 @@
 export function getMaxPity(gachaType: number | string): number {
     const type = typeof gachaType === 'string' ? parseInt(gachaType, 10) : gachaType;
   
-    console.log(type, gachaType);
     switch (type) {
       case 1:
       case 1001:

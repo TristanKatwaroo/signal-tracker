@@ -29,7 +29,6 @@ type BannerCardProps = {
 
 const BannerCard: React.FC<BannerCardProps> = ({ title, gachaType, lifetimePulls, pityFive, pityFour, stats, recentSRanks }) => {
   const maxPity = getMaxPity(gachaType);  // Get the maximum pity based on gacha type
-  console.log(maxPity, title, gachaType)
 
   return (
     <Card className="p-2 shadow-md">
