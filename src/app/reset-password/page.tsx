@@ -44,7 +44,6 @@ export default function PasswordResetPage() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-4">Reset Password</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {success ? (
         <p className="text-green-500">Password reset successfully. You can now log in.</p>
