@@ -32,7 +32,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
     formData.append("captchaToken", captchaToken);
 
     // Verify the Turnstile token
-    const response = await fetch('/api/verify-turnstile', {
+    const response = await fetch('/api/captcha', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
