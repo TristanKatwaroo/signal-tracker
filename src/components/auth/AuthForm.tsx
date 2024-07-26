@@ -2,8 +2,9 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { login, signup, requestPasswordReset } from "@/app/auth/actions";
-import { useState, useEffect } from "react";
-import { Turnstile } from '@marsidev/react-turnstile'
+import { useState, useRef } from "react";
+import { Turnstile } from '@marsidev/react-turnstile';
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   mode: 'signUp' | 'signIn' | 'requestPasswordReset';
@@ -14,27 +15,45 @@ interface AuthFormProps {
 export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormProps) {
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [turnstileStatus, setTurnstileStatus] = useState<"success" | "error" | "expired" | "required">("required");
+  const formRef = useRef<HTMLFormElement>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    setAuthError(null); // Clear error messages when mode changes
-  }, [mode]);
 
   const handleAuth = async (formData: FormData) => {
     setIsLoading(true);
     setAuthError(null);
 
-    // Include the captcha token in the form data
-    if (captchaToken) {
-      formData.append('captchaToken', captchaToken);
+    if (turnstileStatus !== "success" || !captchaToken) {
+      setAuthError("Please verify you are not a robot");
+      setIsLoading(false);
+      return;
+    }
+
+    formData.append("captchaToken", captchaToken);
+
+    // Verify the Turnstile token
+    const response = await fetch('/api/verify-turnstile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token: captchaToken }),
+    });
+
+    const verificationResult: { success: boolean; error?: string } = await response.json();
+
+    if (!response.ok || !verificationResult.success) {
+      setIsLoading(false);
+      setAuthError(verificationResult.error || 'Failed to verify CAPTCHA');
+      return;
     }
 
     const action = mode === 'signUp' ? signup : mode === 'signIn' ? login : requestPasswordReset;
-    const response = await action(formData);
+    const result = await action(formData);
     setIsLoading(false);
 
-    if (response.error) {
-      setAuthError(response.error);
+    if (result.error) {
+      setAuthError(result.error);
     } else {
       if (mode === 'signIn') {
         onSuccess('Login successful!');
@@ -50,11 +69,11 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
     <div className="p-3 pt-0">
       <form
         id="auth-form"
+        ref={formRef}
         className="grid gap-4"
-        action={handleAuth}
         onSubmit={(e) => {
           e.preventDefault();
-          const formData = new FormData(e.currentTarget);
+          const formData = new FormData(formRef.current!);
           handleAuth(formData);
         }}
       >
@@ -95,18 +114,22 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
             />
           </div>
         )}
-        <Turnstile
-          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-          onSuccess={(token) => {
-            setCaptchaToken(token);
-          }}
-          className="mb-4"
-        />
         {authError && (
           <div className="text-sm font-medium text-destructive">
             {authError}
           </div>
         )}
+        <div>
+          <Turnstile
+            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+            onError={() => setTurnstileStatus("error")}
+            onExpire={() => setTurnstileStatus("expired")}
+            onSuccess={(token) => {
+              setTurnstileStatus("success");
+              setCaptchaToken(token);
+            }}
+          />
+        </div>
         <Button type="submit" variant="tertiary" className="w-full" disabled={isLoading}>
           {isLoading ? "Loading..." : mode === 'signUp' ? "Sign Up" : mode === 'signIn' ? "Login" : "Reset Password"}
         </Button>
