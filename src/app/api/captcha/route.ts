@@ -10,6 +10,10 @@ interface CloudflareTurnstileResponse {
 export async function POST(req: NextRequest) {
   const { token }: { token: string } = await req.json();
 
+  if (!token) {
+    return NextResponse.json({ error: "Missing token" }, { status: 400 });
+  }
+
   const turnstileRequest = await fetch(
     "https://challenges.cloudflare.com/turnstile/v0/siteverify",
     {
@@ -24,7 +28,11 @@ export async function POST(req: NextRequest) {
   const turnstileResponse = (await turnstileRequest.json()) as CloudflareTurnstileResponse;
 
   if (!turnstileResponse.success) {
-    return NextResponse.json({ error: "Invalid token" }, { status: 400 });
+    console.error("Turnstile verification failed:", turnstileResponse["error-codes"]);
+    return NextResponse.json({ 
+      error: "Invalid token", 
+      details: turnstileResponse["error-codes"] 
+    }, { status: 400 });
   }
 
   return NextResponse.json({ success: true });

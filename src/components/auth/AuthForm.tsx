@@ -2,9 +2,8 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { login, signup, requestPasswordReset } from "@/app/auth/actions";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Turnstile } from '@marsidev/react-turnstile';
-import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   mode: 'signUp' | 'signIn' | 'requestPasswordReset';
@@ -15,15 +14,22 @@ interface AuthFormProps {
 export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormProps) {
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [turnstileStatus, setTurnstileStatus] = useState<"success" | "error" | "expired" | "required">("required");
-  const formRef = useRef<HTMLFormElement>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const turnstileRef = useRef<any>(null);
+
+  const resetTurnstile = useCallback(() => {
+    if (turnstileRef.current) {
+      turnstileRef.current.reset();
+    }
+    setCaptchaToken(null);
+  }, []);
 
   const handleAuth = async (formData: FormData) => {
     setIsLoading(true);
     setAuthError(null);
 
-    if (turnstileStatus !== "success" || !captchaToken) {
+    if (!captchaToken) {
       setAuthError("Please verify you are not a robot");
       setIsLoading(false);
       return;
@@ -45,6 +51,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
     if (!response.ok || !verificationResult.success) {
       setIsLoading(false);
       setAuthError(verificationResult.error || 'Failed to verify CAPTCHA');
+      resetTurnstile();
       return;
     }
 
@@ -54,6 +61,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
 
     if (result.error) {
       setAuthError(result.error);
+      resetTurnstile();
     } else {
       if (mode === 'signIn') {
         onSuccess('Login successful!');
@@ -121,16 +129,22 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
         )}
         <div>
           <Turnstile
+            ref={turnstileRef}
             siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-            onError={() => setTurnstileStatus("error")}
-            onExpire={() => setTurnstileStatus("expired")}
+            onError={() => {
+              setAuthError("CAPTCHA error occurred. Please try again.");
+              resetTurnstile();
+            }}
+            onExpire={() => {
+              setAuthError("CAPTCHA expired. Please verify again.");
+              resetTurnstile();
+            }}
             onSuccess={(token) => {
-              setTurnstileStatus("success");
               setCaptchaToken(token);
             }}
           />
         </div>
-        <Button type="submit" variant="tertiary" className="w-full" disabled={isLoading}>
+        <Button type="submit" variant="tertiary" className="w-full" disabled={isLoading || !captchaToken}>
           {isLoading ? "Loading..." : mode === 'signUp' ? "Sign Up" : mode === 'signIn' ? "Login" : "Reset Password"}
         </Button>
       </form>
