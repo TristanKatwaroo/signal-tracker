@@ -24,7 +24,7 @@ export async function login(formData: FormData) {
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
-  }
+  };
 
   const { error } = await supabase.auth.signInWithPassword(data);
 
@@ -38,12 +38,19 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
   const supabase = createClient();
 
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+  const captchaToken = formData.get('captchaToken') as string;
+
+  if (!email || !password || !captchaToken) {
+    return { error: 'Missing required fields.' };
   }
 
-  const { data: signUpData, error } = await supabase.auth.signUp(data);
+  const { data: signUpData, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { captchaToken },
+  });
 
   if (error) {
     // Check for specific error codes or messages to handle existing email case

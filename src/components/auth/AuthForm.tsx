@@ -1,9 +1,9 @@
-// AuthForm.tsx
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { login, signup, requestPasswordReset } from "@/app/auth/actions";
 import { useState, useEffect } from "react";
+import { Turnstile } from '@marsidev/react-turnstile'
 
 interface AuthFormProps {
   mode: 'signUp' | 'signIn' | 'requestPasswordReset';
@@ -14,6 +14,7 @@ interface AuthFormProps {
 export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormProps) {
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   useEffect(() => {
     setAuthError(null); // Clear error messages when mode changes
@@ -22,6 +23,12 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
   const handleAuth = async (formData: FormData) => {
     setIsLoading(true);
     setAuthError(null);
+
+    // Include the captcha token in the form data
+    if (captchaToken) {
+      formData.append('captchaToken', captchaToken);
+    }
+
     const action = mode === 'signUp' ? signup : mode === 'signIn' ? login : requestPasswordReset;
     const response = await action(formData);
     setIsLoading(false);
@@ -88,6 +95,13 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
             />
           </div>
         )}
+        <Turnstile
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+          onSuccess={(token) => {
+            setCaptchaToken(token);
+          }}
+          className="mb-4"
+        />
         {authError && (
           <div className="text-sm font-medium text-destructive">
             {authError}
