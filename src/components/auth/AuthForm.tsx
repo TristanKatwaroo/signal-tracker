@@ -18,6 +18,10 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
   const formRef = useRef<HTMLFormElement>(null);
   const turnstileRef = useRef<any>(null);
 
+  const turnstileSiteKey = process.env.NODE_ENV === 'development' 
+       ? '1x00000000000000000000AA'
+       : process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!;
+
   const resetTurnstile = useCallback(() => {
     if (turnstileRef.current) {
       turnstileRef.current.reset();
@@ -130,7 +134,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
         <div>
           <Turnstile
             ref={turnstileRef}
-            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+            siteKey={turnstileSiteKey}
             onError={() => {
               setAuthError("CAPTCHA error occurred. Please try again.");
               resetTurnstile();
