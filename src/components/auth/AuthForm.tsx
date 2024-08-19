@@ -14,7 +14,7 @@ interface AuthFormProps {
 export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormProps) {
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  // const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const turnstileRef = useRef<any>(null);
 
@@ -22,24 +22,36 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
        ? '1x00000000000000000000AA'
        : process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!;
 
-  const resetTurnstile = useCallback(() => {
-    if (turnstileRef.current) {
-      turnstileRef.current.reset();
-    }
-    setCaptchaToken(null);
-  }, []);
+  // const resetTurnstile = useCallback(() => {
+  //   if (turnstileRef.current) {
+  //     turnstileRef.current.reset();
+  //   }
+  //   setCaptchaToken(null);
+  // }, []);
 
-  const handleAuth = async (formData: FormData) => {
+  const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsLoading(true);
     setAuthError(null);
 
-    if (!captchaToken) {
+    let token: string | null = null;
+    try {
+      // Execute Turnstile and get a fresh token
+      token = await turnstileRef.current.execute();
+    } catch (error) {
+      setAuthError("Failed to verify CAPTCHA. Please try again.");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!token) {
       setAuthError("Please verify you are not a robot");
       setIsLoading(false);
       return;
     }
 
-    formData.append("captchaToken", captchaToken);
+    const formData = new FormData(formRef.current!);
+    formData.append("captchaToken", token);
 
     // Verify the Turnstile token
     const response = await fetch('/api/captcha', {
@@ -47,7 +59,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token: captchaToken }),
+      body: JSON.stringify({ token }),
     });
 
     const verificationResult: { success: boolean; error?: string } = await response.json();
@@ -55,7 +67,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
     if (!response.ok || !verificationResult.success) {
       setIsLoading(false);
       setAuthError(verificationResult.error || 'Failed to verify CAPTCHA');
-      resetTurnstile();
+      turnstileRef.current.reset();
       return;
     }
 
@@ -65,7 +77,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
 
     if (result.error) {
       setAuthError(result.error);
-      resetTurnstile();
+      turnstileRef.current.reset();
     } else {
       if (mode === 'signIn') {
         onSuccess('Login successful!');
@@ -83,11 +95,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
         id="auth-form"
         ref={formRef}
         className="grid gap-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(formRef.current!);
-          handleAuth(formData);
-        }}
+        onSubmit={handleAuth}
       >
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
@@ -135,20 +143,13 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
           <Turnstile
             ref={turnstileRef}
             siteKey={turnstileSiteKey}
-            onError={() => {
-              setAuthError("CAPTCHA error occurred. Please try again.");
-              resetTurnstile();
-            }}
-            onExpire={() => {
-              setAuthError("CAPTCHA expired. Please verify again.");
-              resetTurnstile();
-            }}
-            onSuccess={(token) => {
-              setCaptchaToken(token);
+            options={{
+              action: 'auth',
+              size: 'invisible',
             }}
           />
         </div>
-        <Button type="submit" variant="tertiary" className="w-full" disabled={isLoading || !captchaToken}>
+        <Button type="submit" variant="tertiary" className="w-full" disabled={isLoading}>
           {isLoading ? "Loading..." : mode === 'signUp' ? "Sign Up" : mode === 'signIn' ? "Login" : "Reset Password"}
         </Button>
       </form>
