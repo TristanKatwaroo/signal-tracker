@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
   );
 
   const turnstileResponse = (await turnstileRequest.json()) as CloudflareTurnstileResponse;
+  console.log("Full Turnstile response:", turnstileResponse);
 
   if (!turnstileResponse.success) {
     console.error("Turnstile verification failed:", turnstileResponse["error-codes"]);
