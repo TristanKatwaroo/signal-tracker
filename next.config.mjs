@@ -7,23 +7,12 @@ if (process.env.NODE_ENV === 'development') {
   await setupDevPlatform();
 }
 
-// Retrieve the Cloudflare account hash from the environment variable
-const accountHash = process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH;
-
-if (!accountHash) {
-  throw new Error('NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH environment variable is not defined.');
-}
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'imagedelivery.net',
-        pathname: `/${accountHash}/*`,  // Match only images from this specific account hash
-      },
-    ],
+    domains: ['imagedelivery.net'],
+    // path: 'https://imagedelivery.net/',
+    // loader: 'default',
   },
 };
 
