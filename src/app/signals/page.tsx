@@ -11,8 +11,15 @@ import { ArrowUpToLine, Globe, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import AuthModalTrigger from '@/components/auth/AuthModalTrigger';
+import { Metadata } from 'next';
 
 export const runtime = 'edge';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Signals',
+  };
+}
 
 type Props = {
   searchParams: { authModal: string };
