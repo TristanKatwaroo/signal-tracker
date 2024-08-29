@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import AuthCard from "../auth/AuthCard";
 import AccountMenu from "../auth/AccountMenu";
 import imagesConfig from "@/lib/imagesConfig";
+import { cloudflareImageLoader } from "@/lib/cloudflareImageLoader";
 
 type SidebarContentProps = {
   userEmail: string | null;
@@ -30,6 +31,7 @@ export default function SidebarContent({ userEmail }: SidebarContentProps) {
             width={500}
             height={500}
             className="hidden lg:block h-full w-full -ml-1"
+            loader={cloudflareImageLoader}
           />
         </div>
         <div className="flex-1 overflow-y-auto">
