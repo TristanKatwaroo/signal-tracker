@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://signaltracker.gg'),
   keywords,
   title: {
-    default: 'SIGNALTRACKER.GG',
+    default: 'Zenless Zone Zero Tools | SIGNALTRACKER.GG',
     template: `%s | SIGNALTRACKER.GG`
   },
   openGraph: {
