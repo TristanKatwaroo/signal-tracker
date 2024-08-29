@@ -39,7 +39,7 @@ export default function IndexPage() {
         </div>
         <div className="mx-auto w-full grid justify-center gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
-            { icon: Signal, title: "Signals", description: "Save your signals to our database and view analytics with our signal tracker.", url: "/signals" },
+            { icon: Signal, title: "Signals", description: "Save your gacha pulls and view analytics with our signal tracker.", url: "/signals" },
             { icon: Globe, title: "Global Stats", description: "View global signal statistics and see how your luck compares to other users.", url: "/" },
             { icon: CalendarDays, title: "Timeline", description: "Stay up to date with all the events and banners. Updated by the community.", url: "/" },
             { icon: ArrowDownUp, title: "Tier List", description: "A tier list decided by community votes, refreshed every banner.", url: "/" },
