@@ -17,7 +17,7 @@ export const runtime = 'edge';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Signals',
+    title: 'Signal Search History',
   };
 }
 
