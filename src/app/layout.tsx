@@ -27,17 +27,20 @@ export const metadata: Metadata = {
     default: 'Zenless Zone Zero Tools | SIGNALTRACKER.GG',
     template: `%s | SIGNALTRACKER.GG`
   },
-  openGraph: {
-    description: 'SIGNALTRACKER.GG is a utility for Zenless Zone Zero, featuring signal tracking, gacha pull analysis, and more!',
-    images: [
-      {
-        url: imagesConfig.thumbnails.cunninghares1,
-        alt: 'Hero image for SIGNALTRACKER.GG',
-        width: 1366,
-        height: 768,
-      }
-    ],
-  }
+  description: 'SIGNALTRACKER.GG is a utility for Zenless Zone Zero, featuring signal tracking, gacha pull analysis, and more!',
+  twitter: {
+    card: 'summary_large_image'
+  },
+  // openGraph: {
+  //   images: [
+  //     {
+  //       url: imagesConfig.thumbnails.cunninghares1,
+  //       alt: 'Hero image for SIGNALTRACKER.GG',
+  //       width: 1366,
+  //       height: 768,
+  //     }
+  //   ],
+  // }
 };
 
 export default function RootLayout({
