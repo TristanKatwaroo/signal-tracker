@@ -35,7 +35,7 @@ const Footer = () => {
           <div className="flex flex-col items-start md:items-center">
             <div className="md:inline-block md:text-left">
               <h5 className="font-bold mb-2 text-primary-foreground">Resources</h5>
-              <Link href="/privacy-policy" className="hover:underline text-muted-foreground flex items-center">
+              <Link href="/" className="hover:underline text-muted-foreground flex items-center">
                 Privacy Policy
               </Link>
               <Link href="mailto:support@signaltracker.gg" className="hover:underline text-muted-foreground flex items-center">
