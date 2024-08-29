@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer"; // Import Footer
 import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
-import Head from "next/head";
 
 export const runtime = "edge";
 
@@ -33,18 +32,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2435366797773008"
-          crossOrigin="anonymous"
-        ></Script>
-      </Head>
       <body
         className={cn(fontSans.className, {
           "debug-screens": process.env.NODE_ENV === "development",
         })}
       >
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2435366797773008"
+          crossOrigin="anonymous"
+        ></Script>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
