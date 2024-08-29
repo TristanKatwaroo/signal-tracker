@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
  
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://signaltracker.gg'
 
     return [
