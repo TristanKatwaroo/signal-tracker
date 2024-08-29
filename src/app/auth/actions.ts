@@ -11,6 +11,7 @@ const errorMessages: { [key: string]: string } = {
     'Password should contain at least one letter and number.',
   'Email is required': 'Please enter your email address.',
   'Email already registered': 'This email is already registered.',
+  'captcha protection: request disallowed (invalid-input-response)': 'Captcha verification failed. Please try again.',
   // Add more custom messages as needed
 };
 
@@ -35,6 +36,28 @@ export async function login(formData: FormData) {
   return { success: true };
 }
 
+// export async function login(formData: FormData) {
+//   const supabase = createClient();
+
+//   const data = {
+//     email: formData.get('email') as string,
+//     password: formData.get('password') as string,
+//   }
+
+//   const options = {
+//     captchaToken: formData.get('captchaToken') as string,
+//   }
+
+//   const { error } = await supabase.auth.signInWithPassword(data, options);
+
+//   if (error) {
+//     console.error("Login error:", error); // Add this line for debugging
+//     return { error: getCustomErrorMessage(error.message) };
+//   }
+
+//   return { success: true };
+// }
+
 export async function signup(formData: FormData) {
   const supabase = createClient();
 
@@ -44,9 +67,12 @@ export async function signup(formData: FormData) {
     options: { captchaToken: formData.get('captchaToken') as string },
   }
 
+  console.log("Signup data:", { ...data, options: { captchaToken: formData.get('captchaToken') as string } }); // Add this line for debugging
+
   const { data: signUpData, error } = await supabase.auth.signUp(data);
 
   if (error) {
+    console.error("Signup error:", error); // Add this line for debugging
     // Check for specific error codes or messages to handle existing email case
     if (error.message === 'User already registered') {
       return { error: getCustomErrorMessage('Email already registered') };

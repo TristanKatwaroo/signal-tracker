@@ -8,6 +8,9 @@ import MobileHeader from "@/components/navigation/MobileHeader";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer"; // Import Footer
 import { Toaster } from "@/components/ui/toaster";
+import Script from "next/script";
+import { keywords } from "@/lib/keywords";
+import imagesConfig from "@/lib/imagesConfig";
 
 export const runtime = "edge";
 
@@ -18,8 +21,23 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "SIGNALTRACKER.GG",
-  description: "Community-made utility for Zenless Zone Zero",
+  metadataBase: new URL('https://signaltracker.gg'),
+  keywords,
+  title: {
+    default: 'Zenless Zone Zero Tools | SIGNALTRACKER.GG',
+    template: `%s | SIGNALTRACKER.GG`
+  },
+  openGraph: {
+    description: 'SIGNALTRACKER.GG is a utility for Zenless Zone Zero, featuring signal tracking, gacha pull analysis, and more!',
+    images: [
+      {
+        url: imagesConfig.thumbnails.cunninghares1,
+        alt: 'Hero image for SIGNALTRACKER.GG',
+        width: 1366,
+        height: 768,
+      }
+    ],
+  }
 };
 
 export default function RootLayout({
@@ -36,6 +54,11 @@ export default function RootLayout({
           "debug-screens": process.env.NODE_ENV === "development",
         })}
       >
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2435366797773008"
+          crossOrigin="anonymous"
+        ></Script>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

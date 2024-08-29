@@ -18,6 +18,10 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
   const formRef = useRef<HTMLFormElement>(null);
   const turnstileRef = useRef<any>(null);
 
+  const turnstileSiteKey = process.env.NODE_ENV === 'development' 
+       ? '1x00000000000000000000AA'
+       : process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!;
+
   const resetTurnstile = useCallback(() => {
     if (turnstileRef.current) {
       turnstileRef.current.reset();
@@ -37,32 +41,36 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
 
     formData.append("captchaToken", captchaToken);
 
-    // Verify the Turnstile token
-    const response = await fetch('/api/captcha', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ token: captchaToken }),
-    });
+    try {
+      // Verify the Turnstile token
+      console.log("Verifying Turnstile token...");
+      const response = await fetch('/api/captcha', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: captchaToken }),
+      });
 
-    const verificationResult: { success: boolean; error?: string } = await response.json();
+      const verificationResult: { success: boolean; error?: string } = await response.json();
+      console.log("Turnstile verification result:", verificationResult);
 
-    if (!response.ok || !verificationResult.success) {
-      setIsLoading(false);
-      setAuthError(verificationResult.error || 'Failed to verify CAPTCHA');
-      resetTurnstile();
-      return;
-    }
+      if (!response.ok || !verificationResult.success) {
+        throw new Error(verificationResult.error || 'Failed to verify CAPTCHA');
+      }
 
-    const action = mode === 'signUp' ? signup : mode === 'signIn' ? login : requestPasswordReset;
-    const result = await action(formData);
-    setIsLoading(false);
+      console.log("Turnstile verification successful, proceeding with authentication...");
 
-    if (result.error) {
-      setAuthError(result.error);
-      resetTurnstile();
-    } else {
+      // Proceed with authentication
+      const action = mode === 'signUp' ? signup : mode === 'signIn' ? login : requestPasswordReset;
+      console.log(`Attempting ${mode}...`);
+      const result = await action(formData);
+      console.log(`${mode} result:`, result);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
       if (mode === 'signIn') {
         onSuccess('Login successful!');
       } else if (mode === 'signUp') {
@@ -70,6 +78,12 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
       } else {
         onSuccess('Password reset email sent. Please check your inbox.');
       }
+    } catch (error: any) {
+      console.error("Authentication error:", error);
+      setAuthError(error.message || "An unexpected error occurred");
+      resetTurnstile();
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -130,7 +144,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
         <div>
           <Turnstile
             ref={turnstileRef}
-            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+            siteKey={turnstileSiteKey}
             onError={() => {
               setAuthError("CAPTCHA error occurred. Please try again.");
               resetTurnstile();

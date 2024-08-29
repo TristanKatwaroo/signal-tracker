@@ -1,4 +1,4 @@
-// pages/index.tsx
+// app/page.tsx
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -15,7 +15,6 @@ export default function IndexPage() {
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.6)), url(${imagesConfig.thumbnails.cunninghares1})`,
         }}
       >
-        {/* <div className="absolute inset-0 bg-black opacity-50"></div> Overlay */}
         <div className="relative container flex max-w-[64rem] flex-col items-center gap-4 text-center">
           <h1 className="font-heading text-2xl sm:text-2xl md:text-3xl lg:text-6xl">
             Welcome to <span className="font-bold"><br />SIGNALTRACKER.GG</span>
@@ -24,11 +23,6 @@ export default function IndexPage() {
             The ultimate community-driven tool for Zenless Zone Zero! Here you can track your signals,
             view global signal stats, check the event/banner timeline, and more!
           </p>
-          {/* <div className="space-x-4">
-            <Link href="/login" className={cn(buttonVariants({ variant: "tertiary", size: "lg" }))}>
-              Get Started
-            </Link>
-          </div> */}
         </div>
       </Card>
       <section
@@ -45,17 +39,23 @@ export default function IndexPage() {
         </div>
         <div className="mx-auto w-full grid justify-center gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
-            { icon: Signal, title: "Signals", description: "Save your signals to our database and view analytics with our signal tracker.", url: "/signals" },
-            { icon: Globe, title: "Global Stats", description: "View global signal statistics and see how your luck compares to other users.", url: "/global-stats" },
-            { icon: CalendarDays, title: "Timeline", description: "Stay up to date with all the events and banners. Updated by the community.", url: "/timeline" },
-            { icon: ArrowDownUp, title: "Tier List", description: "A tier list decided by community votes, refreshed every banner.", url: "/tier-list" },
+            { icon: Signal, title: "Signals", description: "Save your gacha pulls and view analytics with our signal tracker.", url: "/signals" },
+            { icon: Globe, title: "Global Stats", description: "View global signal statistics and see how your luck compares to other users.", url: "/" },
+            { icon: CalendarDays, title: "Timeline", description: "Stay up to date with all the events and banners. Updated by the community.", url: "/" },
+            { icon: ArrowDownUp, title: "Tier List", description: "A tier list decided by community votes, refreshed every banner.", url: "/" },
           ].map((item, index) => (
             <Link href={item.url} key={index} className="group">
               <Card className="relative overflow-hidden rounded-lg border bg-card p-2 transition-colors hover:bg-accent">
                 <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
                   <div className="flex flex-row items-start">
                     <item.icon className="h-12 w-12" />
-                    <ArrowUpRightIcon className="h-4 w-4 ml-auto text-primary" />
+                    {(item.title === "Global Stats" || item.title === "Timeline" || item.title === "Tier List") ? (
+                      <div className="ml-auto bg-yellow-400 text-black text-xs font-semibold px-2 py-1 rounded-full">
+                        Coming Soon
+                      </div>
+                    ) : (
+                      <ArrowUpRightIcon className="h-4 w-4 ml-auto text-primary" />
+                    )}
                   </div>
                   <div className="space-y-2">
                     <h3 className="font-bold">{item.title}</h3>
