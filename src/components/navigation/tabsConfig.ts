@@ -22,21 +22,21 @@ import {
       href: "/signals",
       icon: Signal,
     },
-    {
-      title: "Global Stats",
-      href: "/global-stats",
-      icon: Globe,
-    },
-    {
-      title: "Timeline",
-      href: "/timeline",
-      icon: CalendarDays,
-    },
-    {
-      title: "Tier List",
-      href: "/tier-list",
-      icon: ArrowDownUp,
-    },
+    // {
+    //   title: "Global Stats",
+    //   href: "/global-stats",
+    //   icon: Globe,
+    // },
+    // {
+    //   title: "Timeline",
+    //   href: "/timeline",
+    //   icon: CalendarDays,
+    // },
+    // {
+    //   title: "Tier List",
+    //   href: "/tier-list",
+    //   icon: ArrowDownUp,
+    // },
     // {
     //   title: "Planner",
     //   href: "/planner",
@@ -52,10 +52,10 @@ import {
     //   href: "/reminders",
     //   icon: Clock,
     // },
-    {
-      title: "Settings",
-      href: "/settings",
-      icon: Settings,
-    },
+    // {
+    //   title: "Settings",
+    //   href: "/settings",
+    //   icon: Settings,
+    // },
   ];
   
