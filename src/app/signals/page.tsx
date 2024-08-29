@@ -15,10 +15,14 @@ import { Metadata } from 'next';
 
 export const runtime = 'edge';
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Signal Search History',
-  };
+// export async function generateMetadata(): Promise<Metadata> {
+//   return {
+//     title: 'Signal Search History',
+//   };
+// }
+
+export const metadata: Metadata = {
+  title: 'Signal Search History',
 }
 
 type Props = {
