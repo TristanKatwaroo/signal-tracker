@@ -12,6 +12,7 @@ import { useState } from "react";
 import AccountMenu from "../auth/AccountMenu";
 import AuthCard from "../auth/AuthCard";
 import { Menu } from "lucide-react";
+import imagesConfig from "@/lib/imagesConfig";
 
 type MobileHeaderContentProps = {
   userEmail: string | null;
@@ -39,11 +40,19 @@ export default function MobileHeaderContent({ userEmail }: MobileHeaderContentPr
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="flex flex-col pt-14">
-          <div className="flex w-full h-14 text-center items-center border-b px-6">
-            <Link href="/" className="flex items-center gap-2 font-semibold">
-              <span className="text-lg">SIGNALTRACKER.GG</span>
-            </Link>
+        <SheetContent side="left" className="flex flex-col">
+          <div className="flex w-full pb-3 pt-3 px-6">
+            {/* <Link href="/" className="flex gap-2 font-semibold"> */}
+              {/* <span className="text-lg">SIGNALTRACKER.GG</span> */}
+              <Image 
+                src={imagesConfig.logos.transparent}
+                alt="SIGNALTRACKER.GG"
+                width={500}
+                height={500}
+                quality={100}
+                // className="hidden lg:block h-full w-full -ml-1"
+              />
+            {/* </Link> */}
             {/* <Image 
               src="/images/bangboos/bangboo1half.png"
               alt="Your Image"
