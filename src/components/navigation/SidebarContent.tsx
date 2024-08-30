@@ -23,16 +23,24 @@ export default function SidebarContent({ userEmail }: SidebarContentProps) {
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[80px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <span className="text-lg">SIGNALTRACKER.GG</span>
+            {/* <span className="text-lg">SIGNALTRACKER.GG</span> */}
+            <Image 
+              src={imagesConfig.logos.transparent}
+              alt="SIGNALTRACKER.GG"
+              width={500}
+              height={500}
+              quality={100}
+              className="hidden lg:block h-full w-full -ml-1"
+            />
           </Link>
-          <Image 
+          {/* <Image 
             src={imagesConfig.bangboos.bangboo1half}
             alt="Your Image"
             width={500}
             height={500}
             className="hidden lg:block h-full w-full -ml-1"
             // loader={cloudflareImageLoader}
-          />
+          /> */}
         </div>
         <div className="flex-1 overflow-y-auto">
           <nav className="grid items-start px-2 text-lg font-medium lg:px-4">
