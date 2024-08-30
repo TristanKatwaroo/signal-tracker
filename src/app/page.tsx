@@ -4,14 +4,22 @@ import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { ArrowDownUp, ArrowUpRightIcon, CalendarDays, Globe, Signal } from "lucide-react";
 import imagesConfig from "@/lib/imagesConfig"; // Import the images config
+import Head from "next/head";
 
 export default function IndexPage() {
   return (
     <>
+      <Head>
+        <Link
+          rel="preload"
+          as="image"
+          href={imagesConfig.thumbnails.cunninghares1}
+        />
+      </Head>
       <Card className="relative border-none shadow-dark-md space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 overflow-hidden">
         <Image
           src={imagesConfig.thumbnails.cunninghares1}
-          alt="Background Image"
+          alt="Hero Image"
           layout="fill"
           objectFit="cover"
           quality={100}
