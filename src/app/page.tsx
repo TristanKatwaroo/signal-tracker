@@ -1,7 +1,6 @@
-// app/page.tsx
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowDownUp, ArrowUpRightIcon, CalendarDays, Globe, Signal } from "lucide-react";
 import imagesConfig from "@/lib/imagesConfig"; // Import the images config
@@ -9,13 +8,16 @@ import imagesConfig from "@/lib/imagesConfig"; // Import the images config
 export default function IndexPage() {
   return (
     <>
-      <Card
-        className="relative border-none shadow-dark-md space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.6)), url(${imagesConfig.thumbnails.cunninghares1})`,
-        }}
-      >
-        <div className="relative container flex max-w-[64rem] flex-col items-center gap-4 text-center">
+      <Card className="relative border-none shadow-dark-md space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 overflow-hidden">
+        <Image
+          src={imagesConfig.thumbnails.cunninghares1}
+          alt="Background Image"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+          className="absolute inset-0 z-0 filter brightness-50 opacity-50" // Apply brightness filter to darken the image
+        />
+        <div className="relative z-10 container flex max-w-[64rem] flex-col items-center gap-4 text-center">
           <h1 className="font-heading text-2xl sm:text-2xl md:text-3xl lg:text-6xl">
             Welcome to <span className="font-bold"><br />SIGNALTRACKER.GG</span>
           </h1>
@@ -39,7 +41,7 @@ export default function IndexPage() {
         </div>
         <div className="mx-auto w-full grid justify-center gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
-            { icon: Signal, title: "Signals", description: "Save your gacha pulls and view analytics with our signal tracker.", url: "/signals" },
+            { icon: Signal, title: "Signals", description: "Save your signals to our database and view analytics with our signal tracker.", url: "/signals" },
             { icon: Globe, title: "Global Stats", description: "View global signal statistics and see how your luck compares to other users.", url: "/" },
             { icon: CalendarDays, title: "Timeline", description: "Stay up to date with all the events and banners. Updated by the community.", url: "/" },
             { icon: ArrowDownUp, title: "Tier List", description: "A tier list decided by community votes, refreshed every banner.", url: "/" },

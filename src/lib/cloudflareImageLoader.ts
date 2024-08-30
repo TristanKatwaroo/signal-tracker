@@ -1,3 +1,4 @@
+// lib/cloudflareImageLoader.ts
 type LoaderProps = {
     src: string;
     width: number;

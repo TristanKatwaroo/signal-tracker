@@ -31,7 +31,7 @@ export default function SidebarContent({ userEmail }: SidebarContentProps) {
             width={500}
             height={500}
             className="hidden lg:block h-full w-full -ml-1"
-            loader={cloudflareImageLoader}
+            // loader={cloudflareImageLoader}
           />
         </div>
         <div className="flex-1 overflow-y-auto">
