@@ -10,7 +10,7 @@ export default function IndexPage() {
   return (
     <>
       <Head>
-        <Link
+        <link
           rel="preload"
           as="image"
           href={imagesConfig.thumbnails.cunninghares1}
