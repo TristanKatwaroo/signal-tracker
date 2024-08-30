@@ -12,11 +12,11 @@ import {
   } from "lucide-react";
   
   export const tabs = [
-    // {
-    //   title: "Home",
-    //   href: "/",
-    //   icon: Home,
-    // },
+    {
+      title: "Home",
+      href: "/",
+      icon: Home,
+    },
     {
       title: "Signals",
       href: "/signals",
