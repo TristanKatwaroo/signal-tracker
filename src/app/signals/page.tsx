@@ -22,7 +22,7 @@ export const runtime = 'edge';
 // }
 
 export const metadata: Metadata = {
-  title: 'Signal Search History',
+  title: 'Signal Tracker for Zenless Zone Zero',
 }
 
 type Props = {
