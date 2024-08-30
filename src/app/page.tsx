@@ -17,13 +17,14 @@ export default function IndexPage() {
         />
       </Head>
       <Card className="relative border-none shadow-dark-md space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 overflow-hidden">
-        <Image
+      <Image
           src={imagesConfig.thumbnails.cunninghares1}
           alt="Hero Image"
           layout="fill"
           objectFit="cover"
           quality={100}
-          className="absolute inset-0 z-0 filter brightness-50 opacity-50" // Apply brightness filter to darken the image
+          className="absolute inset-0 z-0 filter brightness-50 opacity-50"
+          priority
         />
         <div className="relative z-10 container flex max-w-[64rem] flex-col items-center gap-4 text-center">
           <h1 className="font-heading text-2xl sm:text-2xl md:text-3xl lg:text-6xl">
