@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     default: 'Zenless Zone Zero Tools | SIGNALTRACKER.GG',
     template: `%s | SIGNALTRACKER.GG`
   },
-  description: 'SIGNALTRACKER.GG is a utility app for Zenless Zone Zero, featuring signal tracking, gacha pull analysis, and more!',
+  description: 'SIGNALTRACKER.GG is a utility app for Zenless Zone Zero (ZZZ), featuring signal tracking, gacha pull analysis, and more!',
   twitter: {
     card: 'summary_large_image'
   },
