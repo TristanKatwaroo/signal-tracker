@@ -16,14 +16,14 @@ export default function IndexPage() {
           href={imagesConfig.thumbnails.cunninghares1}
         />
       </Head>
-      <Card className="relative border-none shadow-dark-md space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 overflow-hidden">
-      <Image
+      <Card className="relative border space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 overflow-hidden">
+        <Image
           src={imagesConfig.thumbnails.cunninghares1}
           alt="Hero Image"
           layout="fill"
           objectFit="cover"
           quality={100}
-          className="absolute inset-0 z-0 filter brightness-50 opacity-50"
+          className="absolute inset-0 z-0 filter brightness-50 opacity-30"
           priority
         />
         <div className="relative z-10 container flex max-w-[64rem] flex-col items-center gap-4 text-center">
