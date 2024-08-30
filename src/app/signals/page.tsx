@@ -141,6 +141,7 @@ export default async function SignalsPage({ searchParams }: Props) {
           </Button>
         </div>
       </div>
+      <h3 className="text-sm">Import and save your Signal Search History to view insights. Your data is backed up automatically!</h3>
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 mr-0">
           {gachaTypes.map((type, index) => {
