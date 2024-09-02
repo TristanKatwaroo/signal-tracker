@@ -26,7 +26,7 @@ import {
     //   title: "Global Stats",
     //   href: "/global-stats",
     //   icon: Globe,
-    // TODO: put achievements in global stats ****
+    // TODO: put leaderboard in global stats ****
     // },
     // {
     //   title: "Timeline",
