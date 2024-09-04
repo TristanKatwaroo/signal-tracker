@@ -23,10 +23,10 @@ import {
       icon: Signal,
     },
     // {
+    // TODO: put leaderboard in global stats ****
     //   title: "Global Stats",
     //   href: "/global-stats",
     //   icon: Globe,
-    // TODO: put leaderboard in global stats ****
     // },
     // {
     //   title: "Timeline",
