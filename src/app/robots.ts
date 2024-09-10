@@ -8,7 +8,17 @@ export default function robots(): MetadataRoute.Robots {
             // allow: ['/', '/signals'],
             // disallow: [],
             allow: ['/'],
-            disallow: ['/privacy', '/achievements', 'global-stats', 'planner', 'reminders', 'reset-password', 'settings', 'tier-list', 'timeline'],
+            disallow: [
+                '/privacy', 
+                '/achievements', 
+                '/global-stats', 
+                '/planner', 
+                '/reminders', 
+                '/reset-password', 
+                '/settings', 
+                '/tier-list', 
+                '/timeline'
+            ],
         },
         sitemap: `${baseUrl}/sitemap.xml`,
     }
