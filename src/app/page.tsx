@@ -60,7 +60,8 @@ export default function IndexPage() {
                 <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
                   <div className="flex flex-row items-start">
                     <item.icon className="h-12 w-12" />
-                    {(item.title === "Global Stats" || item.title === "Timeline" || item.title === "Tier List") ? (
+                    {/* {(item.title === "Global Stats" || item.title === "Timeline" || item.title === "Tier List") ? ( */}
+                    {(item.title === "N/A") ? (
                       <div className="ml-auto bg-yellow-400 text-black text-xs font-semibold px-2 py-1 rounded-full">
                         Coming Soon
                       </div>
