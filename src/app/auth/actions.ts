@@ -67,6 +67,7 @@ export async function signup(formData: FormData) {
 
   console.log("Signup attempt with email:", email);
   console.log("CaptchaToken length:", captchaToken.length);
+  console.log("CaptchaToken:", captchaToken); // Log the full token for debugging
 
   const { data: signUpData, error } = await supabase.auth.signUp({
     email,
@@ -78,15 +79,16 @@ export async function signup(formData: FormData) {
 
   console.log("Supabase signUp response:", { 
     data: signUpData, 
-    error: error ? { message: error.message, name: error.name } : null 
+    error: error ? { message: error.message, name: error.name, status: error.status } : null 
   });
 
   if (error) {
     console.error("Signup error:", error);
-    if (error.message === 'User already registered') {
-      return { error: getCustomErrorMessage('Email already registered') };
-    }
     return { error: getCustomErrorMessage(error.message) };
+  }
+
+  if (!signUpData.user) {
+    return { error: "Failed to create user." };
   }
 
   return { success: true, data: signUpData };

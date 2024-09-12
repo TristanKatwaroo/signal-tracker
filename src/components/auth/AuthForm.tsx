@@ -45,26 +45,6 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
     formData.append("captchaToken", captchaToken);
 
     try {
-      // Verify the Turnstile token
-      console.log("Verifying Turnstile token...");
-      const response = await fetch('/api/captcha', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: captchaToken }),
-      });
-
-      const verificationResult: { success: boolean; error?: string } = await response.json();
-      console.log("Turnstile verification result:", verificationResult);
-
-      if (!response.ok || !verificationResult.success) {
-        throw new Error(verificationResult.error || 'Failed to verify CAPTCHA');
-      }
-
-      console.log("Turnstile verification successful, proceeding with authentication...");
-
-      // Proceed with authentication
       const action = mode === 'signUp' ? signup : mode === 'signIn' ? login : requestPasswordReset;
       console.log(`Attempting ${mode}...`);
       const result = await action(formData);
