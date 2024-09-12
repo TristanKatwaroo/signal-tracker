@@ -61,19 +61,28 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
   const supabase = createClient();
 
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-    options: { captchaToken: formData.get('captchaToken') as string },
-  }
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+  const captchaToken = formData.get('captchaToken') as string;
 
-  console.log("Signup data:", { ...data, options: { captchaToken: formData.get('captchaToken') as string } }); // Add this line for debugging
+  console.log("Signup attempt with email:", email);
+  console.log("CaptchaToken length:", captchaToken.length);
 
-  const { data: signUpData, error } = await supabase.auth.signUp(data);
+  const { data: signUpData, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      captchaToken,
+    },
+  });
+
+  console.log("Supabase signUp response:", { 
+    data: signUpData, 
+    error: error ? { message: error.message, name: error.name } : null 
+  });
 
   if (error) {
-    console.error("Signup error:", error); // Add this line for debugging
-    // Check for specific error codes or messages to handle existing email case
+    console.error("Signup error:", error);
     if (error.message === 'User already registered') {
       return { error: getCustomErrorMessage('Email already registered') };
     }

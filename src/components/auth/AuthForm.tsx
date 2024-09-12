@@ -39,6 +39,9 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
       return;
     }
 
+    console.log("CaptchaToken in AuthForm:", captchaToken);
+    console.log("CaptchaToken length:", captchaToken.length);
+
     formData.append("captchaToken", captchaToken);
 
     try {
@@ -78,6 +81,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
       } else {
         onSuccess('Password reset email sent. Please check your inbox.');
       }
+      
     } catch (error: any) {
       console.error("Authentication error:", error);
       setAuthError(error.message || "An unexpected error occurred");
