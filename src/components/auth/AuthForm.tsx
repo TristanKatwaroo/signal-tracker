@@ -2,7 +2,7 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { login, signup, requestPasswordReset } from "@/app/auth/actions";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Turnstile } from '@marsidev/react-turnstile';
 
 interface AuthFormProps {
@@ -27,6 +27,10 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
       turnstileRef.current.reset();
     }
     setCaptchaToken(null);
+  }, []);
+
+  useEffect(() => {
+    resetTurnstile();
   }, []);
 
   const handleAuth = async (formData: FormData) => {
@@ -55,20 +59,16 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
         throw new Error(result.error);
       }
 
-      if (mode === 'signIn') {
-        onSuccess('Login successful!');
-      } else if (mode === 'signUp') {
-        onSuccess('Verification email sent. Please check your inbox.');
-      } else {
-        onSuccess('Password reset email sent. Please check your inbox.');
-      }
+      onSuccess(mode === 'signIn' ? 'Login successful!' : 
+                mode === 'signUp' ? 'Verification email sent. Please check your inbox.' : 
+                'Password reset email sent. Please check your inbox.');
       
     } catch (error: any) {
       console.error("Authentication error:", error);
       setAuthError(error.message || "An unexpected error occurred");
-      resetTurnstile();
     } finally {
       setIsLoading(false);
+      resetTurnstile();  // Reset Turnstile after each attempt
     }
   };
 
