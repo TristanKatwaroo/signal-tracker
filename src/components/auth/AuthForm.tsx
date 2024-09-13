@@ -3,7 +3,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { login, signup, requestPasswordReset } from "@/app/auth/actions";
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Turnstile } from '@marsidev/react-turnstile';
+import TurnstileWidget from '../TurnstileWidget';
 
 interface AuthFormProps {
   mode: 'signUp' | 'signIn' | 'requestPasswordReset';
@@ -16,22 +16,6 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
   const [isLoading, setIsLoading] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const turnstileRef = useRef<any>(null);
-
-  const turnstileSiteKey = process.env.NODE_ENV === 'development' 
-       ? '1x00000000000000000000AA'
-       : process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!;
-
-  const resetTurnstile = useCallback(() => {
-    if (turnstileRef.current) {
-      turnstileRef.current.reset();
-    }
-    setCaptchaToken(null);
-  }, []);
-
-  useEffect(() => {
-    resetTurnstile();
-  }, []);
 
   const handleAuth = async (formData: FormData) => {
     setIsLoading(true);
@@ -68,8 +52,12 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
       setAuthError(error.message || "An unexpected error occurred");
     } finally {
       setIsLoading(false);
-      resetTurnstile();  // Reset Turnstile after each attempt
+      setCaptchaToken(null);
     }
+  };
+
+  const handleTurnstileVerify = (token: string) => {
+    setCaptchaToken(token);
   };
 
   return (
@@ -108,7 +96,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
                   Forgot your password?
                 </button>
               ) : (
-                <p className="ml-auto inline-block text-sm">&#8203;</p> // Zero-width space to maintain layout
+                <p className="ml-auto inline-block text-sm">&#8203;</p>
               )}
             </div>
             <Input
@@ -127,21 +115,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
           </div>
         )}
         <div>
-          <Turnstile
-            ref={turnstileRef}
-            siteKey={turnstileSiteKey}
-            onError={() => {
-              setAuthError("CAPTCHA error occurred. Please try again.");
-              resetTurnstile();
-            }}
-            // onExpire={() => {
-            //   setAuthError("CAPTCHA expired. Please verify again.");
-            //   resetTurnstile();
-            // }}
-            onSuccess={(token) => {
-              setCaptchaToken(token);
-            }}
-          />
+          <TurnstileWidget onVerify={handleTurnstileVerify} />
         </div>
         <Button type="submit" variant="tertiary" className="w-full" disabled={isLoading || !captchaToken}>
           {isLoading ? "Loading..." : mode === 'signUp' ? "Sign Up" : mode === 'signIn' ? "Login" : "Reset Password"}
