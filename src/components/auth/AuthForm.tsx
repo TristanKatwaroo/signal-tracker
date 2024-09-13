@@ -41,6 +41,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
 
     console.log("CaptchaToken in AuthForm:", captchaToken);
     console.log("CaptchaToken length:", captchaToken.length);
+    console.log("CaptchaToken (first 10 chars):", captchaToken.substring(0, 10));
 
     formData.append("captchaToken", captchaToken);
 
@@ -133,10 +134,10 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
               setAuthError("CAPTCHA error occurred. Please try again.");
               resetTurnstile();
             }}
-            onExpire={() => {
-              setAuthError("CAPTCHA expired. Please verify again.");
-              resetTurnstile();
-            }}
+            // onExpire={() => {
+            //   setAuthError("CAPTCHA expired. Please verify again.");
+            //   resetTurnstile();
+            // }}
             onSuccess={(token) => {
               setCaptchaToken(token);
             }}

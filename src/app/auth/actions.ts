@@ -67,31 +67,52 @@ export async function signup(formData: FormData) {
 
   console.log("Signup attempt with email:", email);
   console.log("CaptchaToken length:", captchaToken.length);
-  console.log("CaptchaToken:", captchaToken); // Log the full token for debugging
+  console.log("CaptchaToken (first 10 chars):", captchaToken.substring(0, 10));
 
-  const { data: signUpData, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      captchaToken,
-    },
-  });
+  try {
+    // Verify the CAPTCHA token locally before sending to Supabase
+    const verificationResponse = await fetch(`${siteUrl}/api/captcha`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token: captchaToken }),
+    });
 
-  console.log("Supabase signUp response:", { 
-    data: signUpData, 
-    error: error ? { message: error.message, name: error.name, status: error.status } : null 
-  });
+    const verificationResult = await verificationResponse.json() as { success: boolean };
 
-  if (error) {
-    console.error("Signup error:", error);
-    return { error: getCustomErrorMessage(error.message) };
+    if (!verificationResult.success) {
+      return { error: "CAPTCHA verification failed locally." };
+    }
+
+    const { data: signUpData, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        captchaToken,
+      },
+    });
+
+    console.log("Supabase signUp response:", { 
+      data: signUpData, 
+      error: error ? { message: error.message, name: error.name, status: error.status } : null 
+    });
+
+    if (error) {
+      console.error("Signup error:", error);
+      return { error: getCustomErrorMessage(error.message) };
+    }
+
+    if (!signUpData.user) {
+      console.error("Signup failed: User data is null");
+      return { error: "Failed to create user. Please try again." };
+    }
+
+    return { success: true, data: signUpData };
+  } catch (error) {
+    console.error("Unexpected error during signup:", error);
+    return { error: "An unexpected error occurred. Please try again." };
   }
-
-  if (!signUpData.user) {
-    return { error: "Failed to create user." };
-  }
-
-  return { success: true, data: signUpData };
 }
 
 export async function signout() {
