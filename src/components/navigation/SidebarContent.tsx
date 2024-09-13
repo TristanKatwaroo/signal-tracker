@@ -6,10 +6,10 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { tabs } from "./tabsConfig";
 import { cn } from "@/lib/utils";
-import AuthCard from "../auth/AuthCard";
 import AccountMenu from "../auth/AccountMenu";
 import imagesConfig from "@/lib/imagesConfig";
-import { cloudflareImageLoader } from "@/lib/cloudflareImageLoader";
+import AuthForm from "../auth/AuthForm";
+import { useState } from "react";
 
 type SidebarContentProps = {
   userEmail: string | null;
@@ -17,6 +17,16 @@ type SidebarContentProps = {
 
 export default function SidebarContent({ userEmail }: SidebarContentProps) {
   const pathname = usePathname();
+  const [authMode, setAuthMode] = useState<'signIn' | 'signUp' | 'resetPassword'>('signIn');
+
+  const toggleAuthMode = (mode: 'signIn' | 'signUp' | 'resetPassword') => {
+    setAuthMode(mode);
+  };
+
+  const handleAuthSuccess = (message: string) => {
+    console.log(message);
+    // You might want to add some state to show this message to the user
+  };
 
   return (
     <div className="hidden md:block h-screen sticky top-0 border-r bg-muted/30">
@@ -68,7 +78,17 @@ export default function SidebarContent({ userEmail }: SidebarContentProps) {
           </nav>
         </div>
         <div className="mt-auto p-4">
-          {userEmail ? <AccountMenu email={userEmail} /> : <AuthCard />}
+          {userEmail ? (
+            <AccountMenu email={userEmail} />
+          ) : (
+            <div className="space-y-4">
+              <AuthForm
+                mode={authMode as "signIn" | "signUp" | "requestPasswordReset"}
+                toggleAuthMode={(mode: "signIn" | "signUp" | "requestPasswordReset") => toggleAuthMode(mode as "signIn" | "signUp" | "resetPassword")}
+                onSuccess={handleAuthSuccess}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
