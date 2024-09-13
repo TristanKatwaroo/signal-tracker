@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface TurnstileWidgetProps {
   onVerify: (token: string) => void;
@@ -6,6 +6,7 @@ interface TurnstileWidgetProps {
 
 const TurnstileWidget: React.FC<TurnstileWidgetProps> = ({ onVerify }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [widgetId, setWidgetId] = useState<string | null>(null);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -20,13 +21,20 @@ const TurnstileWidget: React.FC<TurnstileWidgetProps> = ({ onVerify }) => {
   }, []);
 
   useEffect(() => {
-    if (ref.current && (window as any).turnstile) {
-      (window as any).turnstile.render(ref.current, {
+    if (ref.current && (window as any).turnstile && !widgetId) {
+      const id = (window as any).turnstile.render(ref.current, {
         sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
         callback: onVerify,
       });
+      setWidgetId(id);
     }
-  }, [onVerify]);
+
+    return () => {
+      if (widgetId) {
+        (window as any).turnstile.remove(widgetId);
+      }
+    };
+  }, [onVerify, widgetId]);
 
   return <div ref={ref} />;
 };

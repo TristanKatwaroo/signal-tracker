@@ -15,6 +15,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [resetTurnstile, setResetTurnstile] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleAuth = async (formData: FormData) => {
@@ -53,6 +54,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
     } finally {
       setIsLoading(false);
       setCaptchaToken(null);
+      setResetTurnstile(prev => !prev);
     }
   };
 
@@ -115,7 +117,7 @@ export default function AuthForm({ mode, toggleAuthMode, onSuccess }: AuthFormPr
           </div>
         )}
         <div>
-          <TurnstileWidget onVerify={handleTurnstileVerify} />
+          <TurnstileWidget onVerify={handleTurnstileVerify} key={resetTurnstile.toString()} />
         </div>
         <Button type="submit" variant="tertiary" className="w-full" disabled={isLoading || !captchaToken}>
           {isLoading ? "Loading..." : mode === 'signUp' ? "Sign Up" : mode === 'signIn' ? "Login" : "Reset Password"}
